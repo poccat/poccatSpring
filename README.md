@@ -2,11 +2,17 @@
 
 이클립스버전
 Version: 2020-12 (4.18.0)
+
 Build id: 20201210-1552
 
 이클립스마켓에서
 sts4설치
+
 sts3 add on 설치
+
+Server : apache tomcat 9.0
+
+webapp/WEB-INF/spring/root_context.xml에 오라클DB관련 정보 들어있는데 거기서 아이피 수정해주셔야합니다. 
 
 저도 긴가민가하면서 진행한거라 미흡한부분많을거라 생각합니다.
 logger로 마이바티스찍어보려고 했는데 무슨짓을 해도 안나오더라구요.
