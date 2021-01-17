@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- xml의 주석은 Ctrl + shift + /  -->
+<mapper namespace="oracle.mybatis.catMapper">
+<select id="test" parameterType="map" resultType="map">
+		SELECT
+	    *
+	    FROM emp 
+	    WHERE deptno = #{deptno}
+</select>
+
+<insert id="cat_insert" parameterType="map">
+		INSERT INTO ANYMERCY.CAT (
+			   CAT_AGE, CAT_BREED, CAT_CMT, 
+			   CAT_COLOR, CAT_GENDER, CAT_LOCAL, 
+			   CAT_NAME, CAT_NEU, CAT_NFC, 
+			   CAT_NO, CAT_PHOTO, CAT_TYPE) 
+		values (
+			 #{cat_age 		},
+			 #{cat_breed 	},
+			 #{cat_cmt 		},
+			 #{cat_color 	},
+			 #{cat_gender },
+			 #{cat_local	},
+			 #{cat_name 	},
+			 #{cat_neu 	    },
+			 #{cat_nfc 		},
+			seq_cat_no.nextval,
+			 #{cat_photo 	},
+			 #{cat_type 	}
+		 )
+</insert>
+<select id="cat_select_followernum" parameterType="map" resultType="map">
+		SELECT
+	    COUNT(CAT_NO) AS FOLLOWER_COUNT
+	    FROM MEMBER_CAT_FOLLOW 
+	    WHERE CAT_NO = #{CAT_NO}
+</select>
+
+<select id="member_cat_follower_list" parameterType="map" resultType="map">
+		SELECT
+        mcf.CAT_NO, mcf.MEM_NO, mem.MEM_ID as fol_name, MEM.MEM_PHOTO as fol_photo 
+        FROM MEMBER_CAT_FOLLOW mcf
+        , (SELECT MEM_NO, MEM_ID, NVL(MEM_PHOTO, '../pds/dft.jpg')MEM_PHOTO from member) mem 
+	    WHERE mcf.CAT_NO = #{cat_no} and mcf.MEM_NO = mem.MEM_NO
+</select>
+<select id="member_cat_follow_list" parameterType="map" resultType="map">
+      SELECT 
+  		c.cat_no , NVL(c.cat_photo,'../pds/dft.jpg')as fol_photo , c.cat_name as fol_name 
+		FROM MEMBER_CAT_FOLLOW mcf , CAT c 
+		WHERE mcf.cat_no = c.cat_no
+		AND mcf.mem_no =#{mem_no}
+		ORDER BY c.cat_name asc
+</select>
+
+<select id="cat_search" parameterType="map" resultType="map">	
+SELECT 
+	   c.CAT_AGE, c.CAT_BREED, NVL(c.CAT_CMT, '아직 코멘트가 없어요') CAT_CMT,
+	   c.CAT_COLOR, c.CAT_GENDER, c.CAT_LOCAL, 
+	   c.CAT_NAME, c.CAT_NEU, NVL(c.CAT_NFC, '없음') CAT_NFC,
+	   c.CAT_NO, c.CAT_PHOTO, c.CAT_TYPE
+		,NVL(cc.IS_FAT     ,0) IS_FAT      
+		,NVL(cc.IS_HEALTHY ,0) IS_HEALTHY  
+		,NVL(cc.IS_OLD     ,0) IS_OLD      
+		,NVL(cc.IS_PREG    ,0) IS_PREG     
+		,NVL(cc.IS_SICK    ,0) IS_SICK     
+		,NVL(cc.IS_SKINNY  ,0) IS_SKINNY   
+		,NVL(cc.IS_YOUNG   ,0) IS_YOUNG
+		, LC.LIKE_COUNT
+		, PC.POST_COUNT
+		, LC2.LIKE_CHECK
+		FROM CAT c, CAT_CON cc, (SELECT COUNT(mem_no) AS LIKE_COUNT FROM POST_LIKE WHERE post_no = #{post_no}) LC
+					,(SELECT COUNT(*) AS LIKE_CHECK FROM POST_LIKE WHERE post_no = #{post_no} and mem_no=#{mem_no}) LC2
+					,(SELECT COUNT(POST_NO) AS POST_COUNT FROM POSTING WHERE CAT_NO =#{cat_no}) PC
+		WHERE c.CAT_NO = cc.CAT_NO(+)
+			AND c.CAT_NO = #{cat_no}
+</select>
+ 
+ 
+ 
+</mapper>

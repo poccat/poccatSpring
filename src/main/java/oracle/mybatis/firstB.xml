@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- xml의 주석은 Ctrl + shift + /  -->
+<mapper namespace="oracle.mybatis.firstBMapper">
+<insert id="posting_insert"  parameterType="map">
+	INSERT INTO ANYMERCY.POSTING (
+   CAT_NO, MEM_NO, POST_CNT, 
+   POST_DATE, POST_LATITUDE, POST_LONGITUDE, 
+   POST_NO, POST_PHOTO1, POST_PHOTO2, 
+   POST_PHOTO3, POST_PHOTO4, POST_PHOTO5, 
+   POST_TITLE, POST_TYPE) 
+VALUES ( 
+	#{cat_no 				},
+	#{ mem_no 				},
+	#{ post_cnt 			},
+	to_char(sysdate,'yyyy-mm-dd'),
+	#{ post_latitude 		},
+	#{ post_longitude 		},
+		seq_post_no.nextval,
+	#{ post_photo1 			},
+	#{ post_photo2 			},
+	#{ post_photo3 			},
+	#{ post_photo4 			},
+	#{ post_photo5 			},
+	#{ post_title 			},
+	#{ post_type 			}
+ 	)
+</insert>
+ <select id="posting_list_logout" parameterType="map" resultType="map">
+    SELECT 
+    P.POST_NO, MCF.FOLLOWER_COUNT, MCF.CAT_NO, P.POST_DATE, p.post_photo1
+   FROM POSTING P
+                                   , (SELECT
+                                  COUNT(CAT_NO) AS FOLLOWER_COUNT, CAT_NO
+                                   FROM MEMBER_CAT_FOLLOW
+                                   GROUP BY CAT_NO
+                                   ) MCF
+   WHERE P.CAT_NO = MCF.CAT_NO
+   ORDER BY P.POST_DATE DESC, MCF.FOLLOWER_COUNT DESC
+ </select>
+ <select id="posting_list_login" parameterType="map" resultType="map">
+    SELECT
+    p.post_no, p.cat_no, p.post_photo1
+   FROM POSTING p
+            , (SELECT distinct mcf.cat_no FROM MEMBER_CAT_FOLLOW mcf, MEMBER m WHERE mcf.mem_no = #{mem_no}) memcat
+   WHERE p.cat_no = memcat.cat_no
+ </select>
+ <select id="posting_list" parameterType="map" resultType="map">
+    SELECT
+    p.post_no, p.mem_no,p.post_cnt, p.cat_no, p.post_photo1, mem.mem_id, mem.mem_photo
+   FROM POSTING p
+            , (SELECT mem_no, mem_id, mem_photo FROM member) mem 
+   <where>
+	<if test="cat_no != null and mem_no ==null">p.cat_no = ${cat_no} and p.mem_no= mem.mem_no</if>
+	<if test="mem_no != null and cat_no ==null">p.mem_no = ${mem_no} and p.mem_no= mem.mem_no</if>
+	</where>
+ </select>
+ 
+ <select id="posting_cmt_list" parameterType="map" resultType="map">
+   SELECT C.POST_NO, C.CMT_NO, C.CMT_CNT, C.CMT_DATE, C.CMT_MEM_NO, M.MEM_ID AS CMT_MEM_ID, M.MEM_PHOTO
+FROM "COMMENT"  C, (SELECT MEM_ID, NVL(MEM_PHOTO, '../pds/dft.jpg')MEM_PHOTO, MEM_NO FROM MEMBER) M
+WHERE C.POST_NO = #{post_no}
+       AND C.CMT_MEM_NO = M.MEM_NO
+ </select>
+ 
+ <insert id="ins_post_like" parameterType="map">
+  INSERT INTO POST_LIKE (POST_NO, MEM_NO)
+  	VALUES (#{post_no},#{mem_no})
+ </insert>
+ 
+ <delete id="del_post_like" parameterType="map">
+  DELETE FROM POST_LIKE 
+  	WHERE POST_NO = #{post_no} AND MEM_NO = #{mem_no}
+ </delete>
+ 
+ 
+</mapper>

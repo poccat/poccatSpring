@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- xml의 주석은 Ctrl + shift + /  -->
+<mapper namespace="oracle.mybatis.memberMapper">
+<insert id="member_join" parameterType="map" >
+		INSERT INTO ANYMERCY.MEMBER (
+		   	 MEM_NO
+		   , MEM_ID
+		   , MEM_PW
+		   , MEM_EMAIL
+		   , MEM_ADDRESS
+		   , MEM_GENDER
+		   , MEM_NAME
+		   , MEM_NICK
+		   , MEM_PHONE
+		   , MEM_PHOTO
+		   , MEM_TYPE
+		   , SUP_END
+		   , SUP_START
+		   , SUP_STATUS) 
+		VALUES ( 
+			 	 SEQ_MEM_NO.NEXTVAL
+				,#{join_id}  
+				,#{join_pw}  
+				,#{join_email }
+				,#{join_addres}		
+				,#{join_gender}	
+				,#{join_name	}	
+				,#{join_nick	}	
+				,#{join_phone}	
+				,#{join_photo}	
+			 	,#{join_type	}	
+				,#{sup_end	}	
+			 	,#{sup_start}	
+			 	,#{sup_status}	
+		 )
+</insert>
+ 	<select id="proc_Login" parameterType="map" statementType="CALLABLE">
+		{call proc_ajaxLogin
+							(#{mem_id, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+		                    ,#{mem_pw, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{r_memID, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{r_memEmail, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                   )}
+	</select>	  
+ <select id="followingCats" parameterType="map">
+ 	SELECT 
+	   cat_no
+	FROM MEMBER_CAT_FOLLOW
+	WHERE mem_no = #{mem_no};
+ </select>
+ <select id="member_info" parameterType="map" resultType="map">
+   SELECT 
+   MEM_ADDRESS, MEM_EMAIL, MEM_GENDER, 
+   MEM_ID, MEM_NAME, MEM_NICK, 
+   MEM_NO, MEM_PHONE, NVL(mem_photo,'../pds/dft.jpg')as mem_photo, 
+   MEM_PW, MEM_TYPE, SUP_END, 
+   SUP_START, SUP_STATUS
+	FROM MEMBER
+	WHERE mem_no = #{mem_no}
+ </select>
+ 
+  <select id="friend_member_list" parameterType="map" resultType="map">
+    SELECT 
+   m.mem_no, NVL(m.mem_photo,'../pds/dft.jpg')as mem_photo , m.mem_id 
+FROM FRIEND_MEMBER fm , MEMBER m 
+WHERE fm.friend_added_no = m.mem_no
+AND fm.mem_no=#{mem_no}
+ORDER BY m.mem_id asc
+ </select>
+ <select id="group_mem_mygroup" parameterType="map" resultType="map">
+select d.group_name, d.group_no,d.group_bname1,d.group_bname2,d.group_bname3, a.mem_no from grp d
+join grp_mem a on d.group_no = a.group_no
+where a.mem_no = #{mem_no}
+ </select>
+ 
+ <select id="group_board_list" parameterType="map" resultType="map">
+select group_b_no, group_no,group_b_title,group_b_cnt,group_b_type,group_b_date
+from grp_board
+where group_no =#{group_no}
+ </select>
+ 
+</mapper>

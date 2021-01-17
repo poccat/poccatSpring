@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- xml의 주석은 Ctrl + shift + /  -->
+<mapper namespace="oracle.mybatis.secondBMapper">
+<select id="commonB_List" parameterType="map" resultType="map">
+	SELECT 
+           cb.com_b_cnt, cb.com_b_date, cb.com_b_no, 
+           cb.com_b_type, cb.com_photo, cb.com_title, 
+            cb.com_b_view, cb.mem_no, m.mem_name, m.mem_id
+    FROM COMMON_BOARD cb, (select mem_name, mem_no, mem_id from member) m
+    WHERE cb.mem_no = m.mem_no
+    <if test="com_b_type!=null">
+    AND COM_B_TYPE = #{com_b_type}
+    </if>
+    <if test="com_b_no!=null">
+    AND com_b_no = #{com_b_no}
+    </if>
+    <if test="com_b_no==null">
+    ORDER BY cb.com_b_no DESC
+    </if>
+</select>
+ <insert id="commonB_insert" parameterType="map">
+		 INSERT INTO ANYMERCY.COMMON_BOARD (
+			   COM_B_CNT, COM_B_DATE, COM_B_NO, 
+			   COM_B_TYPE, COM_PHOTO, COM_TITLE, 
+			   COM_B_VIEW, MEM_NO) 
+				VALUES ( 
+				 #{com_b_cnt}
+				,to_char(sysdate,'yyyy-mm-dd')
+				,seq_com_b_no.nextval
+				,#{com_b_type}
+				,#{com_photo}
+				,#{com_title}
+				,0
+				,#{mem_no}
+		 )
+ </insert>
+ <update  id="commonB_update" parameterType="map">
+ 	UPDATE ANYMERCY.COMMON_BOARD
+		SET    	com_b_cnt  = #{com_b_cnt},
+		       		com_photo = #{com_photo},
+		       		com_title	  = #{com_title},
+		WHERE  COM_B_NO   = #{com_b_no}
+ </update>
+ <delete id="commonB_delete" parameterType="map">
+   delete from ANYMERCY.COMMON_BOARD where COM_B_NO = #{com_b_no}
+ </delete>
+</mapper>
