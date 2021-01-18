@@ -1,0 +1,21 @@
+@charset "UTF-8";
+.list-group{
+		margin-top: 25%;
+		width: 100%;
+	}
+	.list-group > div{
+		background-color: lightgray;
+		font-weight: bold;
+		padding: 5px;
+		padding-left:15px;
+	}
+	.col-sm-2{
+	    padding-left: 0px;
+	}
+	.btn-info{
+		display: block;
+	}
+	a.borderless {
+		border-left: 0 none; 
+		border-right: 0 none; 
+	}
