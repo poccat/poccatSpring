@@ -28,12 +28,12 @@
 	//로그인할때
 	function do_login(){
 		$.ajax({
-			url:'member/member_login.foc'
+			url:'<%=path%>member/member_login.foc'
 		   ,data : $("#loginForm").serialize()
 		   ,dataType : "json"
 		   ,success:function(data){
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
-					location.href="sns/loginsub.jsp"
+					location.href="<%=path%>loginsub.jsp"
 					}
 				else {
 					alert(data[0].mem_name);

@@ -34,6 +34,7 @@ public class FirstBController {
 	public String poccat(Model mod, @RequestParam Map<String,Object> pMap
 			,HttpServletRequest req) {
 		String temp= null;
+		session = req.getSession();
 		logger.info("poccat 호출 성공"+pMap);
 		if(req.getParameter("mem_no")==null&&session.getAttribute("userMap")!=null)
 		{
@@ -50,7 +51,7 @@ public class FirstBController {
 		if(temp!=null) {
 			pMap.put("mem_no", temp);
 		}
-		
+		logger.info(pMap);
 		fbList = fbLogic.poccat(pMap);
 		mod.addAttribute("rList", fbList);
 		return "sns/mainPage";
