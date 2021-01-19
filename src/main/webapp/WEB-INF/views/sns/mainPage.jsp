@@ -11,7 +11,7 @@
 <html>
 <head>
 <title>My Instagram Cat</title>
-<link rel="stylesheet" href="../css/photoList.css">
+
 <style type="text/css">
 .parent {
     display: flex;

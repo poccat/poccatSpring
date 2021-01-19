@@ -22,7 +22,7 @@ window.onload = function(){
 	document.getElementById('login').submit();
 	}
 </script>
-<form id="login" action="/poccat.foc">
+<form id="login" action="/firstB/poccat.foc">
 	<input type="hidden" name="mem_no" value="<%=mem_no%>"/>
 </form>
 

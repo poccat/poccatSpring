@@ -191,12 +191,12 @@ function postingModal(f_id, photo_id){
         <div class="navbar navbar-expand-md navbar-light bg-light" style="width: calc(100% - 250px); float:left;" id="top-page">
        
             	<div class="col-md-2">
-		        	<a class="navbar-brand" href="<%=path.toString()%>poccat.foc"><i class="fas fa-cat fa-2x"></i></a>
+		        	<a class="navbar-brand" href="<%=path.toString()%>firstB/poccat.foc"><i class="fas fa-cat fa-2x"></i></a>
 		       	</div>
 		       	<div  class="col-md-5">
 		       	<div id="logined" style="float:right; padding-top:20px;"></div>
 		       	</div>
-            	<div id="searchbox" class="col-md-5" onclick="location.href='<%=path.toString()%>poccat.foc?all=all'">
+            	<div id="searchbox" class="col-md-5" onclick="location.href='<%=path.toString()%>firstB/poccat.foc?all=all'">
             		<nav class="navbar navbar-light bg-light">
 					  <form class="form-inline" id="search">
 					    <input class="form-control" type="search" placeholder="검색" aria-label="Search">
