@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-
+ 
 </style>
 
 </head>
@@ -16,7 +16,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
     <div class="modal-header">
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <button type="button" class="close" id="btnModalClose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
      
       </div>
       <div class="modal-body">
@@ -30,19 +30,19 @@
 
                     <div class="img_section">
                         <div class="trans_inner">
-                            <div><img id="post_main" src="../../img/1.jpg" alt=""></div>
+                            <div><img id="post_main" src="../resources/common/pds/cat_01.jpg" alt=""></div>
                             <input type="hidden" id="modal_post_no" value=""/>
                             <input type="hidden" id="modal_cat_no" value=""/>
                         </div>
                     </div>
-
+         </article>
 
                     <div class="detail--right_box">
 
                         <header class="top">
                             <div class="user_container">
                                 <div class="profile_img">
-                                    <img id="post_profile" src="../../img/1.jpg" alt="">
+                                    <img id="post_profile" src="<%=path %>resources/common/pds/cat_01.jpg" alt="">
                                 </div>
                                 <div class="user_name">
                                     <div class="nick_name"><a id="nick_name" href="">고양이</a></div>
@@ -82,10 +82,6 @@
 
 
                     </div>
-
-
-                </article>
-
 
             </div>
 

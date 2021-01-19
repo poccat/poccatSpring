@@ -29,15 +29,16 @@ VALUES (
  	)
 </insert>
  <select id="posting_list_logout" parameterType="map" resultType="map">
-    SELECT 
-    P.POST_NO, MCF.FOLLOWER_COUNT, MCF.CAT_NO, P.POST_DATE, p.post_photo1
-   FROM POSTING P
+             SELECT 
+    P.POST_NO, MCF.FOLLOWER_COUNT, MCF.CAT_NO, P.POST_DATE, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
+   FROM ANYMERCY.POSTING P
                                    , (SELECT
                                   COUNT(CAT_NO) AS FOLLOWER_COUNT, CAT_NO
-                                   FROM MEMBER_CAT_FOLLOW
+                                   FROM ANYMERCY.MEMBER_CAT_FOLLOW
                                    GROUP BY CAT_NO
                                    ) MCF
-   WHERE P.CAT_NO = MCF.CAT_NO
+                                   ,(SELECT CAT_NAME, CAT_LOCAL, CAT_NO, CAT_PHOTO FROM ANYMERCY.CAT) C
+   WHERE P.CAT_NO = MCF.CAT_NO AND P.CAT_NO = C.CAT_NO
    ORDER BY P.POST_DATE DESC, MCF.FOLLOWER_COUNT DESC
  </select>
  <select id="posting_list_login" parameterType="map" resultType="map">

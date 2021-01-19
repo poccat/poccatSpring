@@ -26,8 +26,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/myPage.css">
-<link rel="stylesheet" href="../css/photoList.css">
+
 <style type="text/css">
 .parent {
     display: flex;
@@ -94,21 +93,21 @@ function open_close_grp(num){
 function load_grp(num){
 	console.log("grp"+num);
 	$.ajax({
-		url:'<%=subpath%>member/group_board_list.foc?group_no='+$("#grp_no"+num).val() //고양이테이블에서 고양이 이름, 프로필 사진, 지역정보를 가져와야한다.
+		url:'<%=subpath%>member/group_board_list.foc?grp_no='+$("#grp_no"+num).val() 
 	   ,method :'get'
 	   ,dataType : "json"
 	   ,success:function(data){
 		   if(data.length>0){
 			   $(".tbodies").empty();
 		   for(var i=0;i<data.length;i++){
-			   if(data[i].GROUP_B_TYPE==0){
-			   $("#tbody"+$("#grp_no"+num).val()+"0").append($('<tr><td>'+data[i].GROUP_B_TITLE+'</td></tr>'));
+			   if(data[i].GRP_B_TYPE==0){
+			   $("#tbody"+$("#grp_no"+num).val()+"0").append($('<tr><td>'+data[i].GRP_B_TITLE+'</td></tr>'));
 		   		}//end of if
-		   		else if(data[i].GROUP_B_TYPE==1){
-			   $("#tbody"+$("#grp_no"+num).val()+"1").append($('<tr><td>'+data[i].GROUP_B_TITLE+'</td></tr>'));
+		   		else if(data[i].GRP_B_TYPE==1){
+			   $("#tbody"+$("#grp_no"+num).val()+"1").append($('<tr><td>'+data[i].GRP_B_TITLE+'</td></tr>'));
 		   		}//end of if
-		   		else if(data[i].GROUP_B_TYPE==2){
-			   $("#tbody"+$("#grp_no"+num).val()+"2").append($('<tr><td>'+data[i].GROUP_B_TITLE+'</td></tr>'));
+		   		else if(data[i].GRP_B_TYPE==2){
+			   $("#tbody"+$("#grp_no"+num).val()+"2").append($('<tr><td>'+data[i].GRP_B_TITLE+'</td></tr>'));
 		   		}//end of if
 		   	}//end of for
 		   }else{
@@ -144,27 +143,31 @@ $(document).ready(function(){
 						 $("#grp_boardList_master").append($('<div class="grp_boardList" id="grp_boardList'+(i+1)+'" style="display:none;"> <div class="row"><div id="btn-group'+(i+1)+'" class="btn-group" role="group" aria-label="..."></div></div></div>'));
 					}
 			   for(var i=0;i<data.length;i++){
-				   $("#grp_boardList").append($('<div class="dropdown" style="margin-bottom:10px; text-align:left; width:100%;"><button onclick="javascript:load_grp('+i+')" class="btn btn-default dropdown-toggle" style=" width:100%;" type="button"  data-toggle="dropdown" aria-expanded="true">'+data[i].GROUP_NAME+'<input id="grp_no'+i+'"  type="hidden" value="'+data[i].GROUP_NO+'"/><span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"><li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:open_close_grp('+i+')">게시판</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#">그룹회원목록모달로?</a></li></ul></div>'));
+				   $("#grp_boardList").append($('<div class="dropdown" style="margin-bottom:10px; text-align:left; width:100%;"><button onclick="javascript:load_grp('+i+')" class="btn btn-default dropdown-toggle" style=" width:100%;" type="button"  data-toggle="dropdown" aria-expanded="true">'+data[i].GRP_NAME+'<input id="grp_no'+i+'"  type="hidden" value="'+data[i].GRP_NO+'"/><span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"><li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:open_close_grp('+i+')">게시판</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="#">그룹회원목록모달로?</a></li></ul></div>'));
 			   	}//end of for
 				    for(var i=0;i<data.length;i++){
-				    	if(data[i].GROUP_BNAME1!=""){
-				    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(1'+i+')" class="btn btn-default">'+data[i].GROUP_BNAME1+'</button>'));
-				    	 	if(data[i].GROUP_BNAME2!=""){	
-					    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(2'+i+')" class="btn btn-default">'+data[i].GROUP_BNAME2+'</button>'));
-					    	 	if(data[i].GROUP_BNAME3!=""){	
-						    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(3'+i+')" class="btn btn-default">'+data[i].GROUP_BNAME3+'</button>'));
+				    	if(data[i].GRP_B_NAME1==null){
+				    		$("#btn-group"+i).append($('게시판이 없습니다.'));
+				    	}
+				    	
+				    	else if(data[i].GRP_B_NAME1!=null){
+				    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(1'+i+')" class="btn btn-default">'+data[i].GRP_B_NAME1+'</button>'));
+				    	 	if(data[i].GRP_B_NAME2!=null){	
+					    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(2'+i+')" class="btn btn-default">'+data[i].GRP_B_NAME2+'</button>'));
+					    	 	if(data[i].GRP_B_NAME3!=null){	
+						    	 $("#btn-group"+i).append($('<button type="button" onclick="open_close(3'+i+')" class="btn btn-default">'+data[i].GRP_B_NAME3+'</button>'));
 					    	 	}
 				    	 	}
 				    	 }
 				    }
 			   for(var i=0;i<data.length;i++){
-			   		if(data[i].GROUP_BNAME1!=""){
-			   		 $("#grp_boardList"+i).append($('<div class="board_group" id="group1'+i+'" style="display:none;"><h1 class="title">'+data[i].GROUP_BNAME1+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'0"></tbody></table></div>'));
-					   if(data[i].GROUP_BNAME2!=""){
-						   $("#grp_boardList"+i).append($('<div class="board_group" id="group2'+i+'" style="display:none;"><h1 class="title">'+data[i].GROUP_BNAME2+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'1"></tbody></table></div>'));
+			   		if(data[i].GRP_B_NAME1!=""){
+			   		 $("#grp_boardList"+i).append($('<div class="board_group" id="group1'+i+'" style="display:none;"><h1 class="title">'+data[i].GRP_B_NAME1+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'0"></tbody></table></div>'));
+					   if(data[i].GRP_B_NAME2!=""){
+						   $("#grp_boardList"+i).append($('<div class="board_group" id="group2'+i+'" style="display:none;"><h1 class="title">'+data[i].GRP_B_NAME2+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'1"></tbody></table></div>'));
 						   
-						   if(data[i].GROUP_BNAME3!=""){
-							   $("#grp_boardList"+i).append($('<div class="board_group" id="group3'+i+'" style="display:none;"><h1 class="title">'+data[i].GROUP_BNAME3+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'2"></tbody></table></div>'));
+						   if(data[i].GRP_B_NAME3!=""){
+							   $("#grp_boardList"+i).append($('<div class="board_group" id="group3'+i+'" style="display:none;"><h1 class="title">'+data[i].GRP_B_NAME3+'</h1><table class="table table-hover" style="width:100%"><thead><tr><th style="width: 10%" class="text-center">글번호</th><th style="width: 60%" class="text-center">제목</th><th style="width: 10%" class="text-center">작성자</th><th style="width: 10%" class="text-center">작성일</th><th style="width: 10%" class="text-center">조회수</th></tr></thead><tbody class="tbodies" id="tbody'+(i+1)+'2"></tbody></table></div>'));
 						    }
 					  	  }
 				   		}

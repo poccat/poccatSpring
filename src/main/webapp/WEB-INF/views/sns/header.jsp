@@ -124,6 +124,7 @@ function postingModal(f_id, photo_id){
 
 	var photo = $('#'+photo_id.id).val();//포스팅 상세 모달의 메인 포토 주소가져오고 img태그안에 셋팅
 	$("#post_main").attr("src",photo);
+	$("#post_main").attr("class","img-cropped");
 	setCookie("f_id",f_id.id,"1");
 	console.log(f_id.id);
 	console.log(photo);
@@ -136,7 +137,7 @@ function postingModal(f_id, photo_id){
 		   ,dataType : "json"
 		   ,success:function(data){
 			   console.log($(".post_no").val());
-			   $("#post_profile").attr("src",data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
+			   $("#post_profile").attr("src",'<%=path%>'+data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
 			   $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름
 			   console.log(data[0].CAT_NO);
@@ -164,16 +165,16 @@ function postingModal(f_id, photo_id){
 		   ,dataType : "json"
 		   ,success:function(data){
 			   $("#cmt_area").empty();
-			   for(var i=0;i<data.length;i++){
-				   $("#cmt_area").append($('<div class="user_container-detail">'));
-				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src="'+data[i].MEM_PHOTO+'" alt="user"></div>'));
+			   for(var i=0;i<data.length;i++){ 
+				   $("#cmt_area").append($('<div class="user_container-detail">')); 
+				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 				   $("#cmt_area").append($('<span class="user_id">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 				   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
 				   $("#cmt_area").append($('<div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));
-				   $("#cmt_area").append($('<div class="sprite_more_icon"></div>'));
-				   $("#cmt_area").append($('</div><div><div class="sprite_small_heart_icon_outline">'));
+				   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
+/* 				   $("#cmt_area").append($('</div><div><div class="sprite_small_heart_icon_outline">')); */
 				   $("#cmt_area").append($('</div></div></div></div></div>'));
 				   }
 			}
@@ -187,16 +188,16 @@ function postingModal(f_id, photo_id){
 </head>
 <body>
 
-<div style="width:100%; ">
+<div id="Allheader" style="width:100%; ">
         <div class="navbar navbar-expand-md navbar-light bg-light" style="width: calc(100% - 250px); float:left;" id="top-page">
        
             	<div class="col-md-2">
-		        	<a class="navbar-brand" href="<%=path.toString()%>poccat.foc"><i class="fas fa-cat fa-2x"></i></a>
+		        	<a class="navbar-brand" href="<%=path.toString()%>firstB/poccat.foc"><i class="fas fa-cat fa-2x"></i></a>
 		       	</div>
 		       	<div  class="col-md-5">
 		       	<div id="logined" style="float:right; padding-top:20px;"></div>
 		       	</div>
-            	<div id="searchbox" class="col-md-5" onclick="location.href='<%=path.toString()%>poccat.foc?all=all'">
+            	<div id="searchbox" class="col-md-5" onclick="location.href='<%=path.toString()%>firstB/poccat.foc?all=all'">
             		<nav class="navbar navbar-light bg-light">
 					  <form class="form-inline" id="search">
 					    <input class="form-control" type="search" placeholder="검색" aria-label="Search">

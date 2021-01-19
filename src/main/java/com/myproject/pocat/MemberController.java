@@ -50,6 +50,7 @@ public class MemberController  {
 		session.setAttribute("userMap", pMap);
 		logger.info("MemberController 세션 setAttribute===>"+pMap);
 		isSession = true;
+		mod.addAttribute("rList", memList);
 		//세션에 값을 저장하므로 요청이 유지 되지 않아도 된다.
 		return "common/JsonPrint";
 	}
@@ -59,6 +60,10 @@ public class MemberController  {
 		memList = memLogic.member_id_check(pMap);
 		mod.addAttribute("rList", fbList);
 		return "forward:/test.jsp";
+	}
+	@RequestMapping("/member_logout.foc")
+	public String member_logout(Model mod, @RequestParam Map<String,Object> pMap) {
+		return "sns/member/member_logout";
 	}
 	
 	@RequestMapping("/member_mypage.foc")
@@ -141,14 +146,14 @@ public class MemberController  {
 	public String group_mem_mygroup(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("group_mem_mygroup 호출 성공"+pMap);
 		memList = memLogic.group_mem_mygroup(pMap);
-		mod.addAttribute("rList", fbList);
-		return "forward:/test.jsp";
+		mod.addAttribute("rList", memList);
+		return "common/JsonPrint";
 	}
 	@RequestMapping("/group_mem_list.foc")
 	public String group_mem_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("group_mem_list 호출 성공"+pMap);
 		memList = memLogic.group_mem_list(pMap);
-		mod.addAttribute("rList", fbList);
+		mod.addAttribute("rList", memList);
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/group_mem_join.foc")
@@ -167,8 +172,8 @@ public class MemberController  {
 	public String group_board_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("group_board_list 호출 성공"+pMap);
 		memList = memLogic.group_board_list(pMap);
-		mod.addAttribute("rList", fbList);
-		return "forward:/test.jsp";
+		mod.addAttribute("rList", memList);
+		return "common/JsonPrint";
 	}
 	@RequestMapping("/group_board_detail.foc")
 	public String group_board_detail(Model mod, @RequestParam Map<String,Object> pMap) {

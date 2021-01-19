@@ -28,12 +28,12 @@
 	//로그인할때
 	function do_login(){
 		$.ajax({
-			url:'member/member_login.foc'
+			url:'<%=path%>member/member_login.foc'
 		   ,data : $("#loginForm").serialize()
 		   ,dataType : "json"
 		   ,success:function(data){
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
-					location.href="sns/loginsub.jsp"
+					location.href="<%=path%>loginsub.jsp"
 					}
 				else {
 					alert(data[0].mem_name);
@@ -47,8 +47,9 @@
 	}
 	//로그아웃할때
 	function do_logout(){
-		$.ajax({
-			url:'<%=path%>sns/member/member_logout.jsp'
+		location.href ="../member/member_logout.foc";
+<%-- 		$.ajax({
+			url:'<%=path%>/sns/member/member_logout.jsp'
 		   ,success:function(data){
 				//로그아웃 모달-로그아웃 클릭시 세션에 있는 값 모두 삭제하기
 					console.log("로그아웃:: 세션 삭제함");
@@ -57,7 +58,7 @@
 		   ,error:function(e){
 			   alert(e.responseText);
 		   }
-			}); // end of ajax
+			}); // end of ajax --%>
 	}
 	function writeModal(){
 		var mem_no = "<%=mem_no%>";
@@ -111,11 +112,11 @@ $(document).ready(function(){
 	          <form id="loginForm" role="form" >
 	            <div class="form-group">
 	              <label for="mem_id"><span class="glyphicon glyphicon-user"></span> 아이디</label>
-	              <input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="아이디">
+	              <input type="text" class="form-control" id="mem_id" name="mem_id"  value="1znqc5">
 	            </div>
 	            <div class="form-group">
 	              <label for="mem_pw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호</label>
-	              <input type="text" class="form-control" id="mem_pw" name="mem_pw" placeholder="비밀번호">
+	              <input type="text" class="form-control" id="mem_pw" name="mem_pw"  value="123123">
 	            </div>
 	            <div class="checkbox">
 	              <label><input type="checkbox" value="" checked>아이디 기억하기</label>

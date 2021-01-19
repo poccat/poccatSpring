@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myproject.dao.FirstBDao;
@@ -12,8 +13,9 @@ import com.myproject.dao.FirstBDao;
 @Service
 public class FirstBLogic {
 	Logger logger = LogManager.getLogger(FirstBLogic.class);
+	@Autowired(required=false)
 	private FirstBDao fbDao;
-	
+	List<Map<String, Object>> fbList = null;
 //////////////////////////////////////////[[입양관리 및 후기 시작]]///////////////////////////////////////////	
 	public List<Map<String, Object>> adoption_review_list(Map<String,Object> pMap) {
 		logger.info("adoption_review_list 호출 성공");

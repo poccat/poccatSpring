@@ -15,7 +15,6 @@ public class FirstBDao {
 	@Autowired(required=false)
 	private SqlSessionTemplate sqlSessionTemplate;
 	int result = 0;
-	
 	public List<Map<String, Object>> poccat(Map<String, Object> pMap) {
 	      logger.info("poccat 호출성공");
 	         if(pMap.containsKey("mem_no")&&pMap.containsKey("all")==false) {
