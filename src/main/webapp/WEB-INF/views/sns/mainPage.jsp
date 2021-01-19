@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.Map,java.util.HashMap,java.util.List" %>
+<%@ page import="java.util.Map,java.util.HashMap,java.util.List, java.util.StringTokenizer" %>
    
 <%
    List<Map<String,Object>> rList =(List<Map<String,Object>>)request.getAttribute("rList");
    Map<String,Object> rMap = new HashMap<>();
-  
+   
 %>
 <!DOCTYPE html>
 <html>
@@ -72,6 +72,21 @@ document.addEventListener("DOMContentLoaded", function(){
             	String post_no= "post_no"+i;
             	String postingModal=
             			"javascript:postingModal("+f_id.toString()+","+post_photo.toString()+")";
+            	
+            	  String photourl =rMap.get("POST_PHOTO1").toString();
+            	  
+            	  StringTokenizer st = new StringTokenizer(photourl, "/");
+            	  String firstToken = st.nextToken();
+            	  
+            	  String rightUrl = "";
+            	  
+            	  if(firstToken.equals("resources")){
+            		  rightUrl = "../" + rMap.get("POST_PHOTO1").toString();
+            	  } else {
+            		  rightUrl = rMap.get("POST_PHOTO1").toString();
+            	  }
+            	  
+            	
             %>
      <div class = "postingBox">
                <header class="top">
@@ -90,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function(){
 				<div class="bottomLine"  style="border-bottom: 1px solid #eeeeee; margin-bottom: 5px;"></div>
 						<div id="wrapper_div"class="centered">
 		                    <a href="<%=postingModal%>">
-		                    <img id="post_photo"  class="img-cropped" src="../<%=rMap.get("POST_PHOTO1")%>" alt=""></a>
+		                    <img id="post_photo"  class="img-cropped" src="<%=rightUrl%>" alt=""></a>
 			                    <form id="<%=f_id%>" method="post">
-								<input id="<%=post_photo%>" type="hidden" value="../<%=rMap.get("POST_PHOTO1")%>"/>
+								<input id="<%=post_photo%>" type="hidden" value="<%=rightUrl%>"/>
 								<input type="hidden" name="cat_no" value="<%=rMap.get("CAT_NO")%>"/>
 								<input type="hidden" name="post_no" value="<%=rMap.get("POST_NO")%>"/>
 								<input type="hidden" name="mem_no" value="<%=mem_no%>"/>

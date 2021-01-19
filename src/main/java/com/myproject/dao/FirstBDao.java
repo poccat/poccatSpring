@@ -2,6 +2,7 @@ package com.myproject.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,36 @@ public class FirstBDao {
 	
 	public int posting_write(Map<String, Object> pMap) {
 		logger.info("posting_write 호출성공");
+		String photourl = pMap.get("post_photo1").toString();
+		
+		StringTokenizer st = new StringTokenizer(photourl, "_");
+		String firsturl = st.nextToken(); //https://firebasestorage.googleapis.com/v0/b/forcat-ef482.appspot.com/o/photos_/
+		
+		String secondurl = st.nextToken(); //_/users/JQkNpLuXJwXLOOp0D9DgX5MNPAk1/photo6?alt=media
+		
+		StringTokenizer st2 = new StringTokenizer(secondurl, "/");
+		
+		String users = st2.nextToken();
+		String uid = st2.nextToken();
+		String filename = st2.nextToken();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(firsturl);
+		sb.append("_");
+		sb.append("%2F");
+		sb.append(users);
+		sb.append("%2F");
+		sb.append(uid);
+		sb.append("%2F");
+		sb.append(filename);
+		
+		String finalPhotoUrl = sb.toString();
+		
+		System.out.println(finalPhotoUrl);
+		
+		pMap.put("post_photo1", finalPhotoUrl);
+		
 		return sqlSessionTemplate.insert("posting_insert",pMap);
 	}
 	

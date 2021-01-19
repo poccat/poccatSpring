@@ -43,10 +43,11 @@ VALUES (
  </select>
  <select id="posting_list_login" parameterType="map" resultType="map">
     SELECT
-    p.post_no, p.cat_no, p.post_photo1
+    p.post_no, p.cat_no, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
    FROM POSTING p
             , (SELECT distinct mcf.cat_no FROM MEMBER_CAT_FOLLOW mcf, MEMBER m WHERE mcf.mem_no = #{mem_no}) memcat
-   WHERE p.cat_no = memcat.cat_no
+             ,(SELECT CAT_NAME, CAT_LOCAL, CAT_NO, CAT_PHOTO FROM ANYMERCY.CAT) C
+   WHERE p.cat_no = memcat.cat_no  AND P.CAT_NO = C.CAT_NO
  </select>
  <select id="posting_list" parameterType="map" resultType="map">
     SELECT

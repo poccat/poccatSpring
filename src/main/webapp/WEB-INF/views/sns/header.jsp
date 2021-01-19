@@ -91,7 +91,9 @@ function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 dele
 	   ,dataType : "text"
 	   ,success:reload_like_cnt() // 좋아요 갯수 다시 불러오는 함수
 	   ,error:function(e){
-		   alert("로그인해주세요");
+		   if ("<%=session.getAttribute("userMap")%>" ==null){
+		   		   alert("로그인해주세요");
+		   } 
 	   }
 		}); // end of ajax
 }
