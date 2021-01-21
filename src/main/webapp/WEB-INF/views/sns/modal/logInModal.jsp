@@ -36,20 +36,8 @@
 		   ,success:function(data){
 			   
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
-					firebase.auth().signInWithCustomToken(<%=token%>)
-					  .then((user) => {
-						  console.log(user.uid);
-						  alert(user.uid);
-						  location.href="<%=path%>loginsub.jsp"
-					  })
-					  .catch((error) => {
-					    var errorCode = error.code;
-					    var errorMessage = error.message;
-					    console.log(errorCode+"   "+errorMessage);
-							alert(errorCode+"    "+errorMessage);
-					  });
 					
-						
+						  location.href="<%=path%>loginsub.jsp"									
 					}
 				else {
 					alert(data[0].mem_name);
