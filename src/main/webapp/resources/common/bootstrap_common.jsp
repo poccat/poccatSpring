@@ -18,3 +18,11 @@
 <link rel="stylesheet" href="<%=path.toString() %>resources/css/icon.css">
 <link rel="stylesheet" href="<%=path%>resources/css/photoList.css">
 <link rel="stylesheet" href="<%=path%>resources/css/myPage.css">
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+<script src="<%=path.toString()%>resoruces/js/firebaseConfig.js"></script>

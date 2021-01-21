@@ -5,7 +5,7 @@
   <!-- xml의 주석은 Ctrl + shift + /  -->
 <mapper namespace="oracle.mybatis.memberMapper">
 <insert id="member_join" parameterType="map" >
-		INSERT INTO ANYMERCY.MEMBER (
+<!-- 		INSERT INTO ANYMERCY.MEMBER (
 		   	 MEM_NO
 		   , MEM_ID
 		   , MEM_PW
@@ -33,17 +33,29 @@
 			 	,#{join_type	}	
 				,#{sup_end	}	
 			 	,#{sup_start}	
-			 	,#{sup_status}	
+			 	,#{sup_status}	 -->
+		INSERT INTO ANYMERCY.MEMBER (
+		   	 MEM_NO
+		   , MEM_ID
+		   , MEM_PW
+		   , MEM_EMAIL
+		   , MEM_UID)
+		VALUES ( 
+			 	 SEQ_MEM_NO.NEXTVAL
+				,#{join_id}  
+				,#{join_pw}  
+				,#{join_email }
+				,#{uid}	
 		 )
 </insert>
  	<select id="proc_Login" parameterType="map" statementType="CALLABLE">
 		{call proc_ajaxLogin
-							(#{mem_id, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+							(#{mem_email, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
 		                    ,#{mem_pw, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                    ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                    ,#{r_memID, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
-		                    ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{msg, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}  
 		                    ,#{r_memEmail, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
+		                    ,#{r_memNum, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String}
+		                    ,#{r_memUid, mode=OUT, jdbcType=VARCHAR, javaType=java.lang.String} 
 		                   )}
 	</select>	  
  <select id="followingCats" parameterType="map">
