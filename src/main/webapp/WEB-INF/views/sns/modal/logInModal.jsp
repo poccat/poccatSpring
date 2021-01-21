@@ -36,8 +36,19 @@
 		   ,success:function(data){
 			   
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
-
-					location.href="<%=path%>loginsub.jsp"
+					firebase.auth().signInWithCustomToken(<%=token%>)
+					  .then((user) => {
+						  console.log(user.uid);
+						  alert(user.uid);
+						  location.href="<%=path%>loginsub.jsp"
+					  })
+					  .catch((error) => {
+					    var errorCode = error.code;
+					    var errorMessage = error.message;
+					    console.log(errorCode+"   "+errorMessage);
+							alert(errorCode+"    "+errorMessage);
+					  });
+					
 						
 					}
 				else {
@@ -91,7 +102,7 @@ $(document).ready(function(){
 				$("#loginIcon").children().first().attr("style", "color: red");
 				$("#loginIcon").attr("data-target", "#logoutModal");
 				$("#loginIcon").attr("href", "javascript:logoutModal()");
-				$("#logined").html(mem_id+"님 안녕하세요");
+				$("#logined").html(mem_email+"님 안녕하세요");
 				$("#signupIcon").children().first().attr("class", "glyphicon glyphicon-user");
 				$("#signupIcon").children().first().attr("style", "font-size:30px;");
 				$("#signupIcon").attr("href", "<%=path.toString()%>member/member_mypage.foc?mem_no="+mem_no);
