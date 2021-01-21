@@ -24,6 +24,7 @@ public class SecondBController {
 	@Autowired(required=false)
 	SecondBLogic sbLogic;
 	String com_b_type = null;
+	String return_address = null;
 	
 	@RequestMapping("/volunteer_noti_list.foc")
 	public String volunteer_noti_list(Model mod, @RequestParam Map<String,Object> pMap) {
@@ -88,6 +89,7 @@ public class SecondBController {
 	public String common_board_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("common_board_list 호출 성공"+pMap);
 		if(pMap.containsKey("com_b_type")){
+			logger.info("containskey");
 			com_b_type = (String) pMap.get("com_b_type");
 		}
 		sbList = sbLogic.common_board_list(pMap);
@@ -99,13 +101,12 @@ public class SecondBController {
 		}
 		mod.addAttribute("rList", sbList);
 		if(com_b_type.equals("0")) {
-			return "sns/commonBoard";
+			return_address = "sns/commonBoard";
 		}
 		else if(com_b_type.equals("3")) {
-			return "sns/nanumBoard";
-		}else {
-			return "error";
+			return_address = "sns/nanumBoard";
 		}
+		return return_address;
 	}
 	
 	@RequestMapping("/common_board_detail.foc")

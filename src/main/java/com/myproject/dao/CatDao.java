@@ -20,11 +20,6 @@ public class CatDao {
 	int result = 0;
 	List<Map<String,Object>> catList = null;
 //////////////////////////[[고양이 시작]]////////////////////////////////////	
-//	public List<Map<String, Object>> test(Map<String, Object> pMap) {
-//		logger.info("test 호출성공"+pMap);
-//		
-//		return sqlSessionTemplate.selectList("test",pMap);
-//	}
 	public List<Map<String, Object>> cat_search(Map<String, Object> pMap) {
 		logger.info("cat_search 호출성공"+pMap);
 			if(pMap.get("mem_no").equals("null")) {

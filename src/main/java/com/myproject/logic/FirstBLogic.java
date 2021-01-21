@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myproject.dao.CatDao;
 import com.myproject.dao.FirstBDao;
 
 @Service
@@ -15,6 +16,8 @@ public class FirstBLogic {
 	Logger logger = LogManager.getLogger(FirstBLogic.class);
 	@Autowired(required=false)
 	private FirstBDao fbDao;
+	@Autowired(required=false)
+	private CatDao catDao;
 	List<Map<String, Object>> fbList = null;
 //////////////////////////////////////////[[입양관리 및 후기 시작]]///////////////////////////////////////////	
 	public List<Map<String, Object>> adoption_review_list(Map<String,Object> pMap) {
@@ -65,10 +68,15 @@ public class FirstBLogic {
 		return fbDao.posting_write(pMap);
 	}
 	
-	public int insert_or_del_like(Map<String,Object> pMap) {
+	public List<Map<String,Object>> insert_or_del_like(Map<String,Object> pMap) {
 		logger.info("insert_or_del_like 호출 성공");
 		logger.info("form에서 받아온 pMap===>" + pMap);
-		return fbDao.insert_or_del_like(pMap);
+		if(fbDao.insert_or_del_like(pMap)==1) {
+			return catDao.cat_search(pMap);
+		}
+		else {
+			return fbList;
+		}
 	}
 	
 	public int posting_modi(Map<String,Object> pMap) {
