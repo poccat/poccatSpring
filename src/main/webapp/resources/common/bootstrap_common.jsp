@@ -25,4 +25,4 @@
 <!-- TODO: Add SDKs for Firebase products that you want to use
     https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
-<script src="<%=path.toString()%>resoruces/js/firebaseConfig.js"></script>
+<script src="<%=path.toString()%>resources/js/firebaseConfig.js"></script>
