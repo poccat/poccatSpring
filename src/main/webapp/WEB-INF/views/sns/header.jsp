@@ -14,7 +14,7 @@ Map<String,Object> userMap = new HashMap<>();
 			mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
 			mem_no = (String)userMap.get("mem_no");
 			mem_uid = (String)userMap.get("mem_uid");
-			token = (String)userMap.get("token");
+	        token = (String)userMap.get("token");
 			mem_email = (String)userMap.get("mem_email");
 	}
 
