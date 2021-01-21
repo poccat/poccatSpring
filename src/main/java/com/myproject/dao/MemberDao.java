@@ -56,7 +56,7 @@ public class MemberDao {
 		logger.info("member_modi 호출성공");
 		return sqlSessionTemplate.update(" ",pMap);
 	}
-	
+	 
 	public int member_del(Map<String, Object> pMap) {
 		logger.info("member_del 호출성공");
 		return sqlSessionTemplate.delete(" ",pMap);
@@ -103,6 +103,8 @@ public class MemberDao {
 ////////////////////////////////[[그룹 생성 및 가입 시작]]/////////////////////////
 	public List<Map<String, Object>> group_mem_mygroup(Map<String, Object> pMap) {
 		logger.info("group_mem_mygroup 호출성공"+pMap);
+		int mem_no = sqlSessionTemplate.selectOne("get_mem_no",pMap);
+		pMap.put("mem_no", mem_no); 
 		return sqlSessionTemplate.selectList("group_mem_mygroup",pMap);
 	}
 	

@@ -19,7 +19,7 @@ import com.myproject.logic.SecondBLogic;
 @RequestMapping("/secondB/*")
 public class SecondBController {
 	Logger logger = LogManager.getLogger(FirstBController.class);
-	List<Map<String,Object>> sbList = null;
+	List<Map<String,Object>> sbList = null; 
 	int result = 0;
 	@Autowired(required=false)
 	SecondBLogic sbLogic;
@@ -145,21 +145,22 @@ public class SecondBController {
 		logger.info("donation_noti_list 호출 성공"+pMap);
 		sbList = sbLogic.donation_noti_list(pMap);
 		mod.addAttribute("rList", sbList);
-		return "forward:/test.jsp";
+		return "sns/donationBoard";
 	}
 	
-	@RequestMapping("/donation_noti_detail.foc")
+	@RequestMapping("/donation_noti_detail.foc") 
 	public String donation_noti_detail(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("donation_noti_detail 호출 성공"+pMap);
 		sbList = sbLogic.donation_noti_detail(pMap);
 		mod.addAttribute("rList", sbList);
-		return "forward:/test.jsp";
+		return "sns/donationBoardDetail";
 	}
 	
 	@RequestMapping("/donation_noti_write.foc")
 	public String donation_noti_write(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("donation_noti_write 호출 성공"+pMap);
 		result = sbLogic.donation_noti_write(pMap);
+		logger.info("sbList"+sbList);
 		mod.addAttribute("rList", sbList);
 		return "forward:/test.jsp";
 	}
@@ -193,7 +194,7 @@ public class SecondBController {
 		logger.info("donation_book 호출 성공"+pMap);
 		result = sbLogic.donation_book(pMap);
 		mod.addAttribute("rList", sbList);
-		return "forward:/test.jsp";
+		return "common/PrintResult";
 	}
 	
 	@RequestMapping("/donation_cancel.foc")
@@ -203,5 +204,11 @@ public class SecondBController {
 		mod.addAttribute("rList", sbList);
 		return "forward:/test.jsp";
 	}
-
+	@RequestMapping("/donation_getTotal.foc")
+	public String donation_getTotal(Model mod, @RequestParam Map<String,Object> pMap) {
+		logger.info("donation_getTotal 호출 성공"+pMap);
+		sbList = sbLogic.donation_getTotal(pMap);
+		mod.addAttribute("rList", sbList);
+		return "/common/JsonPrint";
+	}
 }

@@ -47,4 +47,44 @@
  <delete id="commonB_delete" parameterType="map">
    delete from ANYMERCY.COMMON_BOARD where COM_B_NO = #{com_b_no}
  </delete>
+ 
+ <select id="donation_getTotal" parameterType="map" resultType="map">
+ SELECT 
+    SUM(DON_AMOUNT) AS don_total
+FROM donation
+WHERE DON_NOTI_NO = #{don_noti_no}
+ </select>
+ <select id="donation_select" parameterType="map" resultType="map">
+ SELECT 
+	   CAT_NO, DON_GOAL_AMT, DON_NOTI_CNT, 
+	   DON_NOTI_DATE, DON_NOTI_NO, DON_NOTI_PHOTO1, 
+	   DON_NOTI_TITLE, DON_NOTI_TYPE, 
+	   GROUP_NO
+FROM ANYMERCY.DONATION_NOTI
+	   <if test="don_noti_no!=null">
+    WHERE DON_NOTI_NO = #{don_noti_no}
+    </if>
+ </select>
+ <select id="donation_detail" parameterType="map" resultType="map">
+	SELECT 
+	       D.CAT_NO, D.DON_GOAL_AMT, D.DON_NOTI_CNT, 
+	       D.DON_NOTI_DATE, D.DON_NOTI_NO, D.DON_NOTI_PHOTO1, 
+	       D.DON_NOTI_TITLE, D.DON_NOTI_TYPE, 
+	       D.GROUP_NO, C.CAT_NAME, C.CAT_PHOTO, C.CAT_AGE, C.CAT_LOCAL, C.CAT_CMT
+	FROM ANYMERCY.DONATION_NOTI D, (SELECT CAT_NAME, CAT_NO, CAT_PHOTO, CAT_AGE, CAT_LOCAL, CAT_CMT FROM CAT) C
+	    WHERE D.DON_NOTI_NO = #{don_noti_no}
+	    AND D.CAT_NO = C.CAT_NO
+</select> 
+  <insert id="donation_insert" parameterType="map">
+  	INSERT INTO ANYMERCY.DONATION (
+   DON_AMOUNT, DON_DATE, DON_NO, 
+   DON_NOTI_NO, MEM_NO) 
+VALUES ( 
+				#{don_noti_amount}
+				,to_char(sysdate,'yyyy/mm/dd')
+				,seq_don_no.nextval
+				,#{don_noti_no}
+				,#{mem_no}
+				)
+  </insert>
 </mapper>

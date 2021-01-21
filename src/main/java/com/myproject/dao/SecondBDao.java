@@ -85,12 +85,12 @@ public class SecondBDao {
 ////////////////////////////////[[후원 공고 시작]]////////////////////////////////////////////
 	public List<Map<String, Object>> donation_noti_list(Map<String, Object> pMap) {
 		logger.info("donation_noti_list 호출성공");
-		return sqlSessionTemplate.selectList(" ", pMap);
+		return sqlSessionTemplate.selectList("donation_select", pMap);
 	}
 
 	public List<Map<String, Object>> donation_noti_detail(Map<String, Object> pMap) {
 		logger.info("donation_noti_detail 호출성공");
-		return sqlSessionTemplate.selectList(" ", pMap);
+		return sqlSessionTemplate.selectList("donation_detail", pMap);
 	}
 
 	public int donation_noti_write(Map<String, Object> pMap) {
@@ -105,7 +105,11 @@ public class SecondBDao {
 
 	public int donation_noti_del(Map<String, Object> pMap) {
 		logger.info("donation_noti_del 호출성공");
-		return sqlSessionTemplate.delete(" ", pMap);
+		return sqlSessionTemplate.delete(" ", pMap); 
+	}
+	public List<Map<String, Object>> donation_getTotal(Map<String, Object> pMap) {
+		logger.info("donation_getTotal 호출성공");
+		return sqlSessionTemplate.selectList("donation_getTotal", pMap);
 	}
 ////////////////////////////////[[후원 공고 종료]]////////////////////////////////////////////
 
@@ -117,7 +121,7 @@ public class SecondBDao {
 
 	public int donation_book(Map<String, Object> pMap) {
 		logger.info("donation_book 호출성공");
-		return sqlSessionTemplate.insert(" ", pMap);
+		return sqlSessionTemplate.insert("donation_insert", pMap);
 	}
 
 	public int donation_cancel(Map<String, Object> pMap) {

@@ -84,8 +84,8 @@ public class SecondBLogic {
 	
 	public int common_board_del(Map<String,Object> pMap) {
 		logger.info("common_board_del 호출 성공");
-		return sbDao.common_board_del(pMap);
-	}
+		return sbDao.common_board_del(pMap); 
+	} 
 ////////////////////////////////////////게시판(통합) 종료/////////////////////////////////////
 
 ////////////////////////////////[[후원 공고 시작]]////////////////////////////////////////////
@@ -113,6 +113,11 @@ public class SecondBLogic {
 		logger.info("donation_noti_del 호출 성공");
 		return sbDao.donation_noti_del(pMap);
 	}
+	public List<Map<String, Object>> donation_getTotal(Map<String,Object> pMap) {
+		logger.info("donation_getTotal 호출 성공");
+		return sbDao.donation_getTotal(pMap);
+	}
+
 ////////////////////////////////////////후원 공고 종료 /////////////////////////////////////
 
 ////////////////////////////////////////후원 이력(신청) 시작/////////////////////////////////////	

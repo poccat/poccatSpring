@@ -214,7 +214,7 @@ function postingModal(f_id, photo_id){
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right" style="position:absolute; top:60px; margin-right:5px;">
 						<li><a href="<%=path.toString()%>secondB/common_board_list.foc?com_b_type=0">공지</a></li>
-						<li><a href="#">후원</a>                                       </li>
+						<li><a href="<%=path.toString()%>secondB/donation_noti_list.foc">후원</a>                                 </li>
 						<li><a href="<%=path.toString()%>secondB/common_board_list.foc?com_b_type=3">나눔</a></li>
 						<li><a href="#">신고</a>                                       </li>
             			<li><a href="#">봉사</a>                                       </li>

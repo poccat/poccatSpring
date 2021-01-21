@@ -83,10 +83,16 @@ WHERE fm.friend_no = m.mem_no
 AND fm.mem_no=#{mem_no}
 ORDER BY m.mem_id asc
  </select>
+ 
  <select id="group_mem_mygroup" parameterType="map" resultType="map">
-select d.grp_name, d.grp_no,d.grp_b_name1,d.grp_b_name2,d.grp_b_name3, a.mem_no from grp d
+select d.grp_name, d.grp_no, a.mem_no from grp d
 join grp_mem a on d.grp_no = a.grp_no
 where a.mem_no = #{mem_no}
+ </select>
+ 
+  <select id="get_mem_no" parameterType="map" resultType="int">
+select mem_no from member
+where mem_email = #{mem_email}
  </select>
  
  <select id="group_board_list" parameterType="map" resultType="map">
