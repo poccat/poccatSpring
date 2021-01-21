@@ -1,0 +1,76 @@
+@charset "UTF-8";
+	.table {
+			text-align: center;
+			border:1px;
+			font-size:15px;
+	}
+	.table > thread{
+			text-align: center;
+			border:1px;
+			font-size:15px;
+	}
+	.table > tbody{
+			text-align: center;
+			border:1px;
+			font-size:15px;
+	}
+	.title{
+			margin-bottom:10px;
+			text-align:center;	
+			font-size:30px;	
+	}
+	#comment-layout{
+			padding-top:30px;
+			padding-bottom:30px;
+	}
+	.btn{
+		float:right;
+	}
+	.form-comment{
+		padding-top:30px;
+		padding-bottom:30px;
+	}
+	#detailTitle{
+		padding-left:15px;
+	}
+		.boardButtons{
+		float:right;
+		padding-right : 20px;
+	}
+	.boardButtons_left{
+		float:left;
+		padding-left : 20px;
+	}
+	input[readonly] {
+	    background-color: transparent;
+	    border: 0;
+	    box-shadow: none;
+	}
+	.form-control[readonly].no-gray {
+  		background-color:white;
+	}
+	.profilepanel{
+	}
+	.borderless td, .borderless th {
+    border: none;
+	}
+	.align_left{
+		text-align: left;
+	}
+	.don_profileinfo label{
+	text-align: left;
+	display: block;
+	margin-top: 10px;
+	}
+	.don_profileinfo div{
+	font-size: 20px;
+    font-weight: bold;
+	text-align: left;
+	}
+	.btnDoDonation{
+	text-align: center;
+	margin: 20px 20px;
+	float: left;
+	padding: 0 40%;
+	}
+	

@@ -1,78 +1,157 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map,java.util.HashMap,java.util.Enumeration,java.util.ArrayList,java.lang.*" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-	.table {
-			text-align: center;
-			border:1px;
-			font-size:15px;
-	}
-	.table > thread{
-			text-align: center;
-			border:1px;
-			font-size:15px;
-	}
-	.table > tbody{
-			text-align: center;
-			border:1px;
-			font-size:15px;
-	}
-	.title{
-			margin-bottom:10px;
-			text-align:center;	
-			font-size:30px;	
-	}
-	#comment-layout{
-			padding-top:30px;
-			padding-bottom:30px;
-	}
-	.btn{
-		float:right;
-	}
-	.form-comment{
-		padding-top:30px;
-		padding-bottom:30px;
-	}
-	#detailTitle{
-		padding-left:15px;
-	}
-</style>
+<title>후원게시판상세</title>
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type="application/javascript"></script>
+<link rel="stylesheet" href="../resources/css/board.css">
 <%
-	int bNum = 1; //<- DB에서 가져올때 for문 + map.getValue로 바꿀 것
-	String bTitle = "신*영님께서 간식, 마스크, 구강관리용품 등 후원해주셨습니다~";
-	String bWriter = "관리자";
-	String bDate = "2020-02-20";
-	int bView = 355;
+List<Map<String,Object>> bDetail= new ArrayList<>();
+bDetail = (List<Map<String,Object>>)request.getAttribute("rList");
+Map<String,Object> target = new HashMap<>();
+target = bDetail.get(0);
+Enumeration<String> en = request.getParameterNames();//getParameter로 받아오는 값의 리턴타입은 String이므로 Enumeration의 타입도 String으로 한다.
+ while(en.hasMoreElements()) {//hasMoreElement는 boolean타입 메서드
+   String name = (String) en.nextElement();
+	String[] values = request.getParameterValues(name);		
+	for (String value : values) {
+		target.put(name,value);
+	}
+ }
+ String catNo = target.get("CAT_NO").toString();
+ String catName = target.get("CAT_NAME").toString();
+ String catPhoto = target.get("CAT_PHOTO").toString();
+ String catAge = target.get("CAT_AGE").toString();
+ String catLocal = target.get("CAT_LOCAL").toString();
+ String catCMT = target.get("CAT_CMT").toString();
+ 
+ 	Map<String,Object> donMap = (Map<String,Object>)session.getAttribute("userMap");
+	String nullcheck = (String)donMap.get("mem_name");
+ 
 %>
+<script>
+function isLogined(){
+	if("<%=nullcheck%>" == null){
+		alert("로그인 후 가능합니다");
+	} else{
+		doDonation();
+	} // end of if
+	
+}
+
+function doDonation(){
+	
+	//선택한 금액 가져오기	
+    var price = $("#sel_price").val();
+    
+    //자식창으로 후원금액 input으로 넘기기
+    $("#ip_price").val(price);
+    
+    // 고양이 프로필과 연동 후 이름 받아오기
+    //var catname = catname;
+    
+	BootPay.request({
+		price: price, //실제 결제되는 가격
+		application_id: "6007f31c5b2948001d0b05d3",
+		name: '고양이 후원', //결제창에서 보여질 이름
+		pg: 'payletter',
+		//method: '[[ method ]]', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+		show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
+		items: [
+			{
+				item_name: '나는 아이템', //상품명
+				qty: 1, //수량
+				unique: '123', //해당 상품을 구분짓는 primary key
+				price: 1000 //상품 단가
+			}
+		],
+		user_info: {
+			username: '사용자 이름',
+			email: '사용자 이메일',
+			addr: '사용자 주소',
+			phone: '010-1234-4567'
+		},
+		order_id: '고양이이름', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+		params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
+		account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
+		extra: {
+		    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
+			end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
+	        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
+	        quota: '0,2,3', // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용,
+			theme: 'purple', // [ red, purple(기본), custom ]
+			custom_background: '#00a086', // [ theme가 custom 일 때 background 색상 지정 가능 ]
+			custom_font_color: '#ffffff' // [ theme가 custom 일 때 font color 색상 지정 가능 ]
+		}
+	}).error(function (data) {
+		//결제 진행시 에러가 발생하면 수행됩니다.
+		console.log(data);
+	}).cancel(function (data) {
+		//결제가 취소되면 수행됩니다.
+		console.log(data);
+	}).ready(function (data) {
+		// 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
+		console.log(data);
+	}).confirm(function (data) {
+		//결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
+		//주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+		console.log(data);
+		var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+		if (enable) {
+			BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+		} else {
+			BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+		}
+	}).close(function (data) {
+	    // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
+	    console.log(data);
+//===============================================================[[ 결제 완료시 실행 ]]===================	    
+	}).done(function (data) {
+		//결제가 정상적으로 완료되면 수행됩니다
+		$("#ip_purchased_at").val(data.purchased_at);
+		$("#ip_payment_name").val(data.payment_name);
+		$("#ip_order_id").val(data.order_id);
+		console.log(data);
+		console.log(data.purchased_at);
+		console.log(data.method_name);
+		window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');
+	});// end of bootpay
+}
+
+</script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <script>
-	document.addEventListener("DOMContentLoaded", function(){
-		var tbody = document.getElementById("tbody");
-		tbody.innerHTML =
-		  //for (var i=0; i<bList.length(); i++){
-			                '<tr> <td>'
-			                +"<%=bNum%>"
-			                +'</td> <td>'
-			                +'			      <a href="donationBoardDetail.jsp">                              '
-			                +"<%=bTitle%>"
-			                +'			      </a>                              '
-			                +'</td> <td>'		               
-			                +"<%=bWriter%>"
-			                +'</td> <td>'
-			                +"<%=bDate%>"
-			                +'</td> <td>'
-			                +"<%=bView%>"
-			                +'</td> </tr>'
-			            	;
-	});
+$(document).ready(function(){
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
+	var currentTotal = '';
+	
+	$.ajax({
+		url:'<%=path%>secondB/donation_getTotal.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>'
+	   ,method :'post'
+	   ,dataType : "JSON"
+	   ,success:function(result){
+		   currentTotal = result[0].DON_TOTAL;
+		   var goalAmount =  '<%=target.get("DON_GOAL_AMT")%>';
+			//$("#dona_progress").attr("aria-valuenow", currentTotal*100/goalAmount);
+			$("#dona_progress").css("width", currentTotal*100/goalAmount+'%');
+			$("#dona_progress").text(currentTotal*100/goalAmount + '%');
+		   console.log("현재 모금액은 ===> " + currentTotal); 
+		   console.log("현재 달성율은 ===> " + currentTotal*100/goalAmount+'%');
+	   }
+	   ,error:function(e){
+		   		   alert("실패" + e.toString() + '<%=path%>secondB/donation_getTotal.foc');
+	   }
+		}); // end of ajax
+	
+	});
+	
+
 	
 </script>
 <div class="container-fluid">
@@ -90,8 +169,8 @@
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-1">
-										<div class="button">
-										<button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">
+										<div class="button boardButtons">
+										<button type="button" class="btn btn-primary" onclick="location.href='#'">
 										<span class="glyphicon glyphicon-chevron-left"></span>
 										 이전 글
 										</button>
@@ -99,7 +178,7 @@
 								</div>
 								<div class="col-md-1">
 										<div class="button">
-										<button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">
+										<button type="button" class="btn btn-primary" onclick="location.href='#'">
 										<span class="glyphicon glyphicon-chevron-right"></span>
 										다음 글
 										</button>
@@ -110,13 +189,12 @@
 			<h1 class="title" >후원 글 상세보기</h1>
 				<div id="detailTitle">
 				<div class="col-md-12">
-					<h4>신*영님께서 간식, 마스크, 구강관리용품 등 후원해주셨습니다~
+					<h4><%=target.get("DON_NOTI_CNT")%>
 					<small>(5)</small><!-- 댓글 수 -->
 					</h4>
 					  <ul class="list-inline">
-					    <li>관리자</li>
-					    <li>2020-02-20</li>
-					    <li>355</li>
+					    <li><%=target.get("DON_NOTI_CNT")%></li>
+					    <li><%=target.get("DON_NOTI_DATE")%></li>
 					  </ul>
 				<hr></hr>
 				</div>
@@ -125,24 +203,84 @@
 				</div>
 				<div class="col-md-12">
 <div contentEditable="true">
-    <img src="./img/123.jpg" />
+    <img src="" />
 </div>
-<textarea class="form-control" rows="25" name="text-box" readonly="readonly" style="cursor:auto">
-* 후원일: 2월 20일
-* 후원품: 간식, 마스크, 구강관리용품 등
+
+<!-- ==========================[[ 고양이 프로필 ]]====================================== -->
+<div class="panel panel-default profilepanel">
+		<table class="table borderless">
+			<colgroup>
+			<col style="width:40%;">
+			<col style="width:60%;">
+			</colgroup>
+			<tr>
+					<!-- 사진이 들어감  -->
+					<td>
+					  <div class="img-thumbnail"> 
+								<div id="wrapper_div" class="align_left">
+				                    <a href="<%=path%>/cat/cat_search.foc?cat_no=<%=catNo%>">
+				                    <img id="post_photo"  class="img-cropped" src="<%=path%><%=catPhoto%>"alt=""></a>
+                    			</div>	
+                    </div>
+					</td>			
+					<!-- 고양이 정보가 들어감 -->
+					<td>
+						<div class="don_profileinfo">
+						<label for="don_cat_name">이름:</label>
+                                    <div id="don_cat_name"><a id="nick_name" href=""><%=catName%></a></div>
+						<label for="don_local">지역:</label>
+                                    <div id="don_local"><%=catLocal%></div>
+						<label for="don_age">나이:</label>
+                                    <div id="don_age"><%=catAge%></div>
+                                    <hr>
+									<h2>
+									"<%=catCMT%>"
+									</h2>
+						</div>
+					</td>			
+			</tr>
+		</table>
+</div><!-- profilepanel -->
+<!-- ==========================[[ 고양이 프로필 ]]====================================== -->
+
+<!-- ==========================[[ 달성율 ]]====================================== -->
+목표금액 : <%=target.get("DON_GOAL_AMT")%>
+<div class="progress">
+  <div id="dona_progress" class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+    40%
+  </div>
+</div>
+<!-- ==========================[[ 달성율 ]]====================================== -->
+
+<!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
+
+      <label for="sel1">후원 금액</label>
+      <select class="form-control" id="sel_price">
+        <option>1000</option>
+        <option>5000</option>
+        <option>10000</option>
+        <option>30000</option>
+        <option>50000</option>
+      </select>
+      <div class="btnDoDonation">
+		<button id="btn_donation" type="button" class="btn btn-primary" onClick="isLogined()"> 후원하기 </button>
+      </div>
 
 
+	<input type="hidden" id="don_mem_no" name="mem_no" value="<%=mem_no%>"/>
+	<input type="hidden" id="ip_don_noti_no"  name="don_noti_no" value="<%=target.get("DON_NOTI_NO")%>" />
+	<input type="hidden" id="ip_price"  name="ip_price"  />
+	<input type="hidden" id="ip_payment_name"  name="ip_payment_name"  />
+	<input type="hidden" id="ip_purchased_at"  name="ip_purchased_at"  />
+	<input type="hidden" id="ip_order_id"  name="ip_order_id"  />
+<!-- <button onclick="window.open('../../../donation_do.jsp','후원 결제창','width=430,height=500,location=no,status=no,scrollbars=yes');">
+후원하기</button> -->
 
+<!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
 
-신*영님께서 간식, 마스크, 구강관리용품 후원해주셨습니다~
-
-보내주신 후원물품, 아이들을 위해 감사히 사용하겠습니다.
-
-(아이들용품뿐만 아니라 활동가들을 위해 보내주신 마스크 또한 감사히 사용하겠습니다)
-
- 
-
-다시 한번 후원해주셔서 감사합니다. ^^
+<textarea class="form-control no-gray" rows="25" name="text-box" readonly="readonly" style="cursor:auto">
+<%=target.get("DON_NOTI_CNT")%>
 </textarea>
 				</div>
 			<hr></hr>
@@ -162,14 +300,14 @@
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-revise" type="button" class="btn btn-outline-secondary">
+									<button id="page-revise" type="button" class="btn btn-primary">
 									 수정
 									</button>
 									</div>	
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-delete" type="button" class="btn btn-outline-secondary">
+									<button id="page-delete" type="button" class="btn btn-primary">
 									삭제
 									</button>
 									</div>	
@@ -184,74 +322,7 @@
 						</div>
 					</div>
 				</div>
-					<table class="table table-sm">
-					    <thead>
-					      <tr>
-					        <th class="text-center">번호</th>
-					        <th class="text-center">제목</th>
-					        <th class="text-center">작성자</th>
-					        <th class="text-center">작성일</th>
-					        <th class="text-center">조회수</th>
-					      </tr>
-					    </thead>
-					    <tbody id="tbody">
-							<!-- 자바스크립트 for문으로 내용들어감-->
-					    </tbody>
-					</table>
 					<hr></hr>
-					<div class="row">
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-auto">
-							<nav class="pagination">
-								<ul class="pagination">
-									<li class="page-item disabled">
-										<a class="page-link" href="#">이전 페이지</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">1</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">2</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">3</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">4</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">5</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">다음 페이지</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-						<div class="col-md-1">
-						</div>
-					</div>
-							<div class="row">
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-1">
-							<div>
-									<button type="button" class="btn btn-outline-secondary" onclick="location.href='nanumBoard.jsp'">
-									 등록
-									</button>
-							</div>	
-								</div>
-								<div class="col-md-1">
-							<div>
 									<button type="button" class="btn btn-outline-secondary" onclick="location.href='#top-page'">
 									<span class="glyphicon glyphicon-chevron-up"></span>
 									TOP
@@ -261,8 +332,5 @@
 							</div>
 					</div>
 			</div>
-		</div>
-	</div>
-	</div>
 </body>
 </html>

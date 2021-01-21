@@ -1,18 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map, java.util.HashMap" %>  
-<%
-/* 	String mem_name = null;
-	String mem_no = null;
-	String mem_id = null;
-	Map<String,Object> userMap = new HashMap<>();
-		if(session.getAttribute("userMap")!=null){
-				userMap = (Map<String,Object>)session.getAttribute("userMap");
-				mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
-				mem_no = (String)userMap.get("mem_no");
-				mem_id = (String)userMap.get("mem_id");
-		} */
-%>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map,java.util.HashMap,java.util.Enumeration,java.util.ArrayList,java.lang.*" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>후원게시판상세</title>
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type="application/javascript"></script>
 <style type="text/css">
 	.table {
 			text-align: center;
@@ -40,36 +42,42 @@
 	#detailTitle{
 		padding-left:15px;
 	}
+		.boardButtons{
+		float:right;
+		padding-right : 20px;
+	}
+	.boardButtons_left{
+		float:left;
+		padding-left : 20px;
+	}
+	input[readonly] {
+	    background-color: transparent;
+	    border: 0;
+	    box-shadow: none;
+	}
+	.form-control[readonly].no-gray {
+  		background-color:white;
+	}
 </style>
 <%
-	int bNum = 2; //<- DB에서 가져올때 for문 + map.getValue로 바꿀 것
-	String bTitle = "XX카페 앞 고양이 후원";
-	String bWriter = "관리자";
-	String bDate = "2020-02-20";
-	int bView = 355;
+List<Map<String,Object>> bDetail= new ArrayList<>();
+bDetail = (List<Map<String,Object>>)request.getAttribute("rList");
+Map<String,Object> target = new HashMap<>();
+target = bDetail.get(0);
+Enumeration<String> en = request.getParameterNames();//getParameter로 받아오는 값의 리턴타입은 String이므로 Enumeration의 타입도 String으로 한다.
+ while(en.hasMoreElements()) {//hasMoreElement는 boolean타입 메서드
+   String name = (String) en.nextElement();
+	String[] values = request.getParameterValues(name);		
+	for (String value : values) {
+		target.put(name,value);
+	}
+ }
 %>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <script>
 	document.addEventListener("DOMContentLoaded", function(){
-		var tbody = document.getElementById("tbody");
-		tbody.innerHTML =
-		  //for (var i=0; i<bList.length(); i++){
-			                '<tr> <td>'
-			                +"<%=bNum%>"
-			                +'</td> <td>'
-			                +'			      <a href="donationBoardDetail2.jsp">                              '
-			                +"<%=bTitle%>"
-			                +'			      </a>                              '
-			                +'</td> <td>'		               
-			                +"<%=bWriter%>"
-			                +'</td> <td>'
-			                +"<%=bDate%>"
-			                +'</td> <td>'
-			                +"<%=bView%>"
-			                +'</td> </tr>'
-			            	;
 	});
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
@@ -90,8 +98,8 @@
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-1">
-										<div class="button">
-										<button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">
+										<div class="button boardButtons">
+										<button type="button" class="btn btn-primary" onclick="location.href='#'">
 										<span class="glyphicon glyphicon-chevron-left"></span>
 										 이전 글
 										</button>
@@ -99,7 +107,7 @@
 								</div>
 								<div class="col-md-1">
 										<div class="button">
-										<button type="button" class="btn btn-outline-secondary" onclick="location.href='#'">
+										<button type="button" class="btn btn-primary" onclick="location.href='#'">
 										<span class="glyphicon glyphicon-chevron-right"></span>
 										다음 글
 										</button>
@@ -110,40 +118,50 @@
 			<h1 class="title" >후원 글 상세보기</h1>
 				<div id="detailTitle">
 				<div class="col-md-12">
-					<h4>XX카페 앞 고양이 후원
+					<h4><%=target.get("DON_NOTI_CNT")%>
 					<small>(5)</small><!-- 댓글 수 -->
 					</h4>
 					  <ul class="list-inline">
-					    <li>관리자</li>
-					    <li>2020-02-20</li>
-					    <li>355</li>
+					    <li><%=target.get("DON_NOTI_CNT")%></li>
+					    <li><%=target.get("DON_NOTI_DATE")%></li>
 					  </ul>
 				<hr></hr>
 				</div>
-			<!-- =========================[[  후원 달성율 시작]]=============================== -->
-								<div class="col-md-12">
-										<p>후원금액 : 60,000KRW</p>
-									<div class="progress" style="width: 100%;">
-									  <div class="progress-bar progress-bar-striped active" role="progressbar"
-									  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-									    50%
-									  </div>
-									</div>
-								</div>
-			<!-- =========================[[  후원 달성율 끝]]=============================== -->
 				<div class="col-md-12">
 					<!-- 반복문 받아오기 -->
 				</div>
 				<div class="col-md-12">
 <div contentEditable="true">
-    <img src="./img/4.jpg" />
+    <img src="" />
 </div>
-<textarea class="form-control" rows="25" name="text-box" readonly="readonly" style="cursor:auto">
-* 이 글은 신*영님께서 신청한 글입니다.
+<!-- ==========================[[ 달성율 ]]====================================== -->
+<div class="progress">
+  <div class="progress-bar progress-bar-striped active" role="progressbar"
+  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+    40%
+  </div>
+</div>
+<!-- ==========================[[ 달성율 ]]====================================== -->
 
-XX카페 앞 고양이 오다가며 간식을 주고 있는데 한파가 심해서 이불이 필요해요.
+<!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
+	<!-- <button id="btn_donation" type="button" class="btn btn-primary" onClick="do_donation()"> 후원하기 </button> -->
+<!-- 	<button onclick="window.open('../../../donation_do.jsp','후원 결제창','width=430,height=500,location=no,status=no,scrollbars=yes');">후원하기</button> -->
+    	<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"
+    	     data-client-id="u86j4ripEt8LRfPGzQ8"
+		    data-mode="production"
+		    data-merchant-user-key="아이디"
+		    data-merchant-pay-key="가맹점 주문 번호"
+		    data-product-name="후원"
+		    data-total-pay-amount="1000"
+		    data-tax-scope-amount="1000"
+		    data-tax-ex-scope-amount="0"
+    	    data-return-url='../../../donationResult.jsp'>
+    	</script>
 
-후원 부탁드려요.
+<!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
+
+<textarea class="form-control no-gray" rows="25" name="text-box" readonly="readonly" style="cursor:auto">
+<%=target.get("DON_NOTI_CNT")%>
 </textarea>
 				</div>
 			<hr></hr>
@@ -151,7 +169,6 @@ XX카페 앞 고양이 오다가며 간식을 주고 있는데 한파가 심해�
 					<div class="row">
 						<div class="col-md-12" id="comment-layout">
 							<div class="row">
-
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-2">
@@ -161,22 +178,17 @@ XX카페 앞 고양이 오다가며 간식을 주고 있는데 한파가 심해�
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-2">
-									<div>
-									<button id="page-delete" type="button" class="btn btn-outline-secondary">
-									후원하기
-									</button>
-									</div>
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-revise" type="button" class="btn btn-outline-secondary">
+									<button id="page-revise" type="button" class="btn btn-primary">
 									 수정
 									</button>
 									</div>	
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-delete" type="button" class="btn btn-outline-secondary">
+									<button id="page-delete" type="button" class="btn btn-primary">
 									삭제
 									</button>
 									</div>	
@@ -191,74 +203,7 @@ XX카페 앞 고양이 오다가며 간식을 주고 있는데 한파가 심해�
 						</div>
 					</div>
 				</div>
-					<table class="table table-sm">
-					    <thead>
-					      <tr>
-					        <th class="text-center">번호</th>
-					        <th class="text-center">제목</th>
-					        <th class="text-center">작성자</th>
-					        <th class="text-center">작성일</th>
-					        <th class="text-center">조회수</th>
-					      </tr>
-					    </thead>
-					    <tbody id="tbody">
-							<!-- 자바스크립트 for문으로 내용들어감-->
-					    </tbody>
-					</table>
 					<hr></hr>
-					<div class="row">
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-auto">
-							<nav class="pagination">
-								<ul class="pagination">
-									<li class="page-item disabled">
-										<a class="page-link" href="#">이전 페이지</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">1</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">2</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">3</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">4</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">5</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">다음 페이지</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-						<div class="col-md-1">
-						</div>
-					</div>
-							<div class="row">
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-1">
-							<div>
-									<button type="button" class="btn btn-outline-secondary" onclick="location.href='nanumBoard.jsp'">
-									 등록
-									</button>
-							</div>	
-								</div>
-								<div class="col-md-1">
-							<div>
 									<button type="button" class="btn btn-outline-secondary" onclick="location.href='#top-page'">
 									<span class="glyphicon glyphicon-chevron-up"></span>
 									TOP
@@ -268,7 +213,5 @@ XX카페 앞 고양이 오다가며 간식을 주고 있는데 한파가 심해�
 							</div>
 					</div>
 			</div>
-		</div>
-	</div>
 </body>
 </html>

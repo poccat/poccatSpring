@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="java.util.Map,java.util.HashMap,java.util.List,java.util.ArrayList,java.lang.*" %>
+<%
+	List<Map<String,Object>> BoardList= null;
+	BoardList = (List<Map<String,Object>>)request.getAttribute("rList");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>나눔게시판</title>
+<title>후원 게시판</title>
 <style type="text/css">	
 	.container {
 	margin-top:50px;
@@ -26,34 +31,10 @@
     justify-content: flex-start;
 	}
 </style>
-<%
-	int bNum = 1; //<- DB에서 가져올때 for문 + map.getValue로 바꿀 것
-	String bTitle = "신*영님께서 간식, 마스크, 구강관리용품 등 후원해주셨습니다~";
-	String bWriter = "관리자";
-	String bDate = "2020-02-20";
-	int bView = 355;
-%>
 </head>
 <body>
 <script>
   document.addEventListener("DOMContentLoaded", function(){
-	  var tbody = document.getElementById("tbody");
-	  tbody.innerHTML =
-		  //for (var i=0; i<bList.length(); i++){
-			                '<tr> <td>'
-			                +"<%=bNum%>"
-			                +'</td> <td>'
-			                +'			      <a href="donationBoardDetail.jsp">                              '
-			                +"<%=bTitle%>"
-			                +'			      </a>                              '
-			                +'</td> <td>'		               
-			                +"<%=bWriter%>"
-			                +'</td> <td>'
-			                +"<%=bDate%>"
-			                +'</td> <td>'
-			                +"<%=bView%>"
-			                +'</td> </tr>'
-			            	;
 	});
 </script>
 <%@ include file="header.jsp" %>
@@ -72,7 +53,27 @@
       </tr>
     </thead>
 		<tbody id="tbody">
-			<!-- 자바스크립트 for문으로 내용들어감-->
+			<%
+				if(BoardList != null && BoardList.get(0).get("DON_NOTI_TITLE")!=null) {
+					for(int i=0; i<BoardList.size(); i++)
+					{  %>
+							<tr>
+								<td><%= i+1%></td>
+								<td>
+								<a href="/secondB/donation_noti_detail.foc?don_noti_no=<%=Integer.parseInt(String.valueOf(BoardList.get(0).get("DON_NOTI_NO")))%>">
+								<%= (String)BoardList.get(i).get("DON_NOTI_TITLE")%></a>
+								</td>
+								<td><%=(String)BoardList.get(i).get("DON_NOTI_TYPE")%></td>
+								<td><%= (String)BoardList.get(i).get("DON_NOTI_DATE")%></td>
+								<td>0</td>
+							</tr>      
+					<% }
+				}
+				else { %>
+					<tr>
+						<td colspan="5">존재하는 게시글이 없습니다.</td>
+					</tr>
+				<% } %>
 		</tbody>
   </table>
   </div>

@@ -43,7 +43,7 @@ public class MemberController  {
 	public String member_login(Model mod, @RequestParam Map<String,Object> pMap
 			,HttpServletRequest req) {
 		logger.info("member_login 호출 성공"+pMap);
-		memList = memLogic.member_login(pMap);
+		memList = memLogic.member_login(pMap); 
 		pMap.clear();
 		pMap=memList.get(0);
 		HttpSession session = req.getSession();
