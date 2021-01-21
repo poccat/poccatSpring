@@ -2,6 +2,7 @@ package com.myproject.firebase;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 
@@ -24,8 +25,9 @@ public class FirebaseInitializer {
 	public static FirebaseApp firebaseApp;
 	
 	public FirebaseInitializer() throws IOException {
-		FileInputStream serviceAccount =
-				  new FileInputStream("C:\\Users\\kosmo_02\\Desktop\\project\\Project\\poccatSpring\\forcat-ef482-firebase-adminsdk-6th64-0186a5d482.json");	
+		InputStream serviceAccount = this.getClass().getClassLoader()
+				.getResourceAsStream("forcat-ef482-firebase-adminsdk-6th64-0186a5d482.json");
+				  
 		FirebaseOptions options =  FirebaseOptions.builder()
 				  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
 				  .setDatabaseUrl("https://forcat-ef482-default-rtdb.firebaseio.com")
