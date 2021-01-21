@@ -3,15 +3,18 @@
 <%@ include file="/resources/common/bootstrap_common.jsp" %>
 <%
 
-String mem_name = null;
-String mem_no = null;
-String mem_id = null;
+String mem_name ="";
+String mem_no = "";
+String mem_email = "";
+String token = "";
+String mem_uid="";
 Map<String,Object> userMap = new HashMap<>();
 	if(session.getAttribute("userMap")!=null){
 			userMap = (Map<String,Object>)session.getAttribute("userMap");
 			mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
 			mem_no = (String)userMap.get("mem_no");
-			mem_id = (String)userMap.get("mem_id");
+			mem_uid = (String)userMap.get("mem_uid");
+			mem_email = (String)userMap.get("mem_email");
 	}
 
 %>

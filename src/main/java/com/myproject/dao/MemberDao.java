@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberDao {
+	
+	
 	Logger logger = LogManager.getLogger(MemberDao.class);
 	@Autowired(required=false)
 	private SqlSessionTemplate sqlSessionTemplate;
@@ -25,10 +27,12 @@ public class MemberDao {
 		memList = new ArrayList<>();
 		Map<String,Object> rLoginMap = new HashMap<>();
 			sqlSessionTemplate.selectOne("proc_Login",pMap);
-			logger.info("로그인 성공? 이름 : "+pMap.get("msg"));
+			logger.info("로그인 성공? : "+pMap.get("msg"));
+			logger.info(pMap);
 			rLoginMap.put("mem_name",pMap.get("msg"));
-			rLoginMap.put("mem_id",pMap.get("r_memID"));
+			rLoginMap.put("mem_email",pMap.get("r_memEmail"));
 			rLoginMap.put("mem_no",pMap.get("r_memNum"));
+			rLoginMap.put("mem_uid",pMap.get("r_memUid"));
 			memList.add(rLoginMap);
 		return memList;
 	}

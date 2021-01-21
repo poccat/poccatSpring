@@ -1,6 +1,7 @@
 package com.myproject.pocat;
 
 import java.util.List;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.myproject.logic.CatLogic;
 import com.myproject.logic.FirstBLogic;
 import com.myproject.logic.MemberLogic;
+import com.google.firebase.auth.UserRecord;
+import com.myproject.firebase.FirebaseDB;
+import com.myproject.firebase.FirebaseUser;
 
 
 
@@ -38,14 +42,24 @@ public class MemberController  {
 	CatLogic catLogic;
 	@Autowired(required=false)
 	FirstBLogic fbLogic;
+	@Autowired
+	FirebaseUser firebaseUser;
+	@Autowired
+	FirebaseDB db;
+	
+	UserRecord userRecord;
 	
 	@RequestMapping("/member_login.foc")
 	public String member_login(Model mod, @RequestParam Map<String,Object> pMap
 			,HttpServletRequest req) {
 		logger.info("member_login 호출 성공"+pMap);
 		memList = memLogic.member_login(pMap);
+		logger.info(pMap);
 		pMap.clear();
 		pMap=memList.get(0);
+		String token ="";
+		token =firebaseUser.createToken(pMap.get("mem_uid").toString());
+		pMap.put("token",token);
 		HttpSession session = req.getSession();
 		session.setAttribute("userMap", pMap);
 		logger.info("MemberController 세션 setAttribute===>"+pMap);
@@ -82,9 +96,27 @@ public class MemberController  {
 	
 	@RequestMapping("/member_join.foc")
 	public String member_join(Model mod, @RequestParam Map<String,Object> pMap) {
+		logger.info(pMap);
+		logger.info(firebaseUser+"firebaseUser");
 		logger.info("member_join 호출 성공"+pMap);
+        //파이어베이스 회원가입
+		userRecord =firebaseUser.signUPFirebase(pMap);
+		logger.info(userRecord.getUid());
+		//파이어베이스 회원가입 성공하면
+		if(userRecord.getUid() != null && userRecord.getUid().length() >0) {
+		//파이어베이스 성공한 회원의 uid를 가져와서
+		pMap.put("uid",userRecord.getUid());
+		//오라클에 회원가입 하면서 파이어베이스 uid오라클에 인서트
 		result = memLogic.member_join(pMap);
-		return "forward:/test.jsp";
+		logger.info("결과 : "+result);
+		}
+		if(result==1) {
+			//오라클 회원가입성공하면 파이어베이스 DB에 회원정보 넣기
+			//끝 이제 로그
+			db.signUpDB(userRecord);
+		}
+		mod.addAttribute("result", result);
+		return "test";
 	}
 	@RequestMapping("/member_modi.foc")
 	public String member_modi(Model mod, @RequestParam Map<String,Object> pMap) {

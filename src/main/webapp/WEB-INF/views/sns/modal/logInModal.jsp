@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map, java.util.HashMap" %>  
 <%
-/* 	String mem_name = null;
+/*
+	String mem_name = null;
 	String mem_no = null;
 	String mem_id = null;
 	Map<String,Object> userMap = new HashMap<>();
@@ -11,7 +12,8 @@
 				mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
 				mem_no = (String)userMap.get("mem_no");
 				mem_id = (String)userMap.get("mem_id");
-		} */
+		}
+		*/
 %>
 <!DOCTYPE html>
 <html>
@@ -32,8 +34,11 @@
 		   ,data : $("#loginForm").serialize()
 		   ,dataType : "json"
 		   ,success:function(data){
+			   
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
+
 					location.href="<%=path%>loginsub.jsp"
+						
 					}
 				else {
 					alert(data[0].mem_name);
@@ -62,7 +67,7 @@
 	}
 	function writeModal(){
 		var mem_no = "<%=mem_no%>";
-		var mem_id = "<%=mem_id%>";
+		var mem_email = "<%=mem_email%>";
 		console.log("writeModal에서 mem_id==>"+mem_id);
 			if(mem_no>0 && mem_no!=null){
 				$("#writeModal").modal('show');
@@ -76,9 +81,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 		// 세션 확인
-			var mem_id = "<%=mem_id%>";
+			var mem_email = "<%=mem_email%>";
 			var mem_no = "<%=mem_no%>";
-			console.log("mem_id===>" + mem_id);
+			console.log("mem_email===>" + mem_email);
 			//로그인 할 때
 		if(mem_no>0 && mem_no!=null){
 				// 화면에 로그아웃 버튼이 그려짐	
@@ -111,8 +116,8 @@ $(document).ready(function(){
 	        <div class="modal-body" style="padding:40px 50px;">
 	          <form id="loginForm" role="form" >
 	            <div class="form-group">
-	              <label for="mem_id"><span class="glyphicon glyphicon-user"></span> 아이디</label>
-	              <input type="text" class="form-control" id="mem_id" name="mem_id"  value="1znqc5">
+	              <label for="mem_id"><span class="glyphicon glyphicon-user"></span> 이메일</label>
+	              <input type="text" class="form-control" id="mem_email" name="mem_email"  value="1znqc5">
 	            </div>
 	            <div class="form-group">
 	              <label for="mem_pw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호</label>
