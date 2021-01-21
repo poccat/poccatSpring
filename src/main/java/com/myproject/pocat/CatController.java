@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myproject.logic.CatLogic;
 import com.myproject.logic.FirstBLogic;
@@ -32,11 +33,9 @@ public class CatController{
 	
 	
 	@RequestMapping("/cat_search_ajax.foc")
-	public String cat_search_ajax(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> cat_search_ajax( @RequestParam Map<String,Object> pMap) {
 		logger.info("cat_search_ajax 호출 성공"+pMap);
-		catList = catLogic.cat_search(pMap);
-		mod.addAttribute("rList", catList);
-		return "common/JsonPrint";
+		return catLogic.cat_search(pMap);
 	}
 	
 	@RequestMapping("/cat_search.foc")

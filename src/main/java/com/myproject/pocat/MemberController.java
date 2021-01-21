@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myproject.logic.CatLogic;
 import com.myproject.logic.FirstBLogic;
@@ -50,7 +51,7 @@ public class MemberController  {
 	UserRecord userRecord;
 	
 	@RequestMapping("/member_login.foc")
-	public String member_login(Model mod, @RequestParam Map<String,Object> pMap
+	public @ResponseBody List<Map<String,Object>> member_login(@RequestParam Map<String,Object> pMap
 			,HttpServletRequest req) {
 		logger.info("member_login 호출 성공"+pMap);
 		memList = memLogic.member_login(pMap);
@@ -64,9 +65,8 @@ public class MemberController  {
 		session.setAttribute("userMap", pMap);
 		logger.info("MemberController 세션 setAttribute===>"+pMap);
 		isSession = true;
-		mod.addAttribute("rList", memList);
 		//세션에 값을 저장하므로 요청이 유지 되지 않아도 된다.
-		return "common/JsonPrint";
+		return memList;
 	}
 	@RequestMapping("/member_id_check.foc")
 	public String member_id_check(Model mod, @RequestParam Map<String,Object> pMap) {
@@ -175,11 +175,9 @@ public class MemberController  {
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/group_mem_mygroup.foc")
-	public String group_mem_mygroup(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> group_mem_mygroup(@RequestParam Map<String,Object> pMap) {
 		logger.info("group_mem_mygroup 호출 성공"+pMap);
-		memList = memLogic.group_mem_mygroup(pMap);
-		mod.addAttribute("rList", memList);
-		return "common/JsonPrint";
+		return memLogic.group_mem_mygroup(pMap);
 	}
 	@RequestMapping("/group_mem_list.foc")
 	public String group_mem_list(Model mod, @RequestParam Map<String,Object> pMap) {
@@ -201,11 +199,9 @@ public class MemberController  {
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/group_board_list.foc")
-	public String group_board_list(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> group_board_list(@RequestParam Map<String,Object> pMap) {
 		logger.info("group_board_list 호출 성공"+pMap);
-		memList = memLogic.group_board_list(pMap);
-		mod.addAttribute("rList", memList);
-		return "common/JsonPrint";
+		return memLogic.group_board_list(pMap);
 	}
 	@RequestMapping("/group_board_detail.foc")
 	public String group_board_detail(Model mod, @RequestParam Map<String,Object> pMap) {

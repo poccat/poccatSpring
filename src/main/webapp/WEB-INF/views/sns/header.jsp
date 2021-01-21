@@ -84,6 +84,7 @@ var deleteCookie = function(name) {
 
 function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 delete좋아요
 	var f_id =getCookie("f_id");
+	console.log("insert"+f_id);
 	$('#'+f_id+' [name=chk]').val("");
 	$('#'+f_id+' [name=chk]').val(chk);
 /* 	$('#'+f_id+' [name=chk]').append($('<input type="hidden" name="chk" value="'+chk+'"/>')); */
@@ -91,39 +92,26 @@ function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 dele
 		url:'<%=path%>firstB/insert_or_del_like.foc'
 	   ,data : $('#'+f_id).serialize()
 	   ,method :'post'
-	   ,dataType : "text"
-	   ,success:reload_like_cnt() // 좋아요 갯수 다시 불러오는 함수
+	   ,dataType : "json"
+	   ,success:function(data){
+			   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
+			   if(data[0].LIKE_CHECK==1){
+				   $(".sprite_heart_icon_outline").attr("style","display:none;");
+				   $(".sprite_heart_icon_red").attr("style","display:inline-block;");
+			   }else if(data[0].LIKE_CHECK==0){
+				   $(".sprite_heart_icon_outline").attr("style","display:inline-block;");
+				   $(".sprite_heart_icon_red").attr("style","display:none;");
+				}	
+		   }
 	   ,error:function(e){
 		   if ("<%=session.getAttribute("userMap")%>" ==null){
 		   		   alert("로그인해주세요");
-		   } 
+		   }
 	   }
-		}); // end of ajax
+	});//end of ajax
+	   
 }
 
-function reload_like_cnt(){// 좋아요 갯수 다시 불러오기
-	console.log("reload_like_cnt호출");
-	var f_id =getCookie("f_id");
-	$.ajax({
-		url:'<%=path%>cat/cat_search_ajax.foc'
-	   ,data : $('#'+f_id).serialize()
-	   ,method :'post'
-	   ,dataType : "json"
-	   ,success:function(data){
-		   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
-		   if(data[0].LIKE_CHECK==1){
-			   $(".sprite_heart_icon_outline").attr("style","display:none;");
-			   $(".sprite_heart_icon_red").attr("style","display:inline-block;");
-		   }else if(data[0].LIKE_CHECK==0||<%=mem_no%>=="no_login"){
-			   $(".sprite_heart_icon_outline").attr("style","display:inline-block;");
-			   $(".sprite_heart_icon_red").attr("style","display:none;");
-			}	
-	   }
-	   ,error:function(e){
-		   alert(e.responseText);
-	   }
-		}); // end of ajax
-}
 
 function postingModal(f_id, photo_id){
 

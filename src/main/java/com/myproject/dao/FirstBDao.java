@@ -78,7 +78,7 @@ public class FirstBDao {
 	
 	public int insert_or_del_like(Map<String, Object> pMap) {
 		logger.info("insert_or_del_like 호출성공"+pMap);
-			if(pMap.get("chk").equals("0")) {
+			if(pMap.get("chk").equals("1")) {
 				logger.info("좋아요취소");
 				return sqlSessionTemplate.delete("del_post_like",pMap);
 			}

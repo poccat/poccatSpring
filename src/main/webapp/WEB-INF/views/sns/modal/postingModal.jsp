@@ -60,8 +60,8 @@
                         <div class="bottom_icons">
                             <div class="left_icons">
                                 <div class="heart_btn">
-                                    <div class="sprite_heart_icon_outline" data-name="heartbeat" onclick="javascript:insert_or_del_like(1)"></div>
-                                    <div class="sprite_heart_icon_red" style="display:none;" data-name="heartbeat" onclick="javascript:insert_or_del_like(0)"></div>
+                                    <div class="sprite_heart_icon_outline" data-name="heartbeat" onclick="javascript:insert_or_del_like(0)"></div>
+                                    <div class="sprite_heart_icon_red" style="display:none;" data-name="heartbeat" onclick="javascript:insert_or_del_like(1)"></div>
                                 </div>
                                 <div>
                                     <div class="sprite_share_icon" data-name="share"></div>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myproject.logic.FirstBLogic;
 
@@ -127,17 +128,14 @@ public class FirstBController {
 		return "forward:/test.jsp";// 
 	}
 	@RequestMapping("/insert_or_del_like.foc")
-	public String insert_or_del_like(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> insert_or_del_like(@RequestParam Map<String,Object> pMap) {
 		logger.info("insert_or_del_like 호출 성공"+pMap);
-		result = fbLogic.insert_or_del_like(pMap);
-		return "forward:/test.jsp";//아작스로 처리 리턴타입 보이드 가능?
+		return fbLogic.insert_or_del_like(pMap);
 	}
 	@RequestMapping("/posting_cmt_list.foc")
-	public String posting_cmt_list(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> posting_cmt_list(@RequestParam Map<String,Object> pMap) {
 		logger.info("posting_cmt_list 호출 성공"+pMap);
-		fbList = fbLogic.posting_cmt_list(pMap);
-		mod.addAttribute("rList", fbList);
-		return "/common/JsonPrint";
+		return fbLogic.posting_cmt_list(pMap);
 	}
 	
 	
