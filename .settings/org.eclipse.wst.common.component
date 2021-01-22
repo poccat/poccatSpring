@@ -25,7 +25,9 @@
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
                         		
-        
+        <dependent-module archiveName="firebase-admin-7.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/firebase-admin-java/firebase-admin-java">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         
         <property name="java-output-path" value="target/classes"/>
                                 
