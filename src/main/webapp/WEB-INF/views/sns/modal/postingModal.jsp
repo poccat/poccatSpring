@@ -9,7 +9,9 @@
 <style type="text/css">
  
 </style>
+<script type="text/javascript">
 
+</script>
 </head>
 <body>
 <div class="modal fade" id="postingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -49,6 +51,15 @@
                                     <div class="country">Seoul, South Korea</div>
                                 </div>
                             </div>
+                            <div class="user_container" style="float:right;">
+                                <div class="profile_img">
+                                    <img id="post_profile_user" src="<%=path %>resources/common/pds/cat_01.jpg" alt="">
+                                </div>
+                                <div class="user_name">
+                                    <span>작성자</span><div class="nick_name"><a id="post_mem_id" >유저1</a></div>
+                                    <!--유저id눌렀을때 세션에서 mem_no가져와서 친구목록 호출 클릭하면 채팅혹은 친구추가 가능하게  -->
+                                </div>
+                            </div>
 
                         </header>
 
@@ -74,9 +85,9 @@
                         </div>
                         <div class="timer">2시간</div>
                         <div class="commit_field">
-                            <input type="text" placeholder="댓글달기..">
+                            <input type="text" id="cmt_insert" placeholder="댓글달기.." onKeypress="javascript:if(event.keyCode==13) {cmt_insert()}"/>
 								<!--아작스 인서트로 댓글 넣고 댓글 불러오는걸로 다시 불러오기? -->
-                            <div class="upload_btn">게시</div>
+                            <div style="display:inline-block; width:30px; float:right;"><a href="javascript:cmt_insert()">게시</a></div>
                         </div>
 
 

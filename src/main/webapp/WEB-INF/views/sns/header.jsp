@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map,java.util.HashMap,java.util.List" %>
-<%@ include file="/resources/common/bootstrap_common.jsp" %>
 <%
 
 String mem_name ="";
@@ -14,7 +13,7 @@ Map<String,Object> userMap = new HashMap<>();
 			mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
 			mem_no = (String)userMap.get("mem_no");
 			mem_uid = (String)userMap.get("mem_uid");
-			token = (String)userMap.get("token");
+	        token = (String)userMap.get("token");
 			mem_email = (String)userMap.get("mem_email");
 	}
 
@@ -23,11 +22,13 @@ Map<String,Object> userMap = new HashMap<>();
 <!DOCTYPE html>
 <html>
 <head>
- 
+<%@ include file="/resources/common/bootstrap_common.jsp" %>
+ <script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>
 <%@include file="./modal/postingModal.jsp" %>
 <%@include file="./modal/logInModal.jsp" %>
 <%@include file="./modal/signUpModal.jsp" %>
 <%@include file="./modal/writeModal.jsp" %>
+<%@include file="./modal/chat_modal.jsp" %>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -83,8 +84,84 @@ var getCookie = function(name) {
 var deleteCookie = function(name) {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 	}
+////아이디 클릭했을때 친구추가 및 채팅 모달열어주는 함수.	
+function chatModal(mem_no){
+	console.log("chatmodal : "+mem_no);
+	var param;
+	if(mem_no==null){
+		param = $('#'+f_id).serialize();
+	}else if(mem_no!=null){
+		param = {mem_no : mem_no};
+	}
+	
+		if("<%=mem_no%>" !=""){
+		var f_id =getCookie("f_id");
+		console.log("insert"+f_id);
+		$.ajax({
+			url:'<%=path%>member/member_info.foc'
+		   ,data : param
+		   ,method :'post'
+		   ,dataType : "json"
+		   ,success:function(data){
+				  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
+				  $("#modal_user_id").text(data[0].MEM_ID);
+				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"')");
+				  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
+				  
+			   }
+		   ,error:function(e){
+			   if ("<%=session.getAttribute("userMap")%>" ==null){
+			   		   alert("로그인해주세요");
+			   }
+		   }
+		});//end of ajax
+		$("#chatModal").modal('show');
+		}else{
+			alert("로그인이 필요한 서비스입니다.");
+		}
+	
+}	
+
+function cmt_insert(){
+	if("<%=mem_no%>" !=""){
+	var f_id =getCookie("f_id");
+	var cmt = $("#cmt_insert").val();
+	$("#cmt_insert").val("");
+	$('#'+f_id+' [name=cmt_cnt]').val("");
+	$('#'+f_id+' [name=cmt_cnt]').val(cmt);
+	$.ajax({
+		url:'<%=path%>firstB/insert_posting_cmt.foc'
+	   ,data : $('#'+f_id).serialize()
+	   ,method :'post'
+	   ,dataType : "json"
+	   ,success:function(data){
+		   $("#cmt_area").empty();
+		   for(var i=0;i<data.length;i++){ 
+			   $("#cmt_area").append($('<div class="user_container-detail">')); 
+			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
+			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
+			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
+			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
+			   $("#cmt_area").append($('<div class="icon_wrap">'));
+			   $("#cmt_area").append($('<div class="more_trigger">'));
+			   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
+/* 				   $("#cmt_area").append($('</div><div><div class="sprite_small_heart_icon_outline">')); */
+			   $("#cmt_area").append($('</div></div></div></div></div>'));
+			   }
+		   }
+	   ,error:function(e){
+		   if ("<%=session.getAttribute("userMap")%>" ==null){
+		   		   alert("로그인해주세요");
+		   }
+	   }
+	});//end of ajax
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+	}
+}
 
 function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 delete좋아요
+	if("<%=mem_no%>" !=""){
 	var f_id =getCookie("f_id");
 	console.log("insert"+f_id);
 	$('#'+f_id+' [name=chk]').val("");
@@ -111,7 +188,9 @@ function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 dele
 		   }
 	   }
 	});//end of ajax
-	   
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+	}  
 }
 
 
@@ -133,18 +212,24 @@ function postingModal(f_id, photo_id){
 		   ,success:function(data){
 			   console.log($(".post_no").val());
 			   $("#post_profile").attr("src",'<%=path%>'+data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
+			   $("#post_profile_user").attr("src",'<%=path%>resources/common'+data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
 			   $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름
+			   $("#post_mem_id").text(data[0].MEM_ID);
+			   $("#post_mem_id").attr("href","javascript:chatModal("+data[0].MEM_NO+");");
+			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   console.log(data[0].CAT_NO);
 			   $(".country").text(data[0].CAT_LOCAL);//고양이 지역
 			   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
+			   if("<%=mem_no%>"!=""){
 			   if(data[0].LIKE_CHECK==1){
 				   $(".sprite_heart_icon_outline").attr("style","display:none;");
 				   $(".sprite_heart_icon_red").attr("style","display:inline-block;");
-			   }else if(data[0].LIKE_CHECK==0||<%=mem_no%>=="no_login"){
+			   }else if(data[0].LIKE_CHECK==0||"<%=mem_no%>"=="no_login"){
 				   $(".sprite_heart_icon_outline").attr("style","display:inline-block;");
 				   $(".sprite_heart_icon_red").attr("style","display:none;");
 				}
+			   }
 		   }
 		   ,error:function(e){
 			   alert(e.responseText);
@@ -164,7 +249,7 @@ function postingModal(f_id, photo_id){
 				   $("#cmt_area").append($('<div class="user_container-detail">')); 
 				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
-				   $("#cmt_area").append($('<span class="user_id">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
+				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 				   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
 				   $("#cmt_area").append($('<div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));

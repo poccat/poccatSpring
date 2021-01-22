@@ -94,6 +94,12 @@ public class MemberController  {
 		return "sns/myPage";
 	}
 	
+	@RequestMapping("/member_info.foc")
+	public @ResponseBody List<Map<String,Object>> member_info(@RequestParam Map<String,Object> pMap) {
+		logger.info("member_info 호출 성공"+pMap);
+		return memLogic.member_info(pMap);
+	}
+	
 	@RequestMapping("/member_join.foc")
 	public String member_join(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info(pMap);

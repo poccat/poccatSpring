@@ -67,12 +67,15 @@
  <select id="member_info" parameterType="map" resultType="map">
    SELECT 
    MEM_ADDRESS, MEM_EMAIL,
-   MEM_ID, MEM_NAME, MEM_NICK, 
-   MEM_NO, MEM_PHONE, NVL(mem_photo,'../pds/dft.jpg')as mem_photo, 
+   MEM_ID, MEM_UID, MEM_NAME, MEM_NICK, 
+   MEM_NO, MEM_PHONE, NVL(mem_photo,'/pds/dft.jpg')as mem_photo, 
    MEM_PW, MEM_TYPE, SUP_END, 
    SUP_START, SUP_STATUS
-	FROM MEMBER
-	WHERE mem_no = #{mem_no}
+	FROM MEMBER where mem_no = ${mem_no}
+	<!-- <where>
+	<if test=" writer_no != '' and mem_no ==''">mem_no = ${writer_no}</if>
+	<if test=" writer_no == '' and mem_no !=''">mem_no = ${mem_no}</if>
+	</where> -->
  </select>
  
   <select id="friend_member_list" parameterType="map" resultType="map">

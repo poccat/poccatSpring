@@ -105,12 +105,15 @@ document.addEventListener("DOMContentLoaded", function(){
 						<div id="wrapper_div"class="centered">
 		                    <a href="<%=postingModal%>">
 		                    <img id="post_photo"  class="img-cropped" src="<%=rightUrl%>" alt=""></a>
+			                    <!--===== 포스팅모달띄울때 정보조회를 위한 값들 받아둠. 좋아요기능과 댓글을 위한 값도 여기에 담아놓고 쓴다. =====-->
 			                    <form id="<%=f_id%>" method="post">
 								<input id="<%=post_photo%>" type="hidden" value="<%=rightUrl%>"/>
 								<input type="hidden" name="cat_no" value="<%=rMap.get("CAT_NO")%>"/>
 								<input type="hidden" name="post_no" value="<%=rMap.get("POST_NO")%>"/>
 								<input type="hidden" name="mem_no" value="<%=mem_no%>"/>
+								<input type="hidden" name="writer_no" value="<%=rMap.get("MEM_NO")%>"/>
 								<input type="hidden" name="chk" value=""/>
+								<input type="hidden" name="cmt_cnt" value=""/>
 								</form>
                     </div>	
                     </div>																				
