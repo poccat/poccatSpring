@@ -97,10 +97,13 @@ public class FirstBLogic {
 	}
 	
 	
-	public int posting_cmt_insert(Map<String,Object> pMap) {
-		logger.info("posting_write 호출 성공");
+	public List<Map<String, Object>> insert_posting_cmt(Map<String,Object> pMap) {
+		logger.info("insert_posting_cmt 호출 성공");
 		logger.info("form에서 받아온 pMap===>" + pMap);
-		return fbDao.posting_write(pMap);
+		if(fbDao.insert_cmt(pMap)==1) {
+			fbList=fbDao.posting_cmt_list(pMap);
+		}
+		return fbList;
 	}
 	
 	public int posting_cmt_modi(Map<String,Object> pMap) {

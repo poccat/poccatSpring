@@ -71,9 +71,11 @@ SELECT
 		, LC.LIKE_COUNT
 		, PC.POST_COUNT
 		, LC2.LIKE_CHECK
+		, PM.MEM_ID , PM.MEM_PHOTO
 		FROM CAT c, CAT_CON cc, (SELECT COUNT(mem_no) AS LIKE_COUNT FROM POST_LIKE WHERE post_no = #{post_no}) LC
 					,(SELECT COUNT(*) AS LIKE_CHECK FROM POST_LIKE WHERE post_no = #{post_no} and mem_no=#{mem_no}) LC2
 					,(SELECT COUNT(POST_NO) AS POST_COUNT FROM POSTING WHERE CAT_NO =#{cat_no}) PC
+					,(SELECT MEM_ID, MEM_PHOTO FROM MEMBER WHERE MEM_NO =#{writer_no}) PM
 		WHERE c.CAT_NO = cc.CAT_NO(+)
 			AND c.CAT_NO = #{cat_no}
 </select>

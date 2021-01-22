@@ -334,10 +334,11 @@
 
 
 .commit_field input{
-    width: 100%;
+    width: 150px;
     height: 56px;
     border: none;
     outline:none;
+    float:left;
     background:transparent;
 }
 

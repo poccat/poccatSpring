@@ -88,6 +88,10 @@ public class FirstBDao {
 			}
 	}
 	
+	public int insert_cmt(Map<String, Object> pMap) {
+		logger.info("insert_cmt 호출성공");
+		return sqlSessionTemplate.insert("insert_cmt",pMap);
+	}
 	public int posting_modi(Map<String, Object> pMap) {
 		logger.info("posting_modi 호출성공");
 		return sqlSessionTemplate.update(" ",pMap);
