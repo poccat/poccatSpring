@@ -1,6 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map,java.util.HashMap,java.util.List,java.util.ArrayList,java.lang.*" %>
+<%
+	List<Map<String,Object>> BoardList= null;
+	BoardList = (List<Map<String,Object>>)request.getAttribute("rList");
+			int    com_b_no 	=  0;
+			int cmb_count 	=  0;
+			String com_b_cnt		= null;
+			String com_b_title 	= null;
+			String com_photo1 	= null;
+			String com_b_date 	= null;
+			String com_b_type 	= null;
+			String com_b_author 	= null;
+			String MEM_NAME 	= null;
+			String boardName 	= null;
+			String boarddesc 	= null;
+	if(BoardList!=null){
+			System.out.println(BoardList);
+			com_b_cnt = (String)BoardList.get(0).get("COM_B_CNT");
+			com_b_type = (String)BoardList.get(0).get("COM_B_TYPE");
+			com_b_title = (String)BoardList.get(0).get("COM_TITLE");
+			com_b_date = (String)BoardList.get(0).get("COM_B_DATE");
+			com_b_author = (String)BoardList.get(0).get("MEM_NAME");
+			cmb_count = Integer.parseInt(String.valueOf(BoardList.get(0).get("CMB_COUNT")));
+	}
+	request.setAttribute("com_b_type", com_b_type);
+	if (com_b_type.equals("0")){
+		boardName = "공지사항";
+	} else if (com_b_type.equals("3")){
+		boardName = "나눔게시판";
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,35 +85,7 @@
   		background-color:white;
 	}
 </style>
-<%
-	List<Map<String,Object>> nanumBoardList= new ArrayList<>();
-	nanumBoardList = (List<Map<String,Object>>)request.getAttribute("rList");
-			int    com_b_no 	=  0;
-			int com_b_view 	=  0;
-			String com_b_cnt		= null;
-			String com_b_title 	= null;
-			String com_photo 	= null;
-			String com_b_date 	= null;
-			String com_b_type 	= null;
-			String com_b_author 	= null;
-			String boardName = null;
-			System.out.println(nanumBoardList);
-	if(nanumBoardList!=null){
-			com_b_no = Integer.parseInt(String.valueOf(nanumBoardList.get(0).get("COM_B_NO")));
-			com_b_view = Integer.parseInt(String.valueOf(nanumBoardList.get(0).get("COM_B_VIEW")));
-			com_b_cnt = (String)nanumBoardList.get(0).get("COM_B_CNT");
-			com_b_title = (String)nanumBoardList.get(0).get("COM_TITLE");
-			com_photo = (String)nanumBoardList.get(0).get("COM_PHOTO");
-			com_b_date = (String)nanumBoardList.get(0).get("COM_B_DATE");
-			com_b_type = (String)nanumBoardList.get(0).get("COM_B_TYPE");
-			com_b_author = (String)nanumBoardList.get(0).get("MEM_NAME");
-	}
-	if (com_b_type.equals("0")){
-		boardName = "공지사항";
-	} else if (com_b_type.equals("3")){
-		boardName = "나눔게시판";
-	}
-%>
+
 </head>
 <body>
 <%@ include file="header.jsp" %>
@@ -91,7 +93,7 @@
 	document.addEventListener("DOMContentLoaded", function(){
 	var detailCnt = document.getElementById("detailCnt");
 	detailCnt.readOnly = true;
-	$(".comboardTitle").text(<%=boardName%>);
+	$(".comboardTitle").text("<%=boardName%>");
 	});
 </script>
 <div class="container-fluid">
@@ -111,7 +113,7 @@
 			<!-- ============[[ 글 작성일]]================= -->
 					    <li><%=com_b_date %></li>
 			<!-- ============[[ 글 조회수]]================= -->
-					    <li><%=com_b_view %></li>
+					    <li><%=cmb_count %></li>
 					  </ul>
 				<hr></hr>
 				</div>

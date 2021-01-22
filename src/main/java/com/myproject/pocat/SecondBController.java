@@ -104,7 +104,7 @@ public class SecondBController {
 			return_address = "sns/commonBoard";
 		}
 		else if(com_b_type.equals("3")) {
-			return_address = "sns/nanumBoard";
+			return_address = "sns/commonBoard";
 		}
 		return return_address;
 	}

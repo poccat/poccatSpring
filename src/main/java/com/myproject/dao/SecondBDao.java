@@ -64,7 +64,7 @@ public class SecondBDao {
 	}
 	public List<Map<String, Object>> common_board_detail(Map<String, Object> pMap) {
 		logger.info("common_board_detail 호출성공");
-		return sqlSessionTemplate.selectList("common_board_detail",pMap);
+		return sqlSessionTemplate.selectList("commonB_List",pMap);
 	}
 	
 	public int common_board_write(Map<String, Object> pMap) {
