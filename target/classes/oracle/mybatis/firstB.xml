@@ -30,7 +30,7 @@ VALUES (
 </insert>
  <select id="posting_list_logout" parameterType="map" resultType="map">
              SELECT 
-    P.POST_NO, MCF.FOLLOWER_COUNT, MCF.CAT_NO, P.POST_DATE, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
+    P.POST_NO, P.MEM_NO, MCF.FOLLOWER_COUNT, MCF.CAT_NO, P.POST_DATE, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
    FROM ANYMERCY.POSTING P
                                    , (SELECT
                                   COUNT(CAT_NO) AS FOLLOWER_COUNT, CAT_NO
@@ -43,7 +43,7 @@ VALUES (
  </select>
  <select id="posting_list_login" parameterType="map" resultType="map">
     SELECT
-    p.post_no, p.cat_no, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
+    p.post_no, p.cat_no, p.mem_no, p.post_photo1, C.CAT_NAME, C.CAT_LOCAL, C.CAT_PHOTO
    FROM POSTING p
             , (SELECT distinct mcf.cat_no FROM MEMBER_CAT_FOLLOW mcf, MEMBER m WHERE mcf.mem_no = #{mem_no}) memcat
              ,(SELECT CAT_NAME, CAT_LOCAL, CAT_NO, CAT_PHOTO FROM ANYMERCY.CAT) C
@@ -62,10 +62,16 @@ VALUES (
  
  <select id="posting_cmt_list" parameterType="map" resultType="map">
    SELECT C.POST_NO, C.CMT_NO, C.CMT_CNT, C.CMT_DATE, C.CMT_MEM_NO, M.MEM_ID AS CMT_MEM_ID, M.MEM_PHOTO
-FROM "COMMENT"  C, (SELECT MEM_ID, NVL(MEM_PHOTO, '../pds/dft.jpg')MEM_PHOTO, MEM_NO FROM MEMBER) M
+FROM CMT  C, (SELECT MEM_ID, NVL(MEM_PHOTO, '../pds/dft.jpg')MEM_PHOTO, MEM_NO FROM MEMBER) M
 WHERE C.POST_NO = #{post_no}
        AND C.CMT_MEM_NO = M.MEM_NO
+       ORDER BY C.CMT_DATE asc
  </select>
+ 
+ <insert id="insert_cmt" parameterType="map">
+  INSERT INTO CMT (CMT_NO ,POST_NO, CMT_CNT, CMT_DATE,CMT_MEM_NO)
+  	VALUES (seq_cmt_no.nextval,#{post_no},#{cmt_cnt},to_char(sysdate,'yyyy.mm.dd hh24:mi'),#{mem_no})
+ </insert>
  
  <insert id="ins_post_like" parameterType="map">
   INSERT INTO POST_LIKE (POST_NO, MEM_NO)

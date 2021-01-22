@@ -138,6 +138,12 @@ public class FirstBController {
 		return fbLogic.posting_cmt_list(pMap);
 	}
 	
+	@RequestMapping("/insert_posting_cmt.foc")
+	public @ResponseBody List<Map<String,Object>> insert_posting_cmt(@RequestParam Map<String,Object> pMap) {
+		logger.info("insert_posting_cmt 호출 성공"+pMap);
+		return fbLogic.insert_posting_cmt(pMap);
+	}
+	
 	
 	
 
