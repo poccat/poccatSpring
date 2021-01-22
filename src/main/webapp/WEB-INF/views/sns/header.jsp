@@ -33,6 +33,7 @@ Map<String,Object> userMap = new HashMap<>();
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Insert title here</title>
 <style type="text/css">
     *{
@@ -253,7 +254,6 @@ function postingModal(f_id, photo_id){
 				   $("#cmt_area").append($('<div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));
 				   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
-/* 				   $("#cmt_area").append($('</div><div><div class="sprite_small_heart_icon_outline">')); */
 				   $("#cmt_area").append($('</div></div></div></div></div>'));
 				   }
 			}
@@ -302,7 +302,8 @@ function postingModal(f_id, photo_id){
 						<li><a href="<%=path.toString()%>secondB/donation_noti_list.foc">후원</a>                                 </li>
 						<li><a href="<%=path.toString()%>secondB/common_board_list.foc?com_b_type=3">나눔</a></li>
 						<li><a href="#">신고</a>                                       </li>
-            			<li><a href="#">봉사</a>                                       </li>
+            			<li><a href="<%=path.toString()%>secondB/common_board_list.foc?com_b_type=1">봉사</a>                                       </li>
+            			<li><a href="<%=path.toString()%>secondB/common_board_list.foc?com_b_type=2">입양후기</a>     </li>
 						<li><a href="<%=path.toString()%>shelter/main.jsp">포캣보호소</a></li>                  
 					</ul>
 <!-- =================================[[ 드롭다운 메뉴 시작]]============================================= -->		   

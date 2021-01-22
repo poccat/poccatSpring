@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+/* 모바일 설정 */
+@media all and (max-width:420px) { 
+	#Allheader{
+		display:none;
+	}
+	
+}

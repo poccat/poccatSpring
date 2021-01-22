@@ -74,3 +74,62 @@
 	padding: 0 40%;
 	}
 	
+@media all and (max-width:992px) { 
+		.boardButtons{
+		display: none;
+	}
+	}
+@media all and (max-width:645px) { 
+		.boardButtons{
+		display: none;
+	}
+	tr { display: block; float: left; }
+th, td { display: block; }
+
+.profilepanel {
+    clear: both;
+    float: left;
+}
+	#mobilecol {
+   padding-right: 0px !important;
+    padding-left: 0px !important;
+	}
+	
+	}
+	/* 모바일 설정 */
+@media all and (max-width:420px) { 
+	#Allheader{
+		display:none;
+	}
+	tr { display: block; float: left; }
+th, td { display: block; }
+
+.profilepanel {
+    clear: both;
+    float: left;
+}
+	#mobilecol {
+   padding-right: 0px !important;
+    padding-left: 0px !important;
+	}
+	
+	.boardButtons{
+		display: none;
+	}
+	
+	.btnBoard{
+	    margin: 5px;
+	    float: none;
+	    width: 100%;
+	}
+	.form-control[readonly].no-gray {
+    min-height: fit-content;
+    height: 200px;
+}
+#comment-layout {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    padding-right: 20px;
+}
+}
+
