@@ -85,6 +85,7 @@ var deleteCookie = function(name) {
 	}
 ////아이디 클릭했을때 친구추가 및 채팅 모달열어주는 함수.	
 function chatModal(){
+	if("<%=mem_no%>" !=""){
 	var f_id =getCookie("f_id");
 	$('#'+f_id+' [name=mem_no]').val("");
 	console.log("insert"+f_id);
@@ -107,10 +108,13 @@ function chatModal(){
 	   }
 	});//end of ajax
 	$("#chatModal").modal('show');
-	
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+	}
 }	
 
 function cmt_insert(){
+	if("<%=mem_no%>" !=""){
 	var f_id =getCookie("f_id");
 	var cmt = $("#cmt_insert").val();
 	$("#cmt_insert").val("");
@@ -142,9 +146,13 @@ function cmt_insert(){
 		   }
 	   }
 	});//end of ajax
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+	}
 }
 
 function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 delete좋아요
+	if("<%=mem_no%>" !=""){
 	var f_id =getCookie("f_id");
 	console.log("insert"+f_id);
 	$('#'+f_id+' [name=chk]').val("");
@@ -171,7 +179,9 @@ function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 dele
 		   }
 	   }
 	});//end of ajax
-	   
+	}else{
+		alert("로그인이 필요한 서비스입니다.");
+	}  
 }
 
 
@@ -193,21 +203,23 @@ function postingModal(f_id, photo_id){
 		   ,success:function(data){
 			   console.log($(".post_no").val());
 			   $("#post_profile").attr("src",'<%=path%>'+data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
-			   $("#post_profile_user").attr("src",'<%=path%>'+data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
+			   $("#post_profile_user").attr("src",'<%=path%>resources/common'+data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
 			   $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름
-			   $("#post_mem_id").text(data[0].MEM_ID);//고양이 이름
+			   $("#post_mem_id").text(data[0].MEM_ID);
 			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   console.log(data[0].CAT_NO);
 			   $(".country").text(data[0].CAT_LOCAL);//고양이 지역
 			   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
+			   if("<%=mem_no%>"!=""){
 			   if(data[0].LIKE_CHECK==1){
 				   $(".sprite_heart_icon_outline").attr("style","display:none;");
 				   $(".sprite_heart_icon_red").attr("style","display:inline-block;");
-			   }else if(data[0].LIKE_CHECK==0||<%=mem_no%>=="no_login"){
+			   }else if(data[0].LIKE_CHECK==0||"<%=mem_no%>"=="no_login"){
 				   $(".sprite_heart_icon_outline").attr("style","display:inline-block;");
 				   $(".sprite_heart_icon_red").attr("style","display:none;");
 				}
+			   }
 		   }
 		   ,error:function(e){
 			   alert(e.responseText);
