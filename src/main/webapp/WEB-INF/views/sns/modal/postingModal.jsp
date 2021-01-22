@@ -56,7 +56,7 @@
                                     <img id="post_profile_user" src="<%=path %>resources/common/pds/cat_01.jpg" alt="">
                                 </div>
                                 <div class="user_name">
-                                    <span>작성자</span><div class="nick_name"><a id="post_mem_id" href="javascript:chatModal();" >유저1</a></div>
+                                    <span>작성자</span><div class="nick_name"><a id="post_mem_id" >유저1</a></div>
                                     <!--유저id눌렀을때 세션에서 mem_no가져와서 친구목록 호출 클릭하면 채팅혹은 친구추가 가능하게  -->
                                 </div>
                             </div>
