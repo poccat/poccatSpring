@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map,java.util.HashMap,java.util.List" %>
-<%@ include file="/resources/common/bootstrap_common.jsp" %>
 <%
 
 String mem_name ="";
@@ -23,11 +22,13 @@ Map<String,Object> userMap = new HashMap<>();
 <!DOCTYPE html>
 <html>
 <head>
- 
+<%@ include file="/resources/common/bootstrap_common.jsp" %>
+ <script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>
 <%@include file="./modal/postingModal.jsp" %>
 <%@include file="./modal/logInModal.jsp" %>
 <%@include file="./modal/signUpModal.jsp" %>
 <%@include file="./modal/writeModal.jsp" %>
+<%@include file="./modal/chat_modal.jsp" %>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -82,8 +83,32 @@ var getCookie = function(name) {
 var deleteCookie = function(name) {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 	}
-//포스팅모달 댓글쓰는 란에 게시버튼 동작하게 하는 코드
-//$(".upload_btn").click(cmt_insert());
+////아이디 클릭했을때 친구추가 및 채팅 모달열어주는 함수.	
+function chatModal(){
+	var f_id =getCookie("f_id");
+	$('#'+f_id+' [name=mem_no]').val("");
+	console.log("insert"+f_id);
+	$.ajax({
+		url:'<%=path%>member/member_info.foc'
+	   ,data : $('#'+f_id).serialize()
+	   ,method :'post'
+	   ,dataType : "json"
+	   ,success:function(data){
+			  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
+			  $("#modal_user_id").text(data[0].MEM_ID);
+			  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"')");
+			  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
+			  
+		   }
+	   ,error:function(e){
+		   if ("<%=session.getAttribute("userMap")%>" ==null){
+		   		   alert("로그인해주세요");
+		   }
+	   }
+	});//end of ajax
+	$("#chatModal").modal('show');
+	
+}	
 
 function cmt_insert(){
 	var f_id =getCookie("f_id");
