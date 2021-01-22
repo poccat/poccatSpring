@@ -84,33 +84,41 @@ var deleteCookie = function(name) {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 	}
 ////아이디 클릭했을때 친구추가 및 채팅 모달열어주는 함수.	
-function chatModal(){
-	if("<%=mem_no%>" !=""){
-	var f_id =getCookie("f_id");
-	$('#'+f_id+' [name=mem_no]').val("");
-	console.log("insert"+f_id);
-	$.ajax({
-		url:'<%=path%>member/member_info.foc'
-	   ,data : $('#'+f_id).serialize()
-	   ,method :'post'
-	   ,dataType : "json"
-	   ,success:function(data){
-			  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
-			  $("#modal_user_id").text(data[0].MEM_ID);
-			  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"')");
-			  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
-			  
-		   }
-	   ,error:function(e){
-		   if ("<%=session.getAttribute("userMap")%>" ==null){
-		   		   alert("로그인해주세요");
-		   }
-	   }
-	});//end of ajax
-	$("#chatModal").modal('show');
-	}else{
-		alert("로그인이 필요한 서비스입니다.");
+function chatModal(mem_no){
+	console.log("chatmodal : "+mem_no);
+	var param;
+	if(mem_no==null){
+		param = $('#'+f_id).serialize();
+	}else if(mem_no!=null){
+		param = {mem_no : mem_no};
 	}
+	
+		if("<%=mem_no%>" !=""){
+		var f_id =getCookie("f_id");
+		console.log("insert"+f_id);
+		$.ajax({
+			url:'<%=path%>member/member_info.foc'
+		   ,data : param
+		   ,method :'post'
+		   ,dataType : "json"
+		   ,success:function(data){
+				  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
+				  $("#modal_user_id").text(data[0].MEM_ID);
+				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"')");
+				  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
+				  
+			   }
+		   ,error:function(e){
+			   if ("<%=session.getAttribute("userMap")%>" ==null){
+			   		   alert("로그인해주세요");
+			   }
+		   }
+		});//end of ajax
+		$("#chatModal").modal('show');
+		}else{
+			alert("로그인이 필요한 서비스입니다.");
+		}
+	
 }	
 
 function cmt_insert(){
@@ -131,7 +139,7 @@ function cmt_insert(){
 			   $("#cmt_area").append($('<div class="user_container-detail">')); 
 			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
-			   $("#cmt_area").append($('<span class="user_id">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
+			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
 			   $("#cmt_area").append($('<div class="icon_wrap">'));
 			   $("#cmt_area").append($('<div class="more_trigger">'));
@@ -207,6 +215,7 @@ function postingModal(f_id, photo_id){
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
 			   $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름
 			   $("#post_mem_id").text(data[0].MEM_ID);
+			   $("#post_mem_id").attr("href","javascript:chatModal("+data[0].MEM_NO+");");
 			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   console.log(data[0].CAT_NO);
 			   $(".country").text(data[0].CAT_LOCAL);//고양이 지역
@@ -239,7 +248,7 @@ function postingModal(f_id, photo_id){
 				   $("#cmt_area").append($('<div class="user_container-detail">')); 
 				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
-				   $("#cmt_area").append($('<span class="user_id">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
+				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 				   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
 				   $("#cmt_area").append($('<div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));
