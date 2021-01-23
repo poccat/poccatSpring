@@ -187,6 +187,7 @@ $(document).ready(function(){
 </script>
 <%@ include file="./modal/friendModal.jsp"%>
 <%@ include file="./modal/followModal.jsp"%>
+<%@ include file="./modal/chatListModal.jsp"%>
 </div>
                   <div class="body">
                   <div class="space"></div>
@@ -194,7 +195,7 @@ $(document).ready(function(){
                          <div class="hori_cont">
                 <div class="profile_wrap">
                     <div class="profile_img">
-                        <img src="<%=profileMap.get("MEM_PHOTO")%>">
+                        <img src="<%=path%>resources/common<%=profileMap.get("MEM_PHOTO")%>">
                     </div>
                 </div>
 
@@ -216,10 +217,9 @@ $(document).ready(function(){
                            <span><a href="javascript:friendModal()" data-toggle="modal" data-target="#friendModal">친구</a></span>
                             <%=frdList.size()%>
                         </li>
-                        <!-- <li>
-                           <span><a href="javascript:friendModal()" data-toggle="modal" data-target="#friendModal">그룹</a></span>
-                           5
-                        </li> -->
+                         <li>
+                           <span><a href="javascript:chatListModal()" data-toggle="modal" data-target="#chatListModal">메세지목록</a></span>
+                        </li>
                     </ul>
 
                 </div>
@@ -252,7 +252,7 @@ $(document).ready(function(){
 
                 	<div class="thumbnail"> 
                     <a href="<%=postingModal%>">
-                    <img src="<%=fbMap.get("POST_PHOTO1")%>" alt=""></a>
+                    <img src="<%=path%><%=fbMap.get("POST_PHOTO1")%>" alt=""></a>
                     <form id="<%=f_id%>" method="post">
 					<input id="<%=post_photo%>" type="hidden" value="<%=fbMap.get("POST_PHOTO1")%>"/>
 					<input type="hidden" name="cat_no" value="<%=fbMap.get("CAT_NO")%>"/>

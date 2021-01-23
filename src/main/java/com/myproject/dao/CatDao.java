@@ -22,9 +22,12 @@ public class CatDao {
 //////////////////////////[[고양이 시작]]////////////////////////////////////	
 	public List<Map<String, Object>> cat_search(Map<String, Object> pMap) {
 		logger.info("cat_search 호출성공"+pMap);
-			if(pMap.get("mem_no").equals("null")) {
-				pMap.put("mem_no", 99999);
-			}
+//			if(pMap.get("mem_no").equals("null")) {
+//				pMap.put("mem_no", 99999);
+//			}
+		if(pMap.containsKey("mem_no")==false){
+			pMap.put("mem_no", 99999);
+		}
 		return sqlSessionTemplate.selectList("cat_search",pMap);
 	}
 	
@@ -57,7 +60,12 @@ public class CatDao {
 	
 	public int member_cat_follow_regist(Map<String, Object> pMap) {
 		logger.info("member_cat_follow_regist 호출성공");
-		return sqlSessionTemplate.insert(" ",pMap);
+		if(pMap.get("chk").equals("0")) {
+			result = sqlSessionTemplate.insert("insert_follow",pMap);
+		}else if(pMap.get("chk").equals("1")){
+			result = sqlSessionTemplate.delete("del_follow",pMap);
+		}
+		return result;
 	}
 	
 	public int member_cat_follow_cancel(Map<String, Object> pMap) {
