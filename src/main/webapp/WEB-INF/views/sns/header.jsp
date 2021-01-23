@@ -198,6 +198,8 @@ function go_profile(){
 	var f_id =getCookie("f_id");
 	$('#'+f_id).attr("action",'<%=path%>cat/cat_search.foc');
 	$('#'+f_id).submit();
+	
+	
 }
 
 function postingModal(f_id, photo_id){

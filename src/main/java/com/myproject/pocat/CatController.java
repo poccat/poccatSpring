@@ -37,16 +37,24 @@ public class CatController{
 		logger.info("cat_search_ajax 호출 성공"+pMap);
 		return catLogic.cat_search(pMap);
 	}
+	@RequestMapping("/cat_all.foc")
+	public @ResponseBody List<Map<String,Object>> cat_all() {
+		logger.info("cat_all 호출 성공");
+		return catLogic.cat_all();
+	}
 	
 	@RequestMapping("/cat_search.foc")
 	public String cat_search(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("cat_search 호출 성공"+pMap);
 		catList = catLogic.cat_search(pMap);
-		fbList = fbLogic.posting_list(pMap);//고양이 프로필에 보여줄 고양이 포스팅 목록
 		followList = catLogic.member_cat_follower_list(pMap);//고양이 프로필에 보여줄 고양이 포스팅 목록
+		pMap.put("mem_no", "");
+		fbList = fbLogic.posting_list(pMap);//고양이 프로필에 보여줄 고양이 포스팅 목록
+		logger.info(fbList.size());
 		mod.addAttribute("fbList",fbList);
 		mod.addAttribute("folList",followList);
 		mod.addAttribute("rList", catList);
+		logger.info(catList);
 		return "sns/profile";// "sns/profile";
 	}
 	@RequestMapping("/cat_regist.foc")
@@ -68,17 +76,23 @@ public class CatController{
 	}
 ////////////////////[[고양이정보 끝]]///////////////////
 ////////////////////[[고양이 팔로우 시작]]///////////////////
+	@RequestMapping("/member_cat_follower_list.foc")
+	public @ResponseBody List<Map<String,Object>> member_cat_follower_list(@RequestParam Map<String,Object> pMap) {
+		logger.info("member_cat_follower_list 호출 성공"+pMap);
+		return catLogic.member_cat_follower_list(pMap);
+	}
 	@RequestMapping("/member_cat_follow_list.foc")
-	public String member_cat_follow_list(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> member_cat_follow_list(@RequestParam Map<String,Object> pMap) {
 		logger.info("member_cat_follow_list 호출 성공"+pMap);
-		catList = catLogic.member_cat_follow_list(pMap);
-		mod.addAttribute("rList", catList);
-		return "forward:/test.jsp";
+		return catLogic.member_cat_follow_list(pMap);
 	}
 	@RequestMapping("/member_cat_follow_regist.foc")
-	public @ResponseBody int member_cat_follow_regist(@RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> member_cat_follow_regist(@RequestParam Map<String,Object> pMap) {
 		logger.info("member_cat_follow_regist 호출 성공"+pMap);
-		return catLogic.member_cat_follow_regist(pMap);
+			if(catLogic.member_cat_follow_regist(pMap)==1) {
+				catList = catLogic.member_cat_follower_list(pMap);
+			}
+		return catList;
 	}
 	@RequestMapping("/member_cat_follow_cancel.foc")
 	public String member_cat_follow_cancel(Model mod, @RequestParam Map<String,Object> pMap) {
