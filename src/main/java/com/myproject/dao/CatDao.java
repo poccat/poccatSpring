@@ -30,6 +30,10 @@ public class CatDao {
 		}
 		return sqlSessionTemplate.selectList("cat_search",pMap);
 	}
+	public List<Map<String, Object>> cat_all() {
+		logger.info("cat_all 호출성공");
+		return sqlSessionTemplate.selectList("cat_all");
+	}
 	
 	public int cat_regist(Map<String, Object> pMap) {
 		logger.info("cat_regist 호출성공");
@@ -49,7 +53,7 @@ public class CatDao {
 	
 //////////////////////////[[고양이 팔로우 시작]]////////////////////////////////////	
 	public List<Map<String, Object>> member_cat_follower_list(Map<String, Object> pMap) {
-		logger.info("member_cat_follow_list 호출성공");
+		logger.info("member_cat_follower_list 호출성공"+pMap);
 		return sqlSessionTemplate.selectList("member_cat_follower_list",pMap);
 	}
 	

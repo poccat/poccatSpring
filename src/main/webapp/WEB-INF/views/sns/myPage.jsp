@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.Map,java.util.HashMap,java.util.List" %>
+<%@ page import="java.util.Map,java.util.HashMap,java.util.List,java.util.StringTokenizer" %>
 <%
 	StringBuilder subpath = new StringBuilder(request.getContextPath());
 	subpath.append("/");
@@ -245,20 +245,35 @@ $(document).ready(function(){
             <% for(int i=1;i<=fbList.size();i++)
             {fbMap = fbList.get(i-1);
             	String post_photo = "post_photo"+i;
-            	String f_id= "post_info"+i;
+            	String f_id= "mypost_info"+i;
             	String postingModal="javascript:postingModal("+f_id.toString()+","+post_photo.toString()+")";
+            
+            	 String photourl =fbMap.get("POST_PHOTO1").toString();
+           	  
+           	  StringTokenizer st = new StringTokenizer(photourl, "/");
+           	  String firstToken = st.nextToken();
+           	  
+           	  String rightUrl = "";
+           	  
+           	  if(firstToken.equals("resources")){
+           		  rightUrl = "../" + fbMap.get("POST_PHOTO1").toString();
+           	  } else {
+           		  rightUrl = fbMap.get("POST_PHOTO1").toString();
+           	  }
             %>
             <div class= "thumbnail-wrapper">
 
                 	<div class="thumbnail"> 
                     <a href="<%=postingModal%>">
-                    <img src="<%=path%><%=fbMap.get("POST_PHOTO1")%>" alt=""></a>
+                    <img src="<%=rightUrl%>" alt=""></a>
                     <form id="<%=f_id%>" method="post">
-					<input id="<%=post_photo%>" type="hidden" value="<%=fbMap.get("POST_PHOTO1")%>"/>
+					<input id="<%=post_photo%>" type="hidden" value="<%=rightUrl%>"/>
 					<input type="hidden" name="cat_no" value="<%=fbMap.get("CAT_NO")%>"/>
 					<input type="hidden" name="post_no" value="<%=fbMap.get("POST_NO")%>"/>
 					<input type="hidden" name="mem_no" value="<%=mem_no%>"/>
+					<input type="hidden" name="writer_no" value="<%=fbMap.get("MEM_NO")%>"/>
 					<input type="hidden" name="chk" value=""/>
+					<input type="hidden" name="cmt_cnt" value=""/>
 					</form>
                     </div>																					
 

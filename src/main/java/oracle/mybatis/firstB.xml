@@ -51,12 +51,11 @@ VALUES (
  </select>
  <select id="posting_list" parameterType="map" resultType="map">
     SELECT
-    p.post_no, p.mem_no,p.post_cnt, p.cat_no, p.post_photo1, mem.mem_id, mem.mem_photo
-   FROM POSTING p
-            , (SELECT mem_no, mem_id, mem_photo FROM member) mem 
+    post_no, mem_no, post_cnt, cat_no, post_photo1
+   FROM POSTING 
    <where>
-	<if test="cat_no != null and mem_no ==null">p.cat_no = ${cat_no} and p.mem_no= mem.mem_no</if>
-	<if test="mem_no != null and cat_no ==null">p.mem_no = ${mem_no} and p.mem_no= mem.mem_no</if>
+	<if test="cat_no != '' and mem_no ==''">cat_no = ${cat_no} </if>
+	<if test="mem_no != '' and cat_no ==''">mem_no = ${mem_no} </if>
 	</where>
  </select>
  

@@ -22,6 +22,10 @@ public class CatLogic {
 		logger.info("cat_search 호출 성공");
 		return catDao.cat_search(pMap);
 	}
+	public List<Map<String, Object>> cat_all() {
+		logger.info("cat_all 호출 성공");
+		return catDao.cat_all();
+	}
 	
 	public int cat_regist(Map<String,Object> pMap) {
 		logger.info("cat_regist 호출 성공");
@@ -40,7 +44,7 @@ public class CatLogic {
 	
 	public List<Map<String, Object>> member_cat_follower_list(Map<String,Object> pMap) {
 		logger.info("member_cat_follower_list 호출 성공");
-		return catDao.member_cat_follow_list(pMap);
+		return catDao.member_cat_follower_list(pMap);
 	}
 	public List<Map<String, Object>> member_cat_follow_list(Map<String,Object> pMap) {
 		logger.info("member_cat_follow_list 호출 성공");

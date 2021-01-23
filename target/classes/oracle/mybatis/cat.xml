@@ -61,6 +61,8 @@ SELECT
 	   c.CAT_COLOR, c.CAT_GENDER, c.CAT_LOCAL, 
 	   c.CAT_NAME, c.CAT_NEU, NVL(c.CAT_NFC, '없음') CAT_NFC,
 	   c.CAT_NO, c.CAT_PHOTO, c.CAT_TYPE
+	   ,TO_CHAR(c.CAT_LATITUDE, 'FM990.000000') AS CAT_LATITUDE 
+   	   ,TO_CHAR(c.CAT_LONGITUDE, 'FM990.000000') AS CAT_LONGITUDE
 		,NVL(cc.IS_FAT     ,0) IS_FAT      
 		,NVL(cc.IS_HEALTHY ,0) IS_HEALTHY  
 		,NVL(cc.IS_OLD     ,0) IS_OLD      
@@ -78,6 +80,9 @@ SELECT
 					,(SELECT MEM_ID, MEM_NO, NVL(MEM_PHOTO, '/pds/dft.jpg')MEM_PHOTO FROM MEMBER WHERE MEM_NO =#{writer_no}) PM
 		WHERE c.CAT_NO = cc.CAT_NO(+)
 			AND c.CAT_NO = #{cat_no}
+</select>
+<select id="cat_all" parameterType="map" resultType="map">
+SELECT * FROM CAT
 </select>
  <insert id="insert_follow" parameterType="map">
  INSERT INTO MEMBER_CAT_FOLLOW  (mem_no, cat_no)
