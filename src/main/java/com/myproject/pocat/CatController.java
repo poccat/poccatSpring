@@ -17,7 +17,7 @@ import com.myproject.logic.FirstBLogic;
 
 @Controller
 @RequestMapping("/cat/*")
-
+  
 public class CatController{
 	Logger logger = LogManager.getLogger(CatController.class);
 	String requestName = null;

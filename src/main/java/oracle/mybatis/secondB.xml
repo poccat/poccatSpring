@@ -5,10 +5,10 @@
   <!-- xml의 주석은 Ctrl + shift + /  -->
 <mapper namespace="oracle.mybatis.secondBMapper">
 <select id="commonB_List" parameterType="map" resultType="map">
-	SELECT 
+SELECT 
            cb.com_b_cnt, cb.com_b_date, cb.com_b_no, 
-           cb.com_b_type, cb.com_photo, cb.com_title, 
-            cb.com_b_view, cb.mem_no, m.mem_name, m.mem_id
+           cb.com_b_type, cb.com_photo1, cb.com_title, 
+            cb.cmb_count, cb.mem_no, m.mem_name, m.mem_id
     FROM COMMON_BOARD cb, (select mem_name, mem_no, mem_id from member) m
     WHERE cb.mem_no = m.mem_no
     <if test="com_b_type!=null">

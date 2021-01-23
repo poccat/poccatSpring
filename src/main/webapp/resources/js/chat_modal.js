@@ -193,10 +193,13 @@ function sendMessage(chatRoomId){
 function add_frd(mem_no){
 	alert("친구추가 함수작동"+mem_no);
 }
+
 $(function(){
     $(".chat").niceScroll();
 }) 
 /*
+
+
 var text = "<%=text%>";
 var time = "<%=time%>";
 function formatAMPM(date) {

@@ -27,14 +27,16 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
  String catAge = target.get("CAT_AGE").toString();
  String catLocal = target.get("CAT_LOCAL").toString();
  String catCMT = target.get("CAT_CMT").toString();
- 
+ String nullcheck = "";
  	Map<String,Object> donMap = (Map<String,Object>)session.getAttribute("userMap");
-	String nullcheck = (String)donMap.get("mem_name");
+ 	if(donMap!=null){
+		nullcheck = (String)donMap.get("mem_name");
+ 	}
  
 %>
 <script>
 function isLogined(){
-	if("<%=nullcheck%>" == null){
+	if("<%=nullcheck%>" == null && "<%=nullcheck%>".length > 0){
 		alert("로그인 후 가능합니다");
 	} else{
 		doDonation();
@@ -47,18 +49,16 @@ function doDonation(){
 	//선택한 금액 가져오기	
     var price = $("#sel_price").val();
     
-    //자식창으로 후원금액 input으로 넘기기
-    $("#ip_price").val(price);
-    
     // 고양이 프로필과 연동 후 이름 받아오기
     //var catname = catname;
+    
+    var android_application_id = '6007f31c5b2948001d0b05d4'
     
 	BootPay.request({
 		price: price, //실제 결제되는 가격
 		application_id: "6007f31c5b2948001d0b05d3",
 		name: '고양이 후원', //결제창에서 보여질 이름
 		pg: 'payletter',
-		//method: '[[ method ]]', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 		show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 		items: [
 			{
@@ -76,8 +76,9 @@ function doDonation(){
 		},
 		order_id: '고양이이름', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 		params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
-		account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
+		account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧 )
 		extra: {
+			/* 정기결제
 		    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
 			end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
 	        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
@@ -85,39 +86,38 @@ function doDonation(){
 			theme: 'purple', // [ red, purple(기본), custom ]
 			custom_background: '#00a086', // [ theme가 custom 일 때 background 색상 지정 가능 ]
 			custom_font_color: '#ffffff' // [ theme가 custom 일 때 font color 색상 지정 가능 ]
+			*/
 		}
 	}).error(function (data) {
-		//결제 진행시 에러가 발생하면 수행됩니다.
-		console.log(data);
+		console.log("에러발생" + data);
 	}).cancel(function (data) {
-		//결제가 취소되면 수행됩니다.
-		console.log(data);
+		console.log("결제취소" + data);
 	}).ready(function (data) {
 		// 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
 		console.log(data);
 	}).confirm(function (data) {
-		//결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
-		//주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
-		console.log(data);
-		var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
-		if (enable) {
-			BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
-		} else {
-			BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-		}
 	}).close(function (data) {
-	    // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
-	    console.log(data);
+	    console.log(data + "결제창 닫음");
 //===============================================================[[ 결제 완료시 실행 ]]===================	    
 	}).done(function (data) {
 		//결제가 정상적으로 완료되면 수행됩니다
 		$("#ip_purchased_at").val(data.purchased_at);
 		$("#ip_payment_name").val(data.payment_name);
 		$("#ip_order_id").val(data.order_id);
+	    //자식창으로 후원금액 input으로 넘기기
+	    $("#ip_price").val(data.price);
 		console.log(data);
 		console.log(data.purchased_at);
 		console.log(data.method_name);
+		
+		var increasedPercent = 2;
+		
 		window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');
+		location.reload();
+		
+		var currentTotal = '';
+		$('#donealert').html(" <strong>Success!</strong> 후원 감사합니다.");
+		$('#donealert').fadeIn();
 	});// end of bootpay
 }
 
@@ -130,7 +130,6 @@ $(document).ready(function(){
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
 	var currentTotal = '';
-	
 	$.ajax({
 		url:'<%=path%>secondB/donation_getTotal.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>'
 	   ,method :'post'
@@ -156,7 +155,7 @@ $(document).ready(function(){
 </script>
 <div class="container-fluid">
 	<div class="container">
-		<div class="col-md-12">
+		<div class="col-md-12"  id="mobilecol">
 							<div class="row">
 								<div class="col-md-2">
 								</div>
@@ -177,7 +176,7 @@ $(document).ready(function(){
 								    	</div>	
 								</div>
 								<div class="col-md-1">
-										<div class="button">
+										<div class="button boardButtons">
 										<button type="button" class="btn btn-primary" onclick="location.href='#'">
 										<span class="glyphicon glyphicon-chevron-right"></span>
 										다음 글
@@ -186,26 +185,29 @@ $(document).ready(function(){
 								</div>
 							</div>
 			<div class="page">
-			<h1 class="title" >후원 글 상세보기</h1>
 				<div id="detailTitle">
-				<div class="col-md-12">
-					<h4><%=target.get("DON_NOTI_CNT")%>
+				<div class="col-md-12"  id="mobilecol">
+					<h4><%=target.get("DON_NOTI_TITLE")%>
 					<small>(5)</small><!-- 댓글 수 -->
 					</h4>
 					  <ul class="list-inline">
-					    <li><%=target.get("DON_NOTI_CNT")%></li>
+					    <li><%=target.get("DON_NOTI_TYPE")%></li>
 					    <li><%=target.get("DON_NOTI_DATE")%></li>
 					  </ul>
 				<hr></hr>
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-12"  id="mobilecol">
 					<!-- 반복문 받아오기 -->
 				</div>
-				<div class="col-md-12">
-<div contentEditable="true">
+				<div class="col-md-12"  id="mobilecol">
+	<div contentEditable="true">
     <img src="" />
 </div>
 
+<!-- ==========================[[ 결제 후 알림창 ]]====================================== -->
+<div id = "donealert" class="alert alert-success alert-dismissible" style="display:none;">
+		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	    </div>
 <!-- ==========================[[ 고양이 프로필 ]]====================================== -->
 <div class="panel panel-default profilepanel">
 		<table class="table borderless">
@@ -300,14 +302,14 @@ $(document).ready(function(){
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-revise" type="button" class="btn btn-primary">
+									<button id="page-revise" type="button" class="btn btn-primary btnBoard">
 									 수정
 									</button>
 									</div>	
 								</div>
 								<div class="col-md-1">
 									<div>
-									<button id="page-delete" type="button" class="btn btn-primary">
+									<button id="page-delete" type="button" class="btn btn-primary btnBoard">
 									삭제
 									</button>
 									</div>	

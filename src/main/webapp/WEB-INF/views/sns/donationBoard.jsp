@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../resources/css/boardList.css">
 <meta charset="UTF-8">
 <title>후원 게시판</title>
 <style type="text/css">	
@@ -38,6 +39,7 @@
 	});
 </script>
 <%@ include file="header.jsp" %>
+<div class="container">
 <div class="col-md-12">
   <h1 class="title">후원 게시판</h1>
   <div class="well well-lg" style="text-align:center">마음이 따뜻해지는 후원</div>
@@ -46,8 +48,8 @@
     <thead>
       <tr>
         <th style="width: 10%" class="text-center">글번호</th>
-        <th style="width: 60%" class="text-center">제목</th>
-        <th style="width: 10%" class="text-center">작성자</th>
+        <th style="width: 50%" class="text-center">제목</th>
+        <th style="width: 20%" class="text-center">작성자</th>
         <th style="width: 10%" class="text-center">작성일</th>
         <th style="width: 10%" class="text-center">조회수</th>
       </tr>
