@@ -25,7 +25,6 @@ if(session.getAttribute("userMap")!=null){
 			<script type="text/javascript">
 
 
-
 	function logInModal(){
 			$("#logInModal").modal('show');
 	}
@@ -63,7 +62,7 @@ if(session.getAttribute("userMap")!=null){
 	}
 	//로그아웃할때
 	function do_logout(){
-		
+
 		firebase.auth().signOut();
 		location.href ="../member/member_logout.foc";
  		$.ajax({
@@ -104,7 +103,7 @@ $(document).ready(function(){
 			if(token!=null && token.length>0){
 				firebase.auth().signInWithCustomToken(token)
 						  .then((user) => {
-					    
+
 						  })
 						  .catch((error) => {
 						    var errorCode = error.code;

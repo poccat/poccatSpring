@@ -79,7 +79,12 @@ SELECT
 		WHERE c.CAT_NO = cc.CAT_NO(+)
 			AND c.CAT_NO = #{cat_no}
 </select>
- 
- 
- 
+ <insert id="insert_follow" parameterType="map">
+ INSERT INTO MEMBER_CAT_FOLLOW  (mem_no, cat_no)
+ values (#{mem_no},#{cat_no})
+ </insert>
+ <delete id="del_follow" parameterType="map">
+  DELETE FROM MEMBER_CAT_FOLLOW 
+  	WHERE MEM_NO = #{mem_no} AND CAT_NO = #{cat_no}
+ </delete>
 </mapper>

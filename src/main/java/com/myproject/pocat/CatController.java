@@ -47,7 +47,7 @@ public class CatController{
 		mod.addAttribute("fbList",fbList);
 		mod.addAttribute("folList",followList);
 		mod.addAttribute("rList", catList);
-		return "forward:/sns/profile.jsp";// "sns/profile";
+		return "sns/profile";// "sns/profile";
 	}
 	@RequestMapping("/cat_regist.foc")
 	public String cat_regist(Model mod, @RequestParam Map<String,Object> pMap) {
@@ -76,10 +76,9 @@ public class CatController{
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/member_cat_follow_regist.foc")
-	public String member_cat_follow_regist(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody int member_cat_follow_regist(@RequestParam Map<String,Object> pMap) {
 		logger.info("member_cat_follow_regist 호출 성공"+pMap);
-		result = catLogic.member_cat_follow_regist(pMap);
-		return "redirect:/okOrNot.jsp?result="+result;
+		return catLogic.member_cat_follow_regist(pMap);
 	}
 	@RequestMapping("/member_cat_follow_cancel.foc")
 	public String member_cat_follow_cancel(Model mod, @RequestParam Map<String,Object> pMap) {

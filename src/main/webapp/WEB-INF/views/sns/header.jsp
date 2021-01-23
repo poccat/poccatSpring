@@ -193,6 +193,12 @@ function insert_or_del_like(chk){// chk = 1이면 insert 좋아요, 0이면 dele
 	}  
 }
 
+function go_profile(){
+	console.log("뭐지?");
+	var f_id =getCookie("f_id");
+	$('#'+f_id).attr("action",'<%=path%>cat/cat_search.foc');
+	$('#'+f_id).submit();
+}
 
 function postingModal(f_id, photo_id){
 
@@ -214,7 +220,8 @@ function postingModal(f_id, photo_id){
 			   $("#post_profile").attr("src",'<%=path%>'+data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
 			   $("#post_profile_user").attr("src",'<%=path%>resources/common'+data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
-			   $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름
+			  <%--  $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
+			   $("#nick_name").attr('href',"javascript:go_profile()");//고양이 이름
 			   $("#post_mem_id").text(data[0].MEM_ID);
 			   $("#post_mem_id").attr("href","javascript:chatModal("+data[0].MEM_NO+");");
 			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
