@@ -19,9 +19,10 @@ margin-left:15px;
 float:center;
 text-align:center;
 }
-.modal-header{
-/* background-color: #BBDEFB; */
+#chatRoomHeader{
+ background-color: #BBDEFB;
 }
+
 
 .row.row-broken {
     padding-bottom: 0;
@@ -70,6 +71,10 @@ text-align:center;
 }
 
 /*****************CHAT BODY *******************/
+.chat-body{
+    overflow-y:scroll;
+    max-height:300px;
+}
 .chat-body h6 {
     font-size: 20px;
     margin: 0 0 20px;
@@ -81,7 +86,7 @@ text-align:center;
 }
 .chat-body .answer {
     position: relative;
-    max-width: 600px;
+    max-width: 500px;
     overflow: hidden;
     clear: both;
 }
@@ -155,14 +160,14 @@ text-align:center;
 }
 
 /**************ADD FORM ***************/
-.chat-body .answer-add {
+.chat-answer .answer-add {
     clear: both;
     position: relative;
     margin: 20px -20px -20px;
     padding: 20px;
     background: #46be8a;
 }
-.chat-body .answer-add input {
+.chat-answer .answer-add input {
     border: none;
     background: none;
     display: block;

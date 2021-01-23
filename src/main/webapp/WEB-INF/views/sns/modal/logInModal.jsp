@@ -6,12 +6,14 @@
 	String mem_name = null;
 	String mem_no = null;
 	String mem_id = null;
+	String token = null;
 	Map<String,Object> userMap = new HashMap<>();
 		if(session.getAttribute("userMap")!=null){
 				userMap = (Map<String,Object>)session.getAttribute("userMap");
 				mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
 				mem_no = (String)userMap.get("mem_no");
 				mem_id = (String)userMap.get("mem_id");
+				token = (String)userMap.get("token");
 		}
 		*/
 %>
@@ -30,7 +32,8 @@ var myUid;
 	}
 	//로그인할때
 	function do_login(){
-		console.log('a');
+		var token = "<%=token%>";
+		console.log(token);
 		$.ajax({
 			url:'<%=path%>member/member_login.foc'
 		   ,data : $("#loginForm").serialize()
@@ -39,9 +42,13 @@ var myUid;
 			   
 				if(data[0].mem_no>0 && data[0].mem_no!=null){
 					
+						
+					 
+				  
+					
 					    location.href="<%=path%>loginsub.jsp"
 					 						
-					}
+			}
 				else {
 					alert(data[0].mem_name);
 					//아이디가 틀립니다, 비밀번호가 틀립니다 .출력.
@@ -56,7 +63,7 @@ var myUid;
 	function do_logout(){
 		firebase.auth().signOut();
 		location.href ="../member/member_logout.foc";
-<%-- 		$.ajax({
+ 		$.ajax({
 			url:'<%=path%>/sns/member/member_logout.jsp'
 		   ,success:function(data){
 				//로그아웃 모달-로그아웃 클릭시 세션에 있는 값 모두 삭제하기
@@ -78,20 +85,8 @@ var myUid;
 				alert("로그인한 회원만 포스팅을 작성할 수 있습니다.");
 			}
 		}
-	//파이어베이스 로그인 상태 감지 콜백함수
-	  firebase.auth().onAuthStateChanged((user) => {
-		  if (user) {
-		    // User is signed in, see docs for a list of available properties
-		    
-		  myUid = user.uid;
-		    console.log("파이어베이스 로그인됨+"+"로그인된 uid ="+myUid);
-		    // ...
-		  } else {
-			 console.log("파이어베이스 로그아웃상태");
-		    // User is signed out
-		    // ...
-		  }
-		});
+
+
 </script>
 </head>
 <body>
@@ -101,16 +96,23 @@ $(document).ready(function(){
 			var mem_email = "<%=mem_email%>";
 			var mem_no = "<%=mem_no%>";
 			var token = "<%=token%>";
-			firebase.auth().signInWithCustomToken(token)
-			  .then((user) => {
-				 
-			    console.log(user);
-			  })
-			  .catch((error) => {
-			    var errorCode = error.code;
-			    var errorMessage = error.message;
-			    console.log(errorCode+"    "+errorMessage);
-			  });
+			console.log(token.length);
+
+			if(token!=null && token.length>0){
+				firebase.auth().signInWithCustomToken(token)
+						  .then((user) => {
+							 
+						    
+						  })
+						  .catch((error) => {
+						    var errorCode = error.code;
+						    var errorMessage = error.message;
+						    console.log(errorCode+"    "+errorMessage);
+						  });
+
+			}
+
+
 			console.log("mem_email===>" + mem_email);
 			//로그인 할 때
 		if(mem_no>0 && mem_no!=null){

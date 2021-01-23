@@ -8,10 +8,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
 <!-- css -->
 <!-- <link rel="stylesheet" type="text/css" href="./chat.css"> -->
+
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<input id="chatRoomId" type="hidden">
 <script type="text/javascript">
 $(document).ready(function(){
 		$(function(){
@@ -25,7 +28,7 @@ $(document).ready(function(){
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button"  class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
 			  <img src="" id="friendImg" class="img-circle center-block"  width="100" height="100"> 
@@ -41,14 +44,14 @@ $(document).ready(function(){
 	<div class="modal fade" id="chatRoom" role="dialog">
 	<div class="modal-dialog modal-lg">
 			<div class="container" id="chatRoomBody">
-			<div class="modal-header">
+			<div class="modal-header" id="chatRoomHeader">
 				<h4>1:1 대화창<a><button type="button" class="close" data-dismiss="modal">&times;</button></a></h4>
 			</div>
 			  <div class="row row-broken">
-			    <div class="col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
+			    <div class="col-xs-12 chat" style="outline: none;" tabindex="5001">
 			      <div class="col-inside-lg decor-default">
 			        <div class="modal-body" >
-			        <div class="chat-body">
+			        <div class="chat-body" id="chattingBody">
 				          <div class="answer left">
 				            <div class="avatar">
 				              <img src="" alt="User name">
@@ -63,11 +66,13 @@ $(document).ready(function(){
 				            </div>
 				            <div class="text">ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</div>
 				            <div class="time">ㅁㅁ</div>
-				          </div>
+						  </div>
+						</div>
+						<div class="chat-answer">
 			          <div class="answer-add">
-			          	<input type="text" placeholder="텍스트를 입력" onKeyDown="onKeyDown()">
-			          </div>
-			        </div>
+			          	<input id="textInput" type="text" placeholder="텍스트를 입력" >
+					  </div>    
+					</div>
 			      </div>
 			    </div>
 			  </div>
@@ -75,5 +80,15 @@ $(document).ready(function(){
 	     </div>
       </div>
 	</div>
+	<script type="text/javascript">
+		document.getElementById('textInput').addEventListener('keydown', function(e) {
+			if(e.keyCode == 13){
+				
+			var chatRoomId = document.getElementById('chatRoomId').value;
+			console.log(chatRoomId);
+				sendMessage(chatRoomId);
+			}
+		});
+		</script>
 </body>
 </html>
