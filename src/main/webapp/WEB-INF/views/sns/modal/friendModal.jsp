@@ -15,6 +15,9 @@
 function friendModal(){
 	$("#friendModal").modal('show');
 }
+function start_chat(mem_uid){
+	alert("mem_uid : "+mem_uid);
+}
 </script>
 </head>
 <body>
@@ -34,10 +37,10 @@ function friendModal(){
                     %>
                         <div class="thumb_user">
                             <div class="profile_thumb">
-                                <img src="<%=frdMap.get("MEM_PHOTO")%>" alt="프로필사진">
+                              <img src="<%=path%>resources/common<%=frdMap.get("MEM_PHOTO")%>" alt="프로필사진">
                             </div>
                             <div class="detail">
-                                <div class="id"><%=frdMap.get("MEM_ID")%></div>
+                                <div class="id" onclick="javascript:start_chat('<%=frdMap.get("MEM_UID")%>')"><%=frdMap.get("MEM_ID")%></div>
                             </div>
                         </div>
                         <%} %>

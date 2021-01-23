@@ -2,11 +2,29 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map,java.util.HashMap,java.util.List" %>
 <%
+	StringBuilder subpath = new StringBuilder(request.getContextPath());
+	subpath.append("/");
    List<Map<String,Object>> rList =(List<Map<String,Object>>)request.getAttribute("rList");
    List<Map<String,Object>> fbList =(List<Map<String,Object>>)request.getAttribute("fbList");
    Map<String,Object> rMap = new HashMap<>();
    Map<String,Object> catMap = new HashMap<>();
    catMap = rList.get(0);
+   
+   String profile_mem_name ="";
+   String profile_mem_no = "";
+   String profile_mem_email = "";
+   String profile_token = "";
+   String profile_mem_uid="";
+   Map<String,Object> profile_userMap = new HashMap<>();
+   	if(session.getAttribute("userMap")!=null){
+   		profile_userMap = (Map<String,Object>)session.getAttribute("userMap");
+   			profile_mem_name = (String)profile_userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
+   			profile_mem_no = (String)profile_userMap.get("mem_no");
+   			profile_mem_uid = (String)profile_userMap.get("mem_uid");
+   			profile_token = (String)profile_userMap.get("token");
+   			profile_mem_email = (String)profile_userMap.get("mem_email");
+   	}
+
 
 %>
 <!DOCTYPE html>
@@ -14,8 +32,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/profile.css">
-<link rel="stylesheet" href="../css/photoList.css">
+<link rel="stylesheet" href="/resources/css/profile.css">
+<link rel="stylesheet" href="/resources/css/photoList.css">
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9vEGnLXmgisFdhIOc6TeWWRGErG1tLZU&callback=initMap&libraries=&v=weekly"
@@ -78,8 +96,57 @@
         });
         infoWindow.open(map,marker);
       }
+      function insert_follow(chk){
+    	  var cat_no = $("#profile_cat_no").val();
+    	  $.ajax({
+  			url:'<%=subpath%>cat/member_cat_follow_regist.foc'
+  		   ,data : {cat_no : cat_no, chk : chk}
+  		   ,method :'post'
+  		   ,dataType : "text"
+  		   ,success:function(data){
+  			   if(data==1&&chk==0){//chk0이면 팔로우가 아닌상태 이므로 팔로우를 인서트시키는 행위후에 해야할 작업
+  				  $("#follow_btn").attr("display","none");
+  				  $("#cancel_btn").attr("display","");
+  		   	  }else if(data=0&&chk==1){//chk1이면 팔로우 상태에서 버튼클릭이 되었으므로 팔로우 취소행위후에 해야될 작업
+  		   		  $("#cancel_btn").attr("display","none");
+				  $("#follow_btn").attr("display","");
+  		   	  }
+  			  }
+  		   ,error:function(e){
+  			   alert("에러 :"+e);
+  			   }
+  		   }
+  		});//end of ajax
+    	  
+      }
     </script>
 </head>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.ajax({
+		url:'<%=subpath%>cat/member_cat_follow_list.foc'
+	   ,data : { mem_no : '<%=profile_mem_no%>'}
+	   ,method :'post'
+	   ,dataType : "json"
+	   ,success:function(data){
+		   for(var i=0;i<data.length;i++){
+		   if(data[i].CAT_NO==<%=catMap.get("CAT_NO")%>){
+			  $("#follow_btn").attr("display","none");
+			  $("#cancel_btn").attr("display","");
+			  return;
+		   }
+		}
+		  	  $("#cancel_btn").attr("display","none");
+			  $("#follow_btn").attr("display","");
+	}
+	   ,error:function(e){
+		   alert("에러 :"+e);
+		   }
+	   }
+	});//end of ajax
+})
+
+</script>
 <body>
 <div class="parent">
 <div class="header">
@@ -92,14 +159,16 @@
                          <div class="hori_cont">
                 <div class="profile_wrap">
                     <div class="profile_img">
-                        <img src="<%=catMap.get("CAT_PHOTO")%>" alt="고양이">
+                        <img src="<%=path %><%=catMap.get("CAT_PHOTO")%>" alt="고양이">
                     </div>
                 </div>
 
                 <div class="detail">
                     <div class="top">
                         <div class="user_name"><%=catMap.get("CAT_NAME")%></div>
-                        <button class="btn" class="profile_edit">팔로우</button>
+                        <button type="button" class="fol_btn" class="btn" id="follow_btn"  onclick="javascript:insert_follow(0);">팔로우</button>
+                        <button type="button" class="fol_btn" class="btn" id="cancel_btn"  style="display:none;" onclick="javascript:insert_follow(1);">팔로우취소</button>
+                        <input type="hidden" id="profile_cat_no" value="<%=catMap.get("CAT_NO")%>"/>
                                                <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     ..
@@ -155,7 +224,7 @@
                     <a href="<%=postingModal%>">
                     <img src="<%=rMap.get("POST_PHOTO1")%>" alt=""></a>
                     <form id="<%=f_id%>" method="post">
-					<input id="<%=post_photo%>" type="hidden" value="<%=rMap.get("POST_PHOTO1")%>"/>
+					<input id="<%=post_photo%>" type="hidden" value="../<%=rMap.get("POST_PHOTO1")%>"/>
 					<input type="hidden" name="cat_no" value="<%=rMap.get("CAT_NO")%>"/>
 					<input type="hidden" name="post_no" value="<%=rMap.get("POST_NO")%>"/>
 					</form>
