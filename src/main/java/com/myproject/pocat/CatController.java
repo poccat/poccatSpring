@@ -74,6 +74,12 @@ public class CatController{
 		result = catLogic.cat_del(pMap);
 		return "redirect:/okOrNot.jsp?result="+result;
 	}
+	@RequestMapping("/cat_map.foc")
+	public @ResponseBody List<Map<String,Object>> cat_map(Model mod, @RequestParam Map<String,Object> pMap) {
+		logger.info("cat_map 호출 성공"+pMap);
+		catList = catLogic.cat_map(pMap);
+		return catList;
+	}
 ////////////////////[[고양이정보 끝]]///////////////////
 ////////////////////[[고양이 팔로우 시작]]///////////////////
 	@RequestMapping("/member_cat_follower_list.foc")
@@ -107,7 +113,7 @@ public class CatController{
 		logger.info("mealcenter_search 호출 성공"+pMap);
 		catList = catLogic.mealcenter_search(pMap);
 		mod.addAttribute("rList", catList);
-		return "forward:/test.jsp";
+		return "sns/shelterinfo";
 	}
 	@RequestMapping("/mealcenter_regist.foc")
 	public String mealcenter_regist(Model mod, @RequestParam Map<String,Object> pMap) {

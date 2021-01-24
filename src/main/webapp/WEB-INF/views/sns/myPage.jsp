@@ -19,7 +19,10 @@
    
    profileMap = rList.get(0);
    myinfoMap = (Map<String,Object>)session.getAttribute("userMap");
-   String mymem_no=(String)myinfoMap.get("mem_no");
+   String mymem_no = "";
+   if(myinfoMap!=null){
+   	mymem_no=(String)myinfoMap.get("mem_no");
+   }	   
 %>
 <!DOCTYPE html>
 <html>
@@ -195,7 +198,9 @@ $(document).ready(function(){
                          <div class="hori_cont">
                 <div class="profile_wrap">
                     <div class="profile_img">
+
                         <img src="<%=path%>resources/common<%=profileMap.get("MEM_PHOTO")%>">
+
                     </div>
                 </div>
 

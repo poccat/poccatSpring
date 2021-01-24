@@ -81,11 +81,15 @@ SELECT
 		WHERE c.CAT_NO = cc.CAT_NO(+)
 			AND c.CAT_NO = #{cat_no}
 </select>
+
 <select id="cat_all" parameterType="map" resultType="map">
 SELECT * FROM CAT
 </select>
 <select id="mealcenter_list" parameterType="map" resultType="map">
 SELECT * FROM mealcenter
+<if test="meal_no!=null">
+	WHERE MEAL_NO = #{meal_no}
+</if>
 </select>
  <insert id="insert_follow" parameterType="map">
  INSERT INTO MEMBER_CAT_FOLLOW  (mem_no, cat_no)
@@ -95,4 +99,16 @@ SELECT * FROM mealcenter
   DELETE FROM MEMBER_CAT_FOLLOW 
   	WHERE MEM_NO = #{mem_no} AND CAT_NO = #{cat_no}
  </delete>
+ 
+ <select id="cat_map" parameterType="map" resultType="map">	
+SELECT 
+CAT_AGE, CAT_BREED, CAT_CMT, 
+   CAT_COLOR, CAT_GENDER , NVL(C.CAT_LATITUDE, 37.4761178) CAT_LATITUDE ,
+   CAT_LOCAL, NVL(C.CAT_LONGITUDE, 126.9005496) CAT_LONGITUDE ,CAT_NAME, 
+   CAT_NEU, CAT_NFC, CAT_NO, 
+   CAT_PHOTO, CAT_TYPE
+FROM CAT
+ 
+ </select>
+
 </mapper>
