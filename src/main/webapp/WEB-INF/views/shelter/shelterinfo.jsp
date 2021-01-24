@@ -10,8 +10,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="/common/bootstrap_common.jsp" %>
+<%@ include file="../../../resources/common/bootstrap_common.jsp" %> 
 <link rel="stylesheet" href="../css/sidemenu.css"/>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
+
 <meta charset="UTF-8">
 <title>전국보호소정보</title>
 <style>

@@ -47,7 +47,7 @@ public class CatDao {
 	
 	public int cat_del(Map<String, Object> pMap) {
 		logger.info("cat_del 호출성공");
-		return sqlSessionTemplate.delete(" ",pMap);
+		return sqlSessionTemplate.delete(" ",pMap); 
 	}
 	public List<Map<String,Object>> cat_map(Map<String, Object> pMap) {
 		logger.info("cat_map 호출성공");
@@ -84,8 +84,8 @@ public class CatDao {
 ///////////////////////////////[[급식소 시작]]///////////////////////////
 	public List<Map<String, Object>> mealcenter_search(Map<String, Object> pMap) {
 		logger.info("mealcenter_search 호출성공");
-		return sqlSessionTemplate.selectList("select_mealcenter", pMap);
-	}
+		return sqlSessionTemplate.selectList("mealcenter_list", pMap);
+	} 
 
 	public int mealcenter_regist(Map<String, Object> pMap) {
 		logger.info("mealcenter_regist 호출성공");

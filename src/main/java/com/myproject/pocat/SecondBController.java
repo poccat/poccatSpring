@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.myproject.logic.SecondBLogic;
 
@@ -153,7 +154,7 @@ public class SecondBController {
 		logger.info("donation_noti_detail 호출 성공"+pMap);
 		sbList = sbLogic.donation_noti_detail(pMap);
 		mod.addAttribute("rList", sbList);
-		return "sns/donationBoardDetail";
+		return "sns/donationBoardDetail"; 
 	}
 	
 	@RequestMapping("/donation_noti_write.foc")
@@ -189,12 +190,11 @@ public class SecondBController {
 		return "forward:/test.jsp";
 	}
 	
-	@RequestMapping("/donation_book.foc")
-	public String donation_book(Model mod, @RequestParam Map<String,Object> pMap) {
+	@RequestMapping ("/donation_book.foc")
+	public  @ResponseBody int donation_book(@RequestParam Map<String,Object> pMap) {
 		logger.info("donation_book 호출 성공"+pMap);
 		result = sbLogic.donation_book(pMap);
-		mod.addAttribute("rList", sbList);
-		return "common/PrintResult";
+		return result;
 	}
 	
 	@RequestMapping("/donation_cancel.foc")
