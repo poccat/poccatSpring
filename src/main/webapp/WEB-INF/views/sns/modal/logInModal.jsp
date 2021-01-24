@@ -23,7 +23,22 @@ if(session.getAttribute("userMap")!=null){
 			<meta charset="UTF-8">
 			<title>Insert title here</title>
 			<script type="text/javascript">
-
+		    firebase.auth().onAuthStateChanged((user) => {
+	            if(user){
+	                const messaging = firebase.messaging();
+									messaging.requestPermission().then(function(){
+										return messaging.getToken();
+									}).then(function(token){
+										console.log(user.uid);
+										console.log(token);
+										firebase.database().ref('users/'+user.uid).child('pushToken').set(token);
+										
+										
+									});
+	            }
+	            else{
+	            }
+	    });
 
 	function logInModal(){
 			$("#logInModal").modal('show');
