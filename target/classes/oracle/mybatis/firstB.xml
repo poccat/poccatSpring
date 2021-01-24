@@ -53,10 +53,10 @@ VALUES (
     SELECT
     post_no, mem_no, post_cnt, cat_no, post_photo1
    FROM POSTING 
-   <where>
-	<if test="cat_no != '' and mem_no ==''">cat_no = ${cat_no} </if>
-	<if test="mem_no != '' and cat_no ==''">mem_no = ${mem_no} </if>
-	</where>
+   
+	<if test='gubun=="c"'>where cat_no = #{cat_no} </if>
+	<if test='gubun=="m"'>where mem_no = #{mem_no} </if>
+	
  </select>
  
  <select id="posting_cmt_list" parameterType="map" resultType="map">

@@ -1,5 +1,6 @@
 package com.myproject.pocat;
 
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -29,9 +30,10 @@ import com.myproject.firebase.FirebaseUser;
 @RequestMapping("/member/*")
 public class MemberController  {
 	Logger logger = LogManager.getLogger(MemberController.class);
-	
+	HttpSession session= null;
 	Boolean isSession = false;
 	int result = 0;
+	Map<String,Object> userMap = null;
 	List<Map<String,Object>> memList = null;
 	List<Map<String,Object>> fbList = null;
 	List<Map<String,Object>> memList2 = null;
@@ -83,8 +85,13 @@ public class MemberController  {
 	@RequestMapping("/member_mypage.foc")
 	public String member_mypage(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("member_mypage 호출 성공"+pMap);
+		if(pMap.containsKey("my_no")==false) {
+			pMap.put("my_no", "0");
+		}
+		pMap.put("gubun", "m");
 		memList = memLogic.member_info(pMap);
 		fbList = fbLogic.posting_list(pMap);
+		logger.info(fbList.size());
 		memList2 = memLogic.friend_member_list(pMap);
 		catList = catLogic.member_cat_follow_list(pMap);
 		mod.addAttribute("rList", memList);
@@ -95,9 +102,17 @@ public class MemberController  {
 	}
 	
 	@RequestMapping("/member_info.foc")
-	public @ResponseBody List<Map<String,Object>> member_info(@RequestParam Map<String,Object> pMap) {
-		logger.info("member_info 호출 성공"+pMap);
-		return memLogic.member_info(pMap);
+	public @ResponseBody List<Map<String,Object>> member_info(@RequestParam Map<String,Object> pMap, HttpServletRequest req) {
+		session = req.getSession();
+		userMap = new HashMap<>();
+		if(session.getAttribute("userMap")!=null){
+				userMap = (Map<String,Object>)session.getAttribute("userMap");
+				String mem_no = (String)userMap.get("mem_no");
+				pMap.put("my_no", mem_no);
+		}
+		memList=memLogic.member_info(pMap);
+		logger.info("member_info 호출 성공(controller)"+memList);
+		return memList;
 	}
 	
 	@RequestMapping("/member_join.foc")
@@ -144,17 +159,22 @@ public class MemberController  {
 		mod.addAttribute("rList", fbList);
 		return "forward:/test.jsp";
 	}
-	@RequestMapping("/friend_member_add.foc")
-	public int friend_member_add(Model mod, @RequestParam Map<String,Object> pMap) {
-		logger.info("friend_member_add 호출 성공"+pMap);
-		return memLogic.friend_member_add(pMap);
+	@RequestMapping("/friend_member_add_del.foc")
+	public @ResponseBody List<Map<String,Object>> friend_member_add_del(Model mod, @RequestParam Map<String,Object> pMap, HttpServletRequest req) {
+		session = req.getSession();
+		userMap = new HashMap<>();
+		if(session.getAttribute("userMap")!=null){
+				userMap = (Map<String,Object>)session.getAttribute("userMap");
+				String mem_no = (String)userMap.get("mem_no");
+				pMap.put("my_no", mem_no);
+		}
+		logger.info("friend_member_add_del 호출 성공"+pMap);
+		 if(memLogic.friend_member_add_del(pMap)==1) {
+			 memList=memLogic.member_info(pMap);
+		 }
+		return memList;
 	}
-	@RequestMapping("/friend_member_del.foc")
-	public String friend_member_del(Model mod, @RequestParam Map<String,Object> pMap) {
-		logger.info("friend_member_del 호출 성공"+pMap);
-		result = memLogic.friend_member_del(pMap);
-		return "forward:/test.jsp";
-	}
+	
 	@RequestMapping("/group_search.foc")
 	public String group_search(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("group_search 호출 성공"+pMap);

@@ -69,9 +69,16 @@ public class MemberDao {
 		return sqlSessionTemplate.selectList("friend_member_list",pMap);
 	}
 	
-	public int friend_member_add(Map<String, Object> pMap) {
-		logger.info("friend_member_add 호출성공");
-		return sqlSessionTemplate.insert("",pMap);
+	public int friend_member_add_del(Map<String, Object> pMap) {
+		logger.info("friend_member_add_del 호출성공");
+		if(pMap.get("del_ins").equals("1")) {
+			logger.info("del호출");
+			result=sqlSessionTemplate.delete("friend_member_del",pMap);
+		}else if(pMap.get("del_ins").equals("2")) {
+			logger.info("ins호출");
+			result = sqlSessionTemplate.insert("friend_member_add",pMap);
+		}
+		return result;
 	}
 	
 	public int friend_member_del(Map<String, Object> pMap) {

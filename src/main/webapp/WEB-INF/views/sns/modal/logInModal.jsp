@@ -164,7 +164,7 @@ $(document).ready(function(){
 	          <form id="loginForm" role="form" >
 	            <div class="form-group">
 	              <label for="mem_id"><span class="glyphicon glyphicon-user"></span> 이메일</label>
-	              <input type="text" class="form-control" id="mem_email" name="mem_email"  value="test1@gmail.com">
+	              <input type="text" class="form-control" id="mem_email" name="mem_email"  value="web@gmail.com">
 	            </div>
 	            <div class="form-group">
 	              <label for="mem_pw"><span class="glyphicon glyphicon-eye-open"></span> 비밀번호</label>

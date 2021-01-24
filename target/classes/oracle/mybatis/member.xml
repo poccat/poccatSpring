@@ -66,12 +66,14 @@
  </select>
  <select id="member_info" parameterType="map" resultType="map">
    SELECT 
-   MEM_ADDRESS, MEM_EMAIL,
-   MEM_ID, MEM_UID, MEM_NAME, MEM_NICK, 
-   MEM_NO, MEM_PHONE, NVL(mem_photo,'/pds/dft.jpg')as mem_photo, 
-   MEM_PW, MEM_TYPE, SUP_END, 
-   SUP_START, SUP_STATUS
-	FROM MEMBER where mem_no = ${mem_no}
+   mem.MEM_ADDRESS, mem.MEM_EMAIL,
+   mem.MEM_ID, mem.MEM_UID, mem.MEM_NAME, mem.MEM_NICK, 
+   mem.MEM_NO, mem.MEM_PHONE, NVL(mem_photo,'/resources/common/pds/dft.jpg')as mem_photo, 
+   mem.MEM_PW, mem.MEM_TYPE, mem.SUP_END, 
+   mem.SUP_START, mem.SUP_STATUS, FM.frd_cnt
+	FROM MEMBER mem
+	,(SELECT COUNT(mem_no) as frd_cnt FROM FRIEND_MEMBER WHERE mem_no = #{mem_no} and my_no = #{my_no}) FM
+	where mem_no = #{mem_no}
 	<!-- <where>
 	<if test=" writer_no != '' and mem_no ==''">mem_no = ${writer_no}</if>
 	<if test=" writer_no == '' and mem_no !=''">mem_no = ${mem_no}</if>
@@ -89,10 +91,10 @@ ORDER BY m.mem_id asc
  <insert id="friend_member_add" parameterType="map">
  	insert into friend_member (my_no , mem_no)
  	values (#{my_no} , #{mem_no})
- 	
- 	
- 
  </insert>
+ <delete id="friend_member_del" parameterType="map">
+ 	delete from friend_member where my_no =#{my_no} and mem_no = #{mem_no}
+ </delete>
  
  <select id="group_mem_mygroup" parameterType="map" resultType="map">
 select d.grp_name, d.grp_no, a.mem_no from grp d

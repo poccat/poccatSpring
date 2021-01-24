@@ -85,27 +85,34 @@ var deleteCookie = function(name) {
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 	}
 ////아이디 클릭했을때 친구추가 및 채팅 모달열어주는 함수.	
-function chatModal(mem_no){
+function chatModal(mem_no){//mem_no는  포스팅 작성자
 	console.log("chatmodal : "+mem_no);
 	var param;
-	if(mem_no==null){
-		param = $('#'+f_id).serialize();
-	}else if(mem_no!=null){
-		param = {mem_no : mem_no};
-	}
 	
 		if("<%=mem_no%>" !=""){
 		var f_id =getCookie("f_id");
+			if(mem_no==null){
+				param = $('#'+f_id).serialize();
+			}else if(mem_no!=null){
+				param = {mem_no : mem_no};
+			}
 		console.log("insert"+f_id);
 		$.ajax({
-			url:'<%=path%>member/member_info.foc'
+			url:'<%=path%>member/member_info.foc'//세션에서 
 		   ,data : param
 		   ,method :'post'
 		   ,dataType : "json"
 		   ,success:function(data){
-				  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
+			   console.log("chatModal_FN_in header"+data[0].MEM_ID);
+				  $("#friendImg").attr("src",data[0].MEM_PHOTO);
 				  $("#modal_user_id").text(data[0].MEM_ID);
-				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+","+data[0].MEM_UID+"')");
+				  if(data[0].FRD_CNT==1){
+				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"','"+data[0].MEM_UID+"','"+data[0].FRD_CNT+"')");
+				  $("#friendBtn").text("친구삭제");
+				  }else{
+				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"','"+data[0].MEM_UID+"','2')");
+				  $("#friendBtn").text("친구추가");
+				  }
 				  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
 				  
 			   }
@@ -220,7 +227,7 @@ function postingModal(f_id, photo_id){
 		   ,success:function(data){
 			   console.log($(".post_no").val());
 			   $("#post_profile").attr("src",'<%=path%>'+data[0].CAT_PHOTO);//고양이정보 사진컬럼이름
-			   $("#post_profile_user").attr("src",'<%=path%>resources/common'+data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
+			   $("#post_profile_user").attr("src",data[0].MEM_PHOTO);//작성자 멤버 사진컬럼이름
 			   $("#nick_name").text(data[0].CAT_NAME);//고양이 이름
 			  <%--  $("#nick_name").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   $("#nick_name").attr('href',"javascript:go_profile()");//고양이 이름
