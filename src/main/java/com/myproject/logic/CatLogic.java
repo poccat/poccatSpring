@@ -41,7 +41,8 @@ public class CatLogic {
 		logger.info("cat_del 호출 성공");
 		return catDao.cat_del(pMap);
 	}
-	public List<Map<String,Object>> cat_map (Map<String,Object> pMap) {
+	
+	public List<Map<String, Object>> cat_map(Map<String, Object> pMap) {
 		logger.info("cat_map 호출 성공");
 		return catDao.cat_map(pMap);
 	}
@@ -59,7 +60,6 @@ public class CatLogic {
 		logger.info("member_cat_follow_regist 호출 성공");
 		return catDao.member_cat_follow_regist(pMap);
 	}
-	
 	
 	public int member_cat_follow_cancel(Map<String,Object> pMap) {
 		logger.info("member_cat_follow_cancel 호출 성공");

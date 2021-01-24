@@ -24,7 +24,9 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
  int mealNo = Integer.parseInt(String.valueOf(target.get("MEAL_NO")));
  
 %>
-    
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +51,14 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 		margin-top: 25%;
 		float: right;
 	}
-</style>
+	// 모바일
+	@media all and (max-width: 768px) {
+   td {
+   	font-size: 20px;
+    font-weight: bold;
+   }
+}
+</style> 
 <script>
 	function donationRclose(){
 		window.self.close();
