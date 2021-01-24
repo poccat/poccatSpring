@@ -23,7 +23,7 @@ Map<String,Object> userMap = new HashMap<>();
 <html>
 <head>
 <%@ include file="/resources/common/bootstrap_common.jsp" %>
- <script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>
+ <!--<script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>-->
 <%@include file="./modal/postingModal.jsp" %>
 <%@include file="./modal/logInModal.jsp" %>
 <%@include file="./modal/signUpModal.jsp" %>

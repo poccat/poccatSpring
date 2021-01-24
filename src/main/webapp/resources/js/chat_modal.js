@@ -3,7 +3,6 @@ var myUid;
 
 
 
-var chatRoomId;
 
 
 //로그인 감지
@@ -84,7 +83,8 @@ function chatRoom(mem_uid){
 //-----------------------채팅방ID불러오기-----------------------------------------------------------------------------------------------------//
 
 function getChatroomId(mem_uid){
-	var chatRoomId;
+	console.log(mem_uid);
+	console.log(myUid);
 	firebase.database().ref('chatrooms').orderByChild("users/"+myUid).equalTo(true).once('value').then(function(snapshot){
 
 		//내가있는 채팅방이 존재
@@ -94,7 +94,7 @@ function getChatroomId(mem_uid){
 					//채팅방이 이미 있으면
 					if(key==mem_uid){
 								
-						chatRoomId = childSnapshot.key;
+					 var chatRoomId = childSnapshot.key;
 						console.log(chatRoomId);
 					//getMessage(chatRoomName);
 						
@@ -114,7 +114,7 @@ return chatRoomId;
 
 //-----------------------메세지 불러오기-----------------------------------------------------------------------//
 function getMessage(chatRoomId){
-	console.log('a');
+	console.log(chatRoomId);
 	document.getElementById('chatRoomId').value =chatRoomId;
 	console.log(document.getElementById('chatRoomId').value);
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').on('value',function(snapshot){
@@ -173,6 +173,7 @@ function sendMessage(chatRoomId){
 			comment['timestamp'] = new Date().getTime();
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').push().set(comment);
 
+	//상대방에게 Firebase Cloud Message 보내기
 	firebase.database().ref('chatrooms/'+chatRoomId).once('value').then(function(snapshot){
 			var chatUserObject = snapshot.child("users").val();
 			Object.getOwnPropertyNames(chatUserObject).forEach(function(key) {
@@ -206,6 +207,7 @@ function sendMessage(chatRoomId){
 				}	
 			});	
 	});
+	//상대방에게 Firebase Cloud Message 보내기 
 	
 	document.getElementById("textInput").value='';
 	document.getElementById("textInput").focus();
@@ -218,6 +220,11 @@ function sendMessage(chatRoomId){
 
 function add_frd(mem_no){
 	alert("친구추가 함수작동"+mem_no);
+	$.ajax({
+		url:'/member/addFriend?friend_no='+mem_no+'&mem_no='+"<%=mem_no%>"
+		,method : "post"
+		});
+	
 }
 
 $(function(){

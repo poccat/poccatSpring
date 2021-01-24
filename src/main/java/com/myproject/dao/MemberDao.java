@@ -71,7 +71,7 @@ public class MemberDao {
 	
 	public int friend_member_add(Map<String, Object> pMap) {
 		logger.info("friend_member_add 호출성공");
-		return sqlSessionTemplate.insert(" ",pMap);
+		return sqlSessionTemplate.insert("",pMap);
 	}
 	
 	public int friend_member_del(Map<String, Object> pMap) {
