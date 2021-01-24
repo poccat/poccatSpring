@@ -105,7 +105,7 @@ function chatModal(mem_no){
 		   ,success:function(data){
 				  $("#friendImg").attr("src","<%=path%>resources/common"+data[0].MEM_PHOTO);
 				  $("#modal_user_id").text(data[0].MEM_ID);
-				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"')");
+				  $("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+","+data[0].MEM_UID+"')");
 				  $("#chatBtn").attr("onclick","javascript:chatRoom('"+data[0].MEM_UID+"')");
 				  
 			   }
