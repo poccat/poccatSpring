@@ -9,9 +9,9 @@
 <!-- css -->
 <!-- <link rel="stylesheet" type="text/css" href="./chat.css"> -->
 
-
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<input id="chatRoomId" type="hidden">

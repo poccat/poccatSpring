@@ -36,7 +36,7 @@
                     %>
                         <div class="thumb_user">
                             <div class="profile_thumb">
-                                <img src="<%=followMap.get("FOL_PHOTO")%>" alt="프로필사진">
+                                <img src="../<%=followMap.get("FOL_PHOTO")%>" alt="프로필사진">
                             </div>
                             <div class="detail">
                                 <div class="id"><%=followMap.get("FOL_NAME")%></div>

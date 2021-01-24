@@ -49,6 +49,7 @@ public class CatController{
 		catList = catLogic.cat_search(pMap);
 		followList = catLogic.member_cat_follower_list(pMap);//고양이 프로필에 보여줄 고양이 포스팅 목록
 		pMap.put("mem_no", "");
+		pMap.put("gubun", "c");
 		fbList = fbLogic.posting_list(pMap);//고양이 프로필에 보여줄 고양이 포스팅 목록
 		logger.info(fbList.size());
 		mod.addAttribute("fbList",fbList);

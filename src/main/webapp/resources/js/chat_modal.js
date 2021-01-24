@@ -215,17 +215,27 @@ function sendMessage(chatRoomId){
 	
 
 
-
-
-
-function add_frd(mem_no,mem_uid){
-	alert("친구추가 함수작동"+mem_no+mem_uid);
+function add_frd(mem_no,mem_uid,del_ins){// del_ins = 1이면 삭제 아니면 추가
 	$.ajax({
-		url:'/member/addFriend?friend_no='+mem_no+'&mem_no='+"<%=mem_no%>"
+		url:'../member/friend_member_add_del.foc'
+		,data : {mem_no : mem_no, del_ins : del_ins}
 		,method : "post"
+		,dataType : 'json'
+		,success :function(data){
+			if(del_ins==1){
+				$("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"','"+data[0].MEM_UID+"','2')");
+				$("#friendBtn").text("친구추가");
+			}else{
+				$("#friendBtn").attr("onclick","javascript:add_frd('"+data[0].MEM_NO+"','"+data[0].MEM_UID+"','"+data[0].FRD_CNT+"')");
+				$("#friendBtn").text("친구삭제");
+			}
+		}
 		});
 	
 }
+
+
+
 
 $(function(){
     $(".chat").niceScroll();

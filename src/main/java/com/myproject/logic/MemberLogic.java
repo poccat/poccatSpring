@@ -57,15 +57,11 @@ public class MemberLogic {
 		return memDao.friend_member_list(pMap);
 	}
 	
-	public int friend_member_add(Map<String,Object> pMap) {
-		logger.info("friend_member_add 호출 성공");
-		return memDao.friend_member_add(pMap);
+	public int friend_member_add_del(Map<String,Object> pMap) {
+		logger.info("friend_member_add_del 호출 성공");
+		return memDao.friend_member_add_del(pMap);
 	}
 	
-	public int friend_member_del(Map<String,Object> pMap) {
-		logger.info("friend_member_del 호출 성공");
-		return memDao.friend_member_del(pMap);
-	}
 /////////////////////////////////[[ MemberDao_1 끝 ]]//////////////////////////////////
 
 /////////////////////////////////[[ MemberDao_2 시작 ]]////////////////////////////////
