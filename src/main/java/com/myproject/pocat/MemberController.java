@@ -136,6 +136,7 @@ public class MemberController  {
 		result = memLogic.member_del(pMap);
 		return "forward:/test.jsp";
 	}
+	
 	@RequestMapping("/friend_member_list.foc")
 	public String friend_member_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("friend_member_list 호출 성공"+pMap);
@@ -144,10 +145,9 @@ public class MemberController  {
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/friend_member_add.foc")
-	public String friend_member_add(Model mod, @RequestParam Map<String,Object> pMap) {
+	public int friend_member_add(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("friend_member_add 호출 성공"+pMap);
-		result = memLogic.friend_member_add(pMap);
-		return "forward:/test.jsp";
+		return memLogic.friend_member_add(pMap);
 	}
 	@RequestMapping("/friend_member_del.foc")
 	public String friend_member_del(Model mod, @RequestParam Map<String,Object> pMap) {

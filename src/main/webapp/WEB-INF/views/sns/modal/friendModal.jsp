@@ -16,7 +16,8 @@ function friendModal(){
 	$("#friendModal").modal('show');
 }
 function start_chat(mem_uid){
-	alert("mem_uid : "+mem_uid);
+  
+	chatRoom(mem_uid);
 }
 </script>
 </head>

@@ -1,29 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map, java.util.HashMap" %>  
 <%
 /*
-	String mem_name = null;
-	String mem_no = null;
-	String mem_id = null;
-	String token = null;
-	Map<String,Object> userMap = new HashMap<>();
-		if(session.getAttribute("userMap")!=null){
-				userMap = (Map<String,Object>)session.getAttribute("userMap");
-				mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
-				mem_no = (String)userMap.get("mem_no");
-				mem_id = (String)userMap.get("mem_id");
-				token = (String)userMap.get("token");
-		}
-		*/
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript">
-var myUid;
+String mem_name = null;
+String mem_no = null;
+String mem_id = null;
+String token = null;
+Map<String,Object> userMap = new HashMap<>();
+if(session.getAttribute("userMap")!=null){
+	userMap = (Map<String,Object>)session.getAttribute("userMap");
+		mem_name = (String)userMap.get("mem_name"); //==아이디, 비밀번호 틀릴 시 msg('아이디가 존재하지않습니다')
+		mem_no = (String)userMap.get("mem_no");
+		mem_id = (String)userMap.get("mem_id");
+		token = (String)userMap.get("token");
+	}
+	*/
+	%>
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8">
+			<title>Insert title here</title>
+			<script type="text/javascript">
+
+
 	function logInModal(){
 			$("#logInModal").modal('show');
 	}
@@ -61,6 +62,7 @@ var myUid;
 	}
 	//로그아웃할때
 	function do_logout(){
+
 		firebase.auth().signOut();
 		location.href ="../member/member_logout.foc";
  		$.ajax({
@@ -101,8 +103,7 @@ $(document).ready(function(){
 			if(token!=null && token.length>0){
 				firebase.auth().signInWithCustomToken(token)
 						  .then((user) => {
-							 
-						    
+
 						  })
 						  .catch((error) => {
 						    var errorCode = error.code;

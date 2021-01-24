@@ -3,7 +3,6 @@ var myUid;
 
 
 
-var chatRoomId;
 
 
 //로그인 감지
@@ -84,7 +83,8 @@ function chatRoom(mem_uid){
 //-----------------------채팅방ID불러오기-----------------------------------------------------------------------------------------------------//
 
 function getChatroomId(mem_uid){
-	var chatRoomId;
+	console.log(mem_uid);
+	console.log(myUid);
 	firebase.database().ref('chatrooms').orderByChild("users/"+myUid).equalTo(true).once('value').then(function(snapshot){
 
 		//내가있는 채팅방이 존재
@@ -94,7 +94,7 @@ function getChatroomId(mem_uid){
 					//채팅방이 이미 있으면
 					if(key==mem_uid){
 								
-						chatRoomId = childSnapshot.key;
+					 var chatRoomId = childSnapshot.key;
 						console.log(chatRoomId);
 					//getMessage(chatRoomName);
 						
@@ -114,7 +114,7 @@ return chatRoomId;
 
 //-----------------------메세지 불러오기-----------------------------------------------------------------------//
 function getMessage(chatRoomId){
-	console.log('a');
+	console.log(chatRoomId);
 	document.getElementById('chatRoomId').value =chatRoomId;
 	console.log(document.getElementById('chatRoomId').value);
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').on('value',function(snapshot){
@@ -138,12 +138,7 @@ function getMessage(chatRoomId){
 						+comment['message']+
 						"</div><div class='time'>"
 						+comment['timestamp']+"</div></div>"
-						/*
-						$(".chat-body").append("<div class='answer right'>");
-						$(".chat-body").append("<div class='avatar'><img src='../../img/9.jpg'></div>");
-						$(".chat-body").append("<div class='text'>"+comment['message']+"</div>");
-						$(".chat-body").append("<div class='time'>"+comment['timestamp']+"</div></div>");
-						*/
+
 		
 					}
 					else{
@@ -151,13 +146,7 @@ function getMessage(chatRoomId){
 						+comment['message']+
 						"</div><div class='time'>"
 						+comment['timestamp']+"</div></div>"
-						/*
-						$(".chat-body").append("<div class='answer left'>");
-						$(".chat-body").append("<div class='avatar'><img src='../../img/9.jpg'></div>");
-						$(".chat-body").append("<div class='name'>"+comment['userName']+"</div>");
-						$(".chat-body").append("<div class='text'>"+comment['message']+"</div>");
-						$(".chat-body").append("<div class='time'>"+comment['timestamp']+"</div></div>")
-						*/
+
 					}
 				
 					
@@ -178,11 +167,50 @@ function getMessage(chatRoomId){
 
 function sendMessage(chatRoomId){
 		var comment = new Map();
+		var friendUid;
 			comment['uid'] = myUid;
 			comment['message'] =$("#textInput").val();
 			comment['timestamp'] = new Date().getTime();
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').push().set(comment);
+
+	//상대방에게 Firebase Cloud Message 보내기
+	firebase.database().ref('chatrooms/'+chatRoomId).once('value').then(function(snapshot){
+			var chatUserObject = snapshot.child("users").val();
+			Object.getOwnPropertyNames(chatUserObject).forEach(function(key) {
+				if(key!=myUid){
+					friendUid=key;
+					console.log(friendUid);
+					firebase.database().ref('users/'+friendUid).once('value').then(function(snapshot){
+							console.log(snapshot.child("pushToken").val());
+							$.ajax({
+								url: 'https://fcm.googleapis.com/fcm/send',
+								method :'POST',
+								headers: {
+											'Content-Type' : 'application/json',
+											'Authorization' : 'key=AAAAR-jvvt0:APA91bH0LOf1QqiIqhc6vJ7PYhx5ry5FLbXpHhg68FGgCHN6TSdDKe6CRf9byBJGJvajrIHSOW_75lj4_NkyUwug0e_jOKIS94yGYW9jLwACt5R-hR4It4Yei3wVuIXrK-ciEX4MHqnv'
+											
+											
+								},
+								data:JSON.stringify({
+									'to' : snapshot.child("pushToken").val() , 'data' : { message :document.getElementById("textInput").value }
+
+								}),
+								success: function (response) {
+									console.log(response)
+								},
+								error: function (xhr,status,error){
+									console.log(xhr.error)
+								}
+								
+							})
+					});
+				}	
+			});	
+	});
+	//상대방에게 Firebase Cloud Message 보내기 
+	
 	document.getElementById("textInput").value='';
+	document.getElementById("textInput").focus();
 }
 	
 
@@ -192,6 +220,11 @@ function sendMessage(chatRoomId){
 
 function add_frd(mem_no){
 	alert("친구추가 함수작동"+mem_no);
+	$.ajax({
+		url:'/member/addFriend?friend_no='+mem_no+'&mem_no='+"<%=mem_no%>"
+		,method : "post"
+		});
+	
 }
 
 $(function(){
