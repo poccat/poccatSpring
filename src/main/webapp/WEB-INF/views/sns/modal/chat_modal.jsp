@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>
+<!--<script type="text/javascript" src="<%=path.toString() %>resources/js/chat_modal.js"></script>-->
 <!-- 스크롤 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
 <!-- css -->

@@ -86,6 +86,13 @@ WHERE fm.friend_no = m.mem_no
 AND fm.mem_no=#{mem_no}
 ORDER BY m.mem_id asc
  </select>
+ <insert id="friend_member_add" parameterType="map">
+ 	insert into friend_member (friend_no , mem_no)
+ 	values (#{friend_no} , #{mem_no})
+ 	
+ 	
+ 
+ </insert>
  
  <select id="group_mem_mygroup" parameterType="map" resultType="map">
 select d.grp_name, d.grp_no, a.mem_no from grp d
