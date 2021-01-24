@@ -53,7 +53,7 @@ public class FirstBLogic {
 	}
 	
 	public List<Map<String, Object>> posting_list(Map<String,Object> pMap) {
-		logger.info("posting_list 호출 성공");
+		logger.info("posting_list 호출 성공"+pMap.get("mem_no"));
 		return fbDao.posting_list(pMap);
 	}
 	
