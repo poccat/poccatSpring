@@ -19,7 +19,10 @@
    
    profileMap = rList.get(0);
    myinfoMap = (Map<String,Object>)session.getAttribute("userMap");
-   String mymem_no=(String)myinfoMap.get("mem_no");
+   String mymem_no = "";
+   if(myinfoMap!=null){
+   	mymem_no=(String)myinfoMap.get("mem_no");
+   }	   
 %>
 <!DOCTYPE html>
 <html>
@@ -194,7 +197,7 @@ $(document).ready(function(){
                          <div class="hori_cont">
                 <div class="profile_wrap">
                     <div class="profile_img">
-                        <img src="<%=profileMap.get("MEM_PHOTO")%>">
+                        <img src="<%=path.toString() %><%=profileMap.get("MEM_PHOTO")%>">
                     </div>
                 </div>
 
@@ -252,9 +255,9 @@ $(document).ready(function(){
 
                 	<div class="thumbnail"> 
                     <a href="<%=postingModal%>">
-                    <img src="<%=fbMap.get("POST_PHOTO1")%>" alt=""></a>
+                    <img src="<%=path.toString() %><%=fbMap.get("POST_PHOTO1")%>" alt=""></a>
                     <form id="<%=f_id%>" method="post">
-					<input id="<%=post_photo%>" type="hidden" value="<%=fbMap.get("POST_PHOTO1")%>"/>
+					<input id="<%=post_photo%>" type="hidden" value="<%=path.toString() %><%=fbMap.get("POST_PHOTO1")%>"/>
 					<input type="hidden" name="cat_no" value="<%=fbMap.get("CAT_NO")%>"/>
 					<input type="hidden" name="post_no" value="<%=fbMap.get("POST_NO")%>"/>
 					<input type="hidden" name="mem_no" value="<%=mem_no%>"/>

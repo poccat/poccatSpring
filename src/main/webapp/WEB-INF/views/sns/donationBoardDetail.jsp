@@ -36,7 +36,8 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 %>
 <script>
 function isLogined(){
-	if("<%=nullcheck%>" == null && "<%=nullcheck%>".length > 0){
+	console.log("지금 세션의 userMap===>" + "<%=donMap%>" + "   ,    " + "<%=nullcheck%>" );
+	if("<%=nullcheck%>" == null || "<%=nullcheck%>".length < 1){
 		alert("로그인 후 가능합니다");
 	} else{
 		doDonation();

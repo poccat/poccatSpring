@@ -80,6 +80,25 @@ SELECT
 			AND c.CAT_NO = #{cat_no}
 </select>
  
+ <select id="cat_map" parameterType="map" resultType="map">	
+SELECT 
+CAT_AGE, CAT_BREED, CAT_CMT, 
+   CAT_COLOR, CAT_GENDER , NVL(C.CAT_LATITUDE, 37.4761178) CAT_LATITUDE ,
+   CAT_LOCAL, NVL(C.CAT_LONGITUDE, 126.9005496) CAT_LONGITUDE ,CAT_NAME, 
+   CAT_NEU, CAT_NFC, CAT_NO, 
+   CAT_PHOTO, CAT_TYPE
+FROM CAT
  
- 
+ </select>
+ <select id="select_mealcenter" parameterType="map" resultType="map">	
+	 SELECT 
+	MEAL_CMT, MEAL_DATE, MEAL_FOOD, 
+	   MEAL_LATITUDE, MEAL_LONGITUDE, MEAL_NO, 
+	   MEAL_PHOTO, MEAL_QR, MEAL_WATER
+	FROM MEALCENTER
+	<if test="meal_no!=null">
+		WHERE MEAL_NO = #{meal_no}
+	</if>
+
+ </select>
 </mapper>

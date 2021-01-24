@@ -94,7 +94,7 @@ window.addEventListener('DOMContentLoaded', function(){
 <div class="panel panel-default">
 	<h1> 후원 성공! </h1>
 	<div class=space></div>
-	
+
 		<table class="table table-bordered">
 		<colgroup>
 		<col style="width:30%;">
