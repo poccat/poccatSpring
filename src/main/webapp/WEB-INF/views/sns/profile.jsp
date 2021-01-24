@@ -175,7 +175,7 @@ $(document).ready(function(){
    	 map = new google.maps.Map(document.getElementById("map"), {//"map" <--html영역에 있는 div
     	// map = 이부분이 없어도 사용에는 문제가 없으나 재사용성을 위한 부분
       center: { lat: <%=catMap.get("CAT_LATITUDE")%> , lng: <%=catMap.get("CAT_LONGITUDE")%> }, //lat 위도 lng 경도
-      zoom: 14,
+      zoom: 15,
 		});
     var infowindow = new google.maps.InfoWindow();
     
