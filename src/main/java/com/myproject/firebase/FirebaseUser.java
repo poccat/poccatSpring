@@ -29,7 +29,7 @@ public class FirebaseUser {
 			    .setEmail(pMap.get("join_email").toString())
 			    .setEmailVerified(false)
 			    .setPassword(pMap.get("join_pw").toString())
-			    .setDisplayName("")
+			    .setDisplayName(pMap.get("join_name").toString())
 			    .setDisabled(false);
 			try {
 				userRecord =FirebaseAuth.getInstance(firebaseInitializer.firebaseApp).createUser(request);

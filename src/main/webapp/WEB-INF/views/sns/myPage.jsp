@@ -201,7 +201,7 @@ $(document).ready(function(){
 
                 <div class="detail">
                     <div class="top">
-                        <div class="user_name"><%=profileMap.get("MEM_NAME")%></div>                     
+                        <div class="user_name"><%=profileMap.get("MEM_ID")%></div>                     
                     </div>
 
                     <ul class="middle">

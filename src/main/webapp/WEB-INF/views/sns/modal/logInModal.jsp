@@ -110,6 +110,7 @@ if(session.getAttribute("userMap")!=null){
 <script type="text/javascript">
 $(document).ready(function(){
 		// 세션 확인
+			var mem_id = "<%=mem_name%>";
 			var mem_email = "<%=mem_email%>";
 			var mem_no = "<%=mem_no%>";
 			var token = "<%=token%>";
@@ -137,7 +138,7 @@ $(document).ready(function(){
 				$("#loginIcon").children().first().attr("style", "color: red");
 				$("#loginIcon").attr("data-target", "#logoutModal");
 				$("#loginIcon").attr("href", "javascript:logoutModal()");
-				$("#logined").html(mem_email+"님 안녕하세요");
+				$("#logined").html(mem_id+"님 안녕하세요");
 				$("#signupIcon").children().first().attr("class", "glyphicon glyphicon-user");
 				$("#signupIcon").children().first().attr("style", "font-size:30px;");
 				$("#signupIcon").attr("href", "<%=path.toString()%>member/member_mypage.foc?mem_no="+mem_no);

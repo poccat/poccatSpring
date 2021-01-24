@@ -218,8 +218,8 @@ function sendMessage(chatRoomId){
 
 
 
-function add_frd(mem_no){
-	alert("친구추가 함수작동"+mem_no);
+function add_frd(mem_no,mem_uid){
+	alert("친구추가 함수작동"+mem_no+mem_uid);
 	$.ajax({
 		url:'/member/addFriend?friend_no='+mem_no+'&mem_no='+"<%=mem_no%>"
 		,method : "post"
