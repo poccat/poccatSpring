@@ -154,7 +154,7 @@ public class SecondBController {
 		logger.info("donation_noti_detail 호출 성공"+pMap);
 		sbList = sbLogic.donation_noti_detail(pMap);
 		mod.addAttribute("rList", sbList);
-		return "sns/donationBoardDetail";
+		return "sns/donationBoardDetail"; 
 	}
 	
 	@RequestMapping("/donation_noti_write.foc")
@@ -191,10 +191,10 @@ public class SecondBController {
 	}
 	
 	@RequestMapping ("/donation_book.foc")
-	public @ResponseBody List<Map<String,Object>> donation_book(@RequestParam Map<String,Object> pMap) {
+	public  @ResponseBody int donation_book(@RequestParam Map<String,Object> pMap) {
 		logger.info("donation_book 호출 성공"+pMap);
 		result = sbLogic.donation_book(pMap);
-		return sbList;
+		return result;
 	}
 	
 	@RequestMapping("/donation_cancel.foc")
