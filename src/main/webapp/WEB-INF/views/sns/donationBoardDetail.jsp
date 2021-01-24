@@ -9,6 +9,10 @@
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type="application/javascript"></script>
 <link rel="stylesheet" href="../resources/css/board.css">
 <%
+
+StringBuilder dpath = new StringBuilder(request.getContextPath());
+dpath.append("/");
+
 List<Map<String,Object>> bDetail= new ArrayList<>();
 bDetail = (List<Map<String,Object>>)request.getAttribute("rList");
 Map<String,Object> target = new HashMap<>();
@@ -112,14 +116,25 @@ function doDonation(){
 		console.log(data.method_name);
 		
 		var increasedPercent = 2;
-		
+		$.ajax({
+			url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
+					+data.price+'&mem_no=<%=Integer.parseInt(String.valueOf(donMap.get("mem_no")))%>'
+		   ,method :'post'
+		   ,success:function(result){
+			   console.log("  success result ===> " + result);
+		   }
+		   ,error:function(e){
+			   		 console.log(" error result ===> " + result);
+		   }
+			}); // end of ajax
+			
 		window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');
 		location.reload();
 		
 		var currentTotal = '';
 		$('#donealert').html(" <strong>Success!</strong> 후원 감사합니다.");
-		$('#donealert').fadeIn();
-	});// end of bootpay
+		$('#donealert').alert();
+	});// end of bootpay 
 }
 
 </script>
@@ -247,7 +262,7 @@ $(document).ready(function(){
 <!-- ==========================[[ 고양이 프로필 ]]====================================== -->
 
 <!-- ==========================[[ 달성율 ]]====================================== -->
-목표금액 : <%=target.get("DON_GOAL_AMT")%>
+목표금액 : <%=target.get("DON_GOAL_AMT")%> 
 <div class="progress">
   <div id="dona_progress" class="progress-bar progress-bar-striped active" role="progressbar"
   aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:40%">
@@ -277,8 +292,6 @@ $(document).ready(function(){
 	<input type="hidden" id="ip_payment_name"  name="ip_payment_name"  />
 	<input type="hidden" id="ip_purchased_at"  name="ip_purchased_at"  />
 	<input type="hidden" id="ip_order_id"  name="ip_order_id"  />
-<!-- <button onclick="window.open('../../../donation_do.jsp','후원 결제창','width=430,height=500,location=no,status=no,scrollbars=yes');">
-후원하기</button> -->
 
 <!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
 
