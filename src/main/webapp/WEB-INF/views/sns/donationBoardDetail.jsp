@@ -9,6 +9,10 @@
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.1.min.js" type="application/javascript"></script>
 <link rel="stylesheet" href="../resources/css/board.css">
 <%
+
+StringBuilder dpath = new StringBuilder(request.getContextPath());
+dpath.append("/");
+
 List<Map<String,Object>> bDetail= new ArrayList<>();
 bDetail = (List<Map<String,Object>>)request.getAttribute("rList");
 Map<String,Object> target = new HashMap<>();
@@ -35,6 +39,29 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
  
 %>
 <script>
+
+function getProgress(){
+	console.log("getProgress 호출");
+	var currentTotal = '';
+	$.ajax({
+		url:'<%=dpath.toString()%>secondB/donation_getTotal.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>'
+	   ,method :'post'
+	   ,dataType : "JSON"
+	   ,success:function(result){
+		   currentTotal = result[0].DON_TOTAL;
+		   var goalAmount =  '<%=target.get("DON_GOAL_AMT")%>';
+			//$("#dona_progress").attr("aria-valuenow", currentTotal*100/goalAmount);
+			$("#dona_progress").css("width", currentTotal*100/goalAmount+'%');
+			$("#dona_progress").text(currentTotal*100/goalAmount + '%');
+		   console.log("현재 모금액은 ===> " + currentTotal); 
+		   console.log("현재 달성율은 ===> " + currentTotal*100/goalAmount+'%');
+	   }
+	   ,error:function(e){
+		   		   alert("실패" + e.toString() + '<%=dpath.toString()%>secondB/donation_getTotal.foc');
+	   }
+		}); // end of ajax
+}
+
 function isLogined(){
 	console.log("지금 세션의 userMap===>" + "<%=donMap%>" + "   ,    " + "<%=nullcheck%>" );
 	if("<%=nullcheck%>" == null || "<%=nullcheck%>".length < 1){
@@ -61,20 +88,7 @@ function doDonation(){
 		name: '고양이 후원', //결제창에서 보여질 이름
 		pg: 'payletter',
 		show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-		items: [
-			{
-				item_name: '나는 아이템', //상품명
-				qty: 1, //수량
-				unique: '123', //해당 상품을 구분짓는 primary key
-				price: 1000 //상품 단가
-			}
-		],
-		user_info: {
-			username: '사용자 이름',
-			email: '사용자 이메일',
-			addr: '사용자 주소',
-			phone: '010-1234-4567'
-		},
+
 		order_id: '고양이이름', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 		params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
 		account_expire_at: '2020-10-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧 )
@@ -112,14 +126,26 @@ function doDonation(){
 		console.log(data.method_name);
 		
 		var increasedPercent = 2;
-		
-		window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');
-		location.reload();
+		$.ajax({
+			url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
+					+data.price+'&mem_no=<%=Integer.parseInt(String.valueOf(donMap.get("mem_no")))%>'
+		   ,method :'post'
+		   ,success:function(result){
+			   console.log("  success result ===> " + result);
+				
+		   }
+		   ,error:function(e){
+			   		 console.log(" error result ===> " + result);
+		   }
+			}); // end of ajax
+			$('#donealert').html(' <strong>Success!</strong> 후원 감사합니다. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+			$('#donealert').show();
+			window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');
+			 getProgress();
 		
 		var currentTotal = '';
-		$('#donealert').html(" <strong>Success!</strong> 후원 감사합니다.");
-		$('#donealert').fadeIn();
-	});// end of bootpay
+
+	});// end of bootpay 
 }
 
 </script>
@@ -130,28 +156,10 @@ function doDonation(){
 $(document).ready(function(){
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
-	var currentTotal = '';
-	$.ajax({
-		url:'<%=path%>secondB/donation_getTotal.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>'
-	   ,method :'post'
-	   ,dataType : "JSON"
-	   ,success:function(result){
-		   currentTotal = result[0].DON_TOTAL;
-		   var goalAmount =  '<%=target.get("DON_GOAL_AMT")%>';
-			//$("#dona_progress").attr("aria-valuenow", currentTotal*100/goalAmount);
-			$("#dona_progress").css("width", currentTotal*100/goalAmount+'%');
-			$("#dona_progress").text(currentTotal*100/goalAmount + '%');
-		   console.log("현재 모금액은 ===> " + currentTotal); 
-		   console.log("현재 달성율은 ===> " + currentTotal*100/goalAmount+'%');
-	   }
-	   ,error:function(e){
-		   		   alert("실패" + e.toString() + '<%=path%>secondB/donation_getTotal.foc');
-	   }
-		}); // end of ajax
+	getProgress();
 	
 	});
 	
-
 	
 </script>
 <div class="container-fluid">
@@ -207,7 +215,6 @@ $(document).ready(function(){
 
 <!-- ==========================[[ 결제 후 알림창 ]]====================================== -->
 <div id = "donealert" class="alert alert-success alert-dismissible" style="display:none;">
-		 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 	    </div>
 <!-- ==========================[[ 고양이 프로필 ]]====================================== -->
 <div class="panel panel-default profilepanel">
@@ -247,7 +254,7 @@ $(document).ready(function(){
 <!-- ==========================[[ 고양이 프로필 ]]====================================== -->
 
 <!-- ==========================[[ 달성율 ]]====================================== -->
-목표금액 : <%=target.get("DON_GOAL_AMT")%>
+목표금액 : <%=target.get("DON_GOAL_AMT")%> 
 <div class="progress">
   <div id="dona_progress" class="progress-bar progress-bar-striped active" role="progressbar"
   aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width:40%">
@@ -277,8 +284,6 @@ $(document).ready(function(){
 	<input type="hidden" id="ip_payment_name"  name="ip_payment_name"  />
 	<input type="hidden" id="ip_purchased_at"  name="ip_purchased_at"  />
 	<input type="hidden" id="ip_order_id"  name="ip_order_id"  />
-<!-- <button onclick="window.open('../../../donation_do.jsp','후원 결제창','width=430,height=500,location=no,status=no,scrollbars=yes');">
-후원하기</button> -->
 
 <!-- ==========================[[ 후원하기 버튼 ]]====================================== -->
 
