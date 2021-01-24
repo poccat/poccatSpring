@@ -102,7 +102,7 @@ public class CatDao {
 //////////////////////////[[고양이-급식소 시작]]////////////////////////////////////	
 	public List<Map<String, Object>> cat_mealcenter_list(Map<String, Object> pMap) {
 		logger.info("cat_mealcenter_list 호출성공");
-		return sqlSessionTemplate.selectList(" ", pMap);
+		return sqlSessionTemplate.selectList("mealcenter_list", pMap);
 	}
 
 	public int cat_mealcenter_regist(Map<String, Object> pMap) {

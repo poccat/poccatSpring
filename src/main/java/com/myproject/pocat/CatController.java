@@ -130,11 +130,9 @@ public class CatController{
 ////////////////////[[급식소 정보 끝]]///////////////////
 ////////////////////[[고양이-급식소 시작]]///////////////////
 	@RequestMapping("/cat_mealcenter_list.foc")
-	public String cat_mealcenter_list(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody List<Map<String,Object>> cat_mealcenter_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("cat_mealcenter_list 호출 성공"+pMap);
-		catList = catLogic.cat_mealcenter_list(pMap);
-		mod.addAttribute("rList", catList);
-		return "forward:/test.jsp";
+		return catLogic.cat_mealcenter_list(pMap);
 	}
 	@RequestMapping("/cat_mealcenter_regist.foc")
 	public String cat_mealcenter_regist(Model mod, @RequestParam Map<String,Object> pMap) {

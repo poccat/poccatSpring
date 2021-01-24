@@ -84,6 +84,9 @@ SELECT
 <select id="cat_all" parameterType="map" resultType="map">
 SELECT * FROM CAT
 </select>
+<select id="mealcenter_list" parameterType="map" resultType="map">
+SELECT * FROM mealcenter
+</select>
  <insert id="insert_follow" parameterType="map">
  INSERT INTO MEMBER_CAT_FOLLOW  (mem_no, cat_no)
  values (#{mem_no},#{cat_no})
