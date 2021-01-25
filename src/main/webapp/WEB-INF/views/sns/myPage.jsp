@@ -199,7 +199,7 @@ $(document).ready(function(){
                 <div class="profile_wrap">
                     <div class="profile_img">
 
-                        <img src="<%=path%>resources/common<%=profileMap.get("MEM_PHOTO")%>">
+                        <img src="<%=profileMap.get("MEM_PHOTO")%>">
 
                     </div>
                 </div>

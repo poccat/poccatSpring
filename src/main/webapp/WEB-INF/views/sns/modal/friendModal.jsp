@@ -38,7 +38,7 @@ function start_chat(mem_uid){
                     %>
                         <div class="thumb_user">
                             <div class="profile_thumb">
-                              <img src="<%=path%><%=frdMap.get("MEM_PHOTO")%>" alt="프로필사진">
+                              <img src="<%=frdMap.get("MEM_PHOTO")%>" alt="프로필사진">
                             </div>
                             <div class="detail">
                                 <div class="id" onclick="javascript:start_chat('<%=frdMap.get("MEM_UID")%>')"><%=frdMap.get("MEM_ID")%></div>
