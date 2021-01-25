@@ -11,7 +11,9 @@
 </style>
 <script type="text/javascript">
 
+
 </script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
 <div class="modal fade" id="postingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

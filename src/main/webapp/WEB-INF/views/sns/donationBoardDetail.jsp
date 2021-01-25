@@ -138,7 +138,7 @@ function doDonation(){
 			$.ajax({
 				url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
 						+data.price
-						+'&mem_no='
+						+'&mem_no='+mem_no
 			   ,method :'post'
 			   ,success:function(result){
 				   console.log("  success result ===> " + result);

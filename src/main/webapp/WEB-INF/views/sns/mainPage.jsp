@@ -64,7 +64,9 @@ document.addEventListener("DOMContentLoaded", function(){
 <div class ="content">
           <div class="photoList">
             
-            <% for(int i=1;i<=rList.size();i++)
+            <% 
+            
+            for(int i=1;i<=rList.size();i++)
             {rMap = rList.get(i-1);
             	String post_photo = "post_photo"+i;
             	String f_id= "post_info"+i;
