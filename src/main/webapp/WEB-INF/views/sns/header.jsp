@@ -288,7 +288,6 @@ function postingModal(f_id, photo_id){
        
             	<div class="col-md-2">
 		        	<a class="navbar-brand" href="<%=path.toString()%>firstB/poccat.foc"><i class="fas fa-cat fa-2x"></i></a>
-		        	<div id="messages"></div>
 		       	</div>
 		       	<div  class="col-md-5">
 		       	<div id="logined" style="float:right; padding-top:20px;"></div>
@@ -331,24 +330,7 @@ function postingModal(f_id, photo_id){
 
      
 <!-- 헤더 -->
-<!--setTimeout(function(){$('#myModal').modal('hide')},3000); -->
-
-<div class="modal fade" id="friendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div id="followFriendModal" class="modal-dialog" role="document">
-	  <div class="modal-content">
-	  <div class="modal-header">
-		 친구 목록  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	   
-		</div>
-		<div id="fore" class="modal-body" style="width:200px;">
-
-				  
-			  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-
+            
 <div id="snackbar">새로운 메세지가 있습니다</div>
 
 </body>
@@ -365,9 +347,9 @@ messaging.onMessage((payload) => {
 
 
 function appendMessage(payload) {
-	var x = document.getElementById("snackbar");
-	$("#snackbar").empty();
-	$("#snackbar").append('<div>'+payload.data.title+'</div><div>'+payload.data.text+'</div>');
+   var x = document.getElementById("snackbar");
+   $("#snackbar").empty();
+   $("#snackbar").append('<div>'+payload.data.title+'</div><div>'+payload.data.text+'</div>');
   x.className = "show";
   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
   }

@@ -52,7 +52,21 @@ $(document).ready(function(){
 			      <div class="col-inside-lg decor-default">
 			        <div class="modal-body" >
 			        <div class="chat-body" id="chattingBody">
-
+				          <div class="answer left">
+				            <div class="avatar">
+				              <img src="" alt="User name">
+				            </div>
+				            <div class="name">상대방</div>
+				            <div class="text">ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</div>
+				            <div class="time">ㅁㅁ</div>
+				          </div>
+				          <div class="answer right">
+				            <div class="avatar">
+				              <img src="" alt="User name">
+				            </div>
+				            <div class="text">ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ</div>
+				            <div class="time">ㅁㅁ</div>
+						  </div>
 						</div>
 						<div class="chat-answer">
 			          <div class="answer-add">

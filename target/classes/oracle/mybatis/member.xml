@@ -82,10 +82,10 @@
  
   <select id="friend_member_list" parameterType="map" resultType="map">
     SELECT 
-   m.mem_no, NVL(m.mem_photo,'../pds/dft.jpg')as mem_photo , m.mem_id 
+   m.mem_no,m.mem_uid, m.mem_id, NVL(m.mem_photo,'/resources/common/pds/dft.jpg')as mem_photo  
 FROM FRIEND_MEMBER fm , MEMBER m 
-WHERE fm.my_no = m.mem_no
-AND fm.mem_no=#{mem_no}
+WHERE fm.my_no = #{mem_no}
+AND fm.mem_no=m.mem_no
 ORDER BY m.mem_id asc
  </select>
  <insert id="friend_member_add" parameterType="map">

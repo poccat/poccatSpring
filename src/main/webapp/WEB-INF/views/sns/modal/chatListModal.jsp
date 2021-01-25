@@ -45,7 +45,7 @@ function startChat(friendUid){
 		firebase.database().ref('users/'+destinationUserList[i].uid).once('value').then(function(snapshot){
       $("#chatRoomList2").append('<a href ="javascript:startChat(\''+snapshot.val().uid+'\')"><div class="thumb_user"><div class="profile_thumb"><img src='
         +snapshot.val().profileImageUrl+
-        '></div><div class="detail"><div class="id">'
+        ' style="width: 100%;"></div><div class="detail"><div class="id">'
           +snapshot.val().userName+'</div></div></div></a>');
     });
   }
