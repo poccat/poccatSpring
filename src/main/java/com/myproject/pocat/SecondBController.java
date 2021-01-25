@@ -187,8 +187,8 @@ public class SecondBController {
 		logger.info("donation_check 호출 성공"+pMap);
 		sbList = sbLogic.donation_check(pMap);
 		mod.addAttribute("rList", sbList);
-		return "forward:/test.jsp";
-	}
+		return "forward:/test.jsp";    
+	}  
 	
 	@RequestMapping ("/donation_book.foc")
 	public  @ResponseBody int donation_book(@RequestParam Map<String,Object> pMap) {

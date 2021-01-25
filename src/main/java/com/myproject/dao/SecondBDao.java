@@ -103,7 +103,7 @@ public class SecondBDao {
 		return sqlSessionTemplate.update(" ", pMap);
 	}
 
-	public int donation_noti_del(Map<String, Object> pMap) {
+	public int donation_noti_del(Map<String, Object> pMap) { 
 		logger.info("donation_noti_del 호출성공");
 		return sqlSessionTemplate.delete(" ", pMap); 
 	}
@@ -121,7 +121,7 @@ public class SecondBDao {
 
 	public int donation_book(Map<String, Object> pMap) {
 		logger.info("donation_book 호출성공");
-		return sqlSessionTemplate.insert("donation_insert", pMap);
+		return sqlSessionTemplate.insert("donation_insert", pMap); 
 	}
 
 	public int donation_cancel(Map<String, Object> pMap) {
