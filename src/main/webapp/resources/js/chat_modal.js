@@ -1,6 +1,6 @@
 
 var myUid;
-
+var userName;
 
 
 
@@ -10,6 +10,8 @@ firebase.auth().onAuthStateChanged((user) => {
 	if (user) {
 	  // User is signed in, see docs for a list of available properties
 	  myUid = user.uid;
+	  userName = user.displayName;
+	  alert(userName);
 	}
 });
 //로그인 감지
@@ -127,14 +129,15 @@ function getMessage(chatRoomId){
 					var comment = new Map();
 					comment['uid'] = childSnapshot.child('uid').val();
 					comment['message'] = childSnapshot.child('message').val();
+					comment['profileImage'] = childSnapshot.child('profileImage').val();
 					var time = childSnapshot.child('timestamp').val();									
 					var timeStamp = new Date(time);
 					comment['timestamp'] = timeStamp; 
-				//	comment['userName'] = childSnapshot.child('userName').val();					
+					comment['userName'] = childSnapshot.child('userName').val();					
 					
 				
 					if(comment['uid']==myUid){
-						message+="<div class='answer right'><div class='avatar'><img src='../../img/9.jpg'></div><div class='text'>"
+						message+="<div class='answer right'><div class='avatar'><img src="+comment['profileImage']+"></div><div class='text'>"
 						+comment['message']+
 						"</div><div class='time'>"
 						+comment['timestamp']+"</div></div>"
@@ -142,7 +145,11 @@ function getMessage(chatRoomId){
 		
 					}
 					else{
-						message+="<div class='answer left'><div class='avatar'><img src='../../img/9.jpg'></div><div class='text'>"
+						message+="<div class='answer left'><div class='avatar'><img src="
+						+comment['profileImage']+
+						"></div><div class='name'>"
+						+comment['userName']+
+						"</div><div class='text'>"
 						+comment['message']+
 						"</div><div class='time'>"
 						+comment['timestamp']+"</div></div>"
@@ -167,8 +174,11 @@ function getMessage(chatRoomId){
 
 function sendMessage(chatRoomId){
 		var comment = new Map();
+		 
+	
 		var friendUid;
 			comment['uid'] = myUid;
+			comment['userName'] = userName;
 			comment['message'] =$("#textInput").val();
 			comment['timestamp'] = new Date().getTime();
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').push().set(comment);
@@ -192,7 +202,7 @@ function sendMessage(chatRoomId){
 											
 								},
 								data:JSON.stringify({
-									'to' : snapshot.child("pushToken").val() , 'data' : { message :document.getElementById("textInput").value }
+									'to' : snapshot.child("pushToken").val() , 'data' : { title :userName , text:$("#textInput").val()  }
 
 								}),
 								success: function (response) {
@@ -231,6 +241,19 @@ function add_frd(mem_no,mem_uid,del_ins){// del_ins = 1이면 삭제 아니면 �
 			}
 		}
 		});
+		firebase.database().ref('friends/'+myUid+'/'+mem_uid).once('value').then(function(snapshot){
+			if(snapshot.exists()){
+				
+			}
+			else{
+				var friend = new Object();
+				friend.friendUid = mem_uid;
+				firebase.database().ref('friends/'+myUid+'/'+mem_uid).set(friend);
+				location.reload();
+			}
+	
+		});
+		
 	
 }
 
