@@ -33,8 +33,10 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
  String catCMT = target.get("CAT_CMT").toString();
  String nullcheck = "";
  	Map<String,Object> donMap = (Map<String,Object>)session.getAttribute("userMap");
+ 	String don_mem_no = "";
  	if(donMap!=null){
 		nullcheck = (String)donMap.get("mem_name");
+		don_mem_no = (String)donMap.get("mem_no");
  	}
  
 %>
@@ -71,6 +73,7 @@ function isLogined(){
 	} // end of if
 	
 }
+
 
 function doDonation(){
 	
@@ -126,18 +129,27 @@ function doDonation(){
 		console.log(data.method_name);
 		
 		var increasedPercent = 2;
-		$.ajax({
-			url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
-					+data.price+'&mem_no=<%=Integer.parseInt(String.valueOf(donMap.get("mem_no")))%>'
-		   ,method :'post'
-		   ,success:function(result){
-			   console.log("  success result ===> " + result);
-				
-		   }
-		   ,error:function(e){
-			   		 console.log(" error result ===> " + result);
-		   }
-			}); // end of ajax
+		
+		
+		var mem_no = "20001";
+		if("<%=nullcheck%>" != null || "<%=nullcheck%>".length > 0 ){
+			mem_no = '<%=don_mem_no%>';
+			
+			$.ajax({
+				url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
+						+data.price
+						+'&mem_no='
+			   ,method :'post'
+			   ,success:function(result){
+				   console.log("  success result ===> " + result);
+					
+			   }
+			   ,error:function(e){
+				   		 console.log(" error result ===> " + result);
+			   }
+				}); // end of ajax		
+		}
+		
 			$('#donealert').html(' <strong>Success!</strong> 후원 감사합니다. <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
 			$('#donealert').show();
 			window.open('../../../donationResult.jsp','후원결과창','width=430,height=500,location=no,status=no,scrollbars=yes');

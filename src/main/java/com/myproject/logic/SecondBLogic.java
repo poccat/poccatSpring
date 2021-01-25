@@ -124,7 +124,7 @@ public class SecondBLogic {
 	public List<Map<String, Object>> donation_check(Map<String,Object> pMap) {
 		logger.info("donation_check 호출 성공");
 		return sbDao.donation_check(pMap);
-	}
+	} 
 	
 	public int donation_book(Map<String,Object> pMap) {
 		logger.info("donation_book 호출 성공");

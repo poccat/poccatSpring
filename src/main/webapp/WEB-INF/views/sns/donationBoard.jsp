@@ -62,7 +62,7 @@
 							<tr>
 								<td><%= i+1%></td>
 								<td>
-								<a href="/secondB/donation_noti_detail.foc?don_noti_no=<%=Integer.parseInt(String.valueOf(BoardList.get(0).get("DON_NOTI_NO")))%>">
+								<a href="/secondB/donation_noti_detail.foc?don_noti_no=<%=Integer.parseInt(String.valueOf(BoardList.get(i).get("DON_NOTI_NO")))%>">
 								<%= (String)BoardList.get(i).get("DON_NOTI_TITLE")%></a>
 								</td>
 								<td><%=(String)BoardList.get(i).get("DON_NOTI_TYPE")%></td>
