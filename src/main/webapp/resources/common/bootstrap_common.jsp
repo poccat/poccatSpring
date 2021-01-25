@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="<%=path%>resources/css/photoList.css">
 <link rel="stylesheet" href="<%=path%>resources/css/myPage.css">
 <link rel="stylesheet" href="<%=path%>resources/css/chat_modal.css">
+<link rel="stylesheet" href="<%=path%>resources/css/snackbar.css">
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
