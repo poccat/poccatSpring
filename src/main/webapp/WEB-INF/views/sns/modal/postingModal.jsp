@@ -30,16 +30,14 @@
 
             <div class="contents_box">
 
-                <article class="contents cont01">
 
                     <div class="img_section">
-                        <div class="trans_inner">
+                			<div class="thumbnail"> 
                             <div><img id="post_main" src="../resources/common/pds/cat_01.jpg" alt=""></div>
                             <input type="hidden" id="modal_post_no" value=""/>
                             <input type="hidden" id="modal_cat_no" value=""/>
                         </div>
                     </div>
-         </article>
 
                     <div class="detail--right_box">
 

@@ -147,8 +147,8 @@ function cmt_insert(){
 			   $("#cmt_area").append($('<div class="user_container-detail">')); 
 			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
-			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
-			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
+			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><br><span>'+data[i].CMT_CNT+'</span>'));
+			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div><br><hr>'));
 			   $("#cmt_area").append($('<div class="icon_wrap">'));
 			   $("#cmt_area").append($('<div class="more_trigger">'));
 			   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
@@ -266,8 +266,8 @@ function postingModal(f_id, photo_id){
 				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
-				   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
-				   $("#cmt_area").append($('<div class="icon_wrap">'));
+				   $("#cmt_area").append($('<span class="time">'+data[i].CMT_DATE+'</span>'));
+				   $("#cmt_area").append($('<br><hr><div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));
 				   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
 				   $("#cmt_area").append($('</div></div></div></div></div>'));
