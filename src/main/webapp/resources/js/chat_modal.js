@@ -1,7 +1,8 @@
 
 var myUid;
 var userName;
-
+var userImage;
+var comment = new Map();
 
 
 
@@ -11,6 +12,7 @@ firebase.auth().onAuthStateChanged((user) => {
 	  // User is signed in, see docs for a list of available properties
 	  myUid = user.uid;
 	  userName = user.displayName;
+	   userImage =user.photoURL;
 	}
 });
 //로그인 감지
@@ -127,10 +129,9 @@ function getMessage(chatRoomId){
 				var comment = new Map();
 				comment['uid'] = childSnapshot.child('uid').val();
 				comment['message'] = childSnapshot.child('message').val();
-				var time = childSnapshot.child('timestamp').val();									
-				var timeStamp = new Date(time);
-				comment['timestamp'] = timeStamp; 
-					comment['profileImage'] = childSnapshot.child('profileImage').val();
+				comment['timestamp']= childSnapshot.child('timestamp').val();									
+
+					comment['profileImage'] = childSnapshot.child('profileImageUrl').val();
 					comment['name'] = childSnapshot.child('name').val();	
 							
 					
@@ -173,15 +174,29 @@ function getMessage(chatRoomId){
 //--------------------------------------메세지 보내기-------------------------------------------------//
 
 function sendMessage(chatRoomId){
-		var comment = new Map();
-		 
-	
 		var friendUid;
-			comment['uid'] = myUid;
-			console.log(userName);
-			comment['name'] = userName;
-			comment['message'] =$("#textInput").val();
-			comment['timestamp'] = new Date().getTime();
+		comment['uid'] = myUid;
+		console.log(userName);
+		comment['name'] = userName;
+		comment['profileImageUrl'] = userImage;
+		comment['message'] =$("#textInput").val();
+		var d = new Date();
+		year = d.getFullYear();
+        month = (d.getMonth() + 1);
+        day = d.getDate();
+		hour = d.getHours();
+		minute = d.getMinutes();
+    if (month< 10) 
+        month = '0' + month;
+    if (day < 10) 
+		day = '0' + day;
+	if (hour <10)
+		hour = '0' + hour;
+	if (minute <10)
+		minute = '0' + minute;
+		var timestamp = year+"."+month+"."+day+" "+hour+":"+minute;
+
+		comment['timestamp'] =timestamp;
 	firebase.database().ref('chatrooms/'+chatRoomId+'/comments').push().set(comment);
 
 	//상대방에게 Firebase Cloud Message 보내기
@@ -203,7 +218,7 @@ function sendMessage(chatRoomId){
 											
 								},
 								data:JSON.stringify({
-									'to' : snapshot.child("pushToken").val() , 'data' : { title :userName , text:$("#textInput").val()  }
+									'to' : snapshot.child("pushToken").val() , 'data' : { title :userName , text:comment['message']  }
 
 								}),
 								success: function (response) {

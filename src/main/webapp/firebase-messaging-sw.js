@@ -18,10 +18,10 @@ var firebaseConfig = {
   messaging.onBackgroundMessage(function(payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
     // Customize notification here
-    const notificationTitle = '새로운 메세지가 있습니다';
+    const notificationTitle = payload.data.title;
     const notificationOptions = {
-      body: payload.data.message,
-      icon: '/firebase-logo.png'
+      body: payload.data.text,
+      icon: 'https://firebasestorage.googleapis.com/v0/b/forcat-ef482.appspot.com/o/photos_%2Fusers%2Fcatlogo.png?alt=media&token=f3f3969b-187a-46e4-8e40-3e473c5f069a'
     };
     
     self.registration.showNotification(notificationTitle,
