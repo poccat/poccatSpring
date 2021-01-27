@@ -21,6 +21,7 @@
 	        <div class="modal-body" style="padding:40px 50px;">
                 <div class="col-12">
                     <form method="POST" action="/member/member_join.foc">
+                    	
                         <div class="form-group">
                             <label for="join_name">닉네임</label>
                             <input type="text" class="form-control" id="join_name" placeholder="닉네임" name="join_name" />
