@@ -31,11 +31,18 @@ public class CatController{
 	@Autowired(required=false)
 	FirstBLogic fbLogic = null;
 	
-	
 	@RequestMapping("/cat_search_ajax.foc")
 	public @ResponseBody List<Map<String,Object>> cat_search_ajax( @RequestParam Map<String,Object> pMap) {
 		logger.info("cat_search_ajax 호출 성공"+pMap);
-		return catLogic.cat_search(pMap);
+		return catLogic.cat_search(pMap); 
+	}
+	@RequestMapping("/is_cat_donated.foc")
+	public @ResponseBody List<Map<String,Object>> is_cat_donated( @RequestParam Map<String,Object> pMap) {
+		logger.info("is_cat_donated 호출 성공"+pMap);
+		List<Map<String,Object>> rlist = catLogic.is_cat_donated(pMap);
+		
+		logger.info("is_cat_donated 호출 rlist ===>"+rlist);
+		return catLogic.is_cat_donated(pMap);
 	}
 	@RequestMapping("/cat_all.foc")
 	public @ResponseBody List<Map<String,Object>> cat_all() {
@@ -115,7 +122,7 @@ public class CatController{
 		catList = catLogic.mealcenter_search(pMap);
 		mod.addAttribute("rList", catList);
 		return "sns/mealcenter";
-	} 
+	}  
 	@RequestMapping("/mealcenter_regist.foc")
 	public String mealcenter_regist(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info(" 호출 성공"+pMap);
@@ -123,16 +130,16 @@ public class CatController{
 		return "redirect:/okOrNot.jsp?result="+result;
 	}
 	@RequestMapping("/mealcenter_update.foc")
-	public String mealcenter_update(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody int mealcenter_update(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("mealcenter_update 호출 성공"+pMap);
 		result = catLogic.mealcenter_update(pMap);
-		return "redirect:/okOrNot.jsp?result="+result;
+		return result;
 	}
 	@RequestMapping("/mealcenter_del.foc")
-	public String mealcenter_del(Model mod, @RequestParam Map<String,Object> pMap) {
+	public int mealcenter_del(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info(" 호출 성공"+pMap);
 		result = catLogic.mealcenter_del(pMap);
-		return "redirect:/okOrNot.jsp?result="+result;
+		return result;
 	}
 ////////////////////[[급식소 정보 끝]]///////////////////
 ////////////////////[[고양이-급식소 시작]]///////////////////

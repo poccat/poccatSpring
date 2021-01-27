@@ -74,7 +74,7 @@ WHERE DON_NOTI_NO = #{don_noti_no}
 	    AND D.CAT_NO = C.CAT_NO
 </select> 
   <insert id="donation_insert" parameterType="map">
-  	INSERT INTO ANYMERCY.DONATION (
+  	INSERT INTO DONATION (
    DON_AMOUNT, DON_DATE, DON_NO, 
    DON_NOTI_NO, MEM_NO) 
 VALUES ( 

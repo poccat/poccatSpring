@@ -144,8 +144,7 @@
 $(document).ready(function(){
 	var cat_no = <%=catMap.get("CAT_NO")%>;
 	$.ajax({
-		url:'<%=subpath%>cat/member_cat_follow_list.foc'
-	   ,data : { mem_no : <%=profile_mem_no%>}
+		url:'<%=subpath%>cat/member_cat_follow_list.foc?mem_no='+'<%=profile_mem_no%>'
 	   ,method :'post'
 	   ,dataType : "json"
 	   ,success:function(data){
@@ -219,39 +218,47 @@ $(document).ready(function(){
 				}//end of for 
 		}//end of success
   	  });
-   	var mealIcon = new google.maps.MarkerImage("/resources/img/meal_marker.png", null, null, null, new google.maps.Size(36,60));
-   	 $.ajax({//meal_center 마커찍기
-			url:'<%=subpath%>cat/cat_mealcenter_list.foc'
-			, dataType:'json'
-			, success:function(data){
-				for(var i=0;i<data.length;i++){
-					marker = new google.maps.Marker({
-						id : "meal"+i
-			    		,position : new google.maps.LatLng(data[i].MEAL_LATITUDE, data[i].MEAL_LONGITUDE)
-			    	  , map: map
-			    	  , icon: mealIcon
-			    	  , title: data[i].MEAL_CMT
-					});//end of marker
-					google.maps.event.addListener(marker,'mouseover',(function(marker, i){
-						return function(){
-							infowindow.setContent('<b>이름:</b>'+data[i].MEAL_CMT+
-									'<br><img src=<%=subpath%>'
-											+data[i].MEAL_PHOTO+' width=300 height=200>');
-							infowindow.open(map,marker);
-						}
-					})(marker,i));
-					if(marker){
-						marker.addListener('click', function(){//마커를 누르면
-	                           map.setZoom(15);
-	                           map.setCenter(this.getPosition());//해당 마커 위치로이동
-						});
-					}
-					/* marker.addListener("click", () => {
-					    infowindow.open(map, marker);
-					  }); */
-				}//end of for 
-		}//end of success
-  	  });
+ 
+  	 
+   	 var popup_url;
+     var mealIcon = new google.maps.MarkerImage("/resources/img/meal_marker.png", null, null, null, new google.maps.Size(36,60));
+      $.ajax({//meal_center 마커찍기
+        url:'<%=subpath%>cat/cat_mealcenter_list.foc'
+        , dataType:'json'
+        , success:function(data){
+           for(var i=0;i<data.length;i++){
+              marker = new google.maps.Marker({
+                 id : "meal"+i
+                  ,position : new google.maps.LatLng(data[i].MEAL_LATITUDE, data[i].MEAL_LONGITUDE)
+                 , map: map
+                 , icon: mealIcon
+                 , title: data[i].MEAL_CMT
+              });//end of marker
+              google.maps.event.addListener(marker,'mouseover',(function(marker, i){
+                 return function(){
+                    infowindow.setContent('<b>이름:</b>'+data[i].MEAL_CMT+
+                          '<br><img src=<%=subpath%>'
+                                +data[i].MEAL_PHOTO+' width=300 height=200>');
+                    infowindow.open(map,marker);
+                 }
+              })(marker,i));
+              google.maps.event.addListener(marker,'click',(function(marker, i){
+                 return function(){
+                    popup_url = "<%=subpath%>cat/mealcenter_search.foc?meal_no="+data[i].MEAL_NO;
+                     window.open(popup_url,"급식소 정보","width=500px,height=670px,top=250px,left=700px, scrllbars=yes");
+                 }
+              })(marker,i));
+              if(marker){
+                 marker.addListener('click', function(){//마커를 누르면
+                             map.setZoom(15);
+                             map.setCenter(this.getPosition());//해당 마커 위치로이동
+                 });
+              }
+              
+           }//end of for 
+     }//end of success
+      });
+   	 
 });
 
 </script>

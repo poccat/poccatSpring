@@ -11,7 +11,9 @@
 </style>
 <script type="text/javascript">
 
+
 </script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
 <div class="modal fade" id="postingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -28,19 +30,20 @@
 
             <div class="contents_box">
 
-                <article class="contents cont01">
 
                     <div class="img_section">
-                        <div class="trans_inner">
+                			<div class="thumbnail"> 
                             <div><img id="post_main" src="../resources/common/pds/cat_01.jpg" alt=""></div>
                             <input type="hidden" id="modal_post_no" value=""/>
                             <input type="hidden" id="modal_cat_no" value=""/>
                         </div>
                     </div>
-         </article>
 
                     <div class="detail--right_box">
-
+ <!-- =========================== 후원 알림 ========================== -->
+ 					<div id = "donationAlert" class="alert alert-danger alert-dismissible" style="display:none;">
+					</div>
+ <!-- =========================== 후원 알림 ========================== -->
                         <header class="top">
                             <div class="user_container">
                                 <div class="profile_img">

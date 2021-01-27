@@ -82,6 +82,13 @@ SELECT
 			AND c.CAT_NO = #{cat_no}
 </select>
 
+<select id="is_cat_donated"  parameterType="map" resultType="map">
+	SELECT 
+	   DON_NOTI_NO
+	FROM DONATION_NOTI
+	WHERE CAT_NO = #{cat_no}
+</select>
+
 <select id="cat_all" parameterType="map" resultType="map">
 SELECT * FROM CAT
 </select>
@@ -110,5 +117,15 @@ CAT_AGE, CAT_BREED, CAT_CMT,
 FROM CAT
  
  </select>
+
+
+<update id="mc_update" parameterType="map">
+		UPDATE ANYMERCY.MEALCENTER
+		SET    
+		       MEAL_DATE     	= to_char(sysdate,'yyyy/mm/dd'),
+		       MEAL_FOOD      	= #{meal_food	},
+		       MEAL_WATER   	= #{meal_water}
+		WHERE  MEAL_NO       	= #{meal_no}
+</update>
 
 </mapper>

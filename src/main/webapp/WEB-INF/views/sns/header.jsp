@@ -147,8 +147,8 @@ function cmt_insert(){
 			   $("#cmt_area").append($('<div class="user_container-detail">')); 
 			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
-			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
-			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
+			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><br><span>'+data[i].CMT_CNT+'</span>'));
+			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div><br><hr>'));
 			   $("#cmt_area").append($('<div class="icon_wrap">'));
 			   $("#cmt_area").append($('<div class="more_trigger">'));
 			   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
@@ -209,6 +209,35 @@ function go_profile(){
 	
 }
 
+//고양이가 후원을 받고있는지 확인 후 부트스트랩 alert show
+function getDonation(cat_no){
+	console.log("getDonation(cat_no) ===> " + cat_no);
+	 $.ajax({
+			url:'<%=path%>cat/is_cat_donated.foc?cat_no='+cat_no
+		   ,method :'post'
+		   ,dataType : "json"
+		   ,success:function(data){
+			   console.log("data.DON_NOTI_NO ===> " +data[0].DON_NOTI_NO);
+			   if(data[0]!=null){
+			//"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
+				$('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
+						+' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
+						+data[0].DON_NOTI_NO+'" class="alert-link"> 후원하러 가기 </a>'
+						+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+				$("#donationAlert").show();
+			   }
+			   if (data[0]==null){
+				   $("#donationAlert").hide();
+			   }
+			   
+			}
+		   ,error:function(e){
+			   alert(e.responseText);
+		   }
+			}); // end of ajax  
+	
+}
+
 function postingModal(f_id, photo_id){
 
 	var photo = $('#'+photo_id.id).val();//포스팅 상세 모달의 메인 포토 주소가져오고 img태그안에 셋팅
@@ -235,6 +264,10 @@ function postingModal(f_id, photo_id){
 			   $("#post_mem_id").attr("href","javascript:chatModal("+data[0].MEM_NO+");");
 			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   console.log(data[0].CAT_NO);
+			   
+			   var cat_no = data[0].CAT_NO;
+			   getDonation(cat_no);
+			   
 			   $(".country").text(data[0].CAT_LOCAL);//고양이 지역
 			   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
 			   if("<%=mem_no%>"!=""){
@@ -266,8 +299,8 @@ function postingModal(f_id, photo_id){
 				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
-				   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div>'));
-				   $("#cmt_area").append($('<div class="icon_wrap">'));
+				   $("#cmt_area").append($('<div class="time cmt_time">'+data[i].CMT_DATE+'</div>'));
+				   $("#cmt_area").append($('<br><hr><div class="icon_wrap">'));
 				   $("#cmt_area").append($('<div class="more_trigger">'));
 				   $("#cmt_area").append($('<div class="sprite_more_icon" style="float: right;"></div>'));
 				   $("#cmt_area").append($('</div></div></div></div></div>'));
