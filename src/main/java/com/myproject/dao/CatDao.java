@@ -29,12 +29,16 @@ public class CatDao {
 			pMap.put("mem_no", 99999);
 		}
 		return sqlSessionTemplate.selectList("cat_search",pMap);
-	}
+	}  
 	public List<Map<String, Object>> cat_all() {
 		logger.info("cat_all 호출성공");
 		return sqlSessionTemplate.selectList("cat_all");
 	}
 	
+	public List<Map<String, Object>> is_cat_donated(Map<String, Object> pMap) {
+		logger.info("is_cat_donated 호출성공"+ pMap);
+		return  sqlSessionTemplate.selectList("is_cat_donated",pMap);
+	}
 	public int cat_regist(Map<String, Object> pMap) {
 		logger.info("cat_regist 호출성공");
 		return  sqlSessionTemplate.insert(" ",pMap);

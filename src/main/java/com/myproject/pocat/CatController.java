@@ -31,11 +31,18 @@ public class CatController{
 	@Autowired(required=false)
 	FirstBLogic fbLogic = null;
 	
-	
 	@RequestMapping("/cat_search_ajax.foc")
 	public @ResponseBody List<Map<String,Object>> cat_search_ajax( @RequestParam Map<String,Object> pMap) {
 		logger.info("cat_search_ajax 호출 성공"+pMap);
-		return catLogic.cat_search(pMap);
+		return catLogic.cat_search(pMap); 
+	}
+	@RequestMapping("/is_cat_donated.foc")
+	public @ResponseBody List<Map<String,Object>> is_cat_donated( @RequestParam Map<String,Object> pMap) {
+		logger.info("is_cat_donated 호출 성공"+pMap);
+		List<Map<String,Object>> rlist = catLogic.is_cat_donated(pMap);
+		
+		logger.info("is_cat_donated 호출 rlist ===>"+rlist);
+		return catLogic.is_cat_donated(pMap);
 	}
 	@RequestMapping("/cat_all.foc")
 	public @ResponseBody List<Map<String,Object>> cat_all() {

@@ -16,11 +16,15 @@ public class CatLogic {
 	Logger logger = LogManager.getLogger(CatLogic.class);
 	@Autowired(required=false)
 	private CatDao catDao;
-	
+	 
 
 	public List<Map<String, Object>> cat_search(Map<String,Object> pMap) {
 		logger.info("cat_search 호출 성공");
 		return catDao.cat_search(pMap);
+	}
+	public List<Map<String, Object>> is_cat_donated(Map<String,Object> pMap) {
+		logger.info("is_cat_donated 호출 성공");
+		return catDao.is_cat_donated(pMap);
 	}
 	public List<Map<String, Object>> cat_all() {
 		logger.info("cat_all 호출 성공");
