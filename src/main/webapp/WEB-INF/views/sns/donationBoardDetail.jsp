@@ -138,7 +138,7 @@ function doDonation(){
 			$.ajax({
 				url:'<%=dpath%>secondB/donation_book.foc?don_noti_no=<%=target.get("DON_NOTI_NO")%>&don_noti_amount='
 						+data.price
-						+'&mem_no='
+						+'&mem_no='+mem_no
 			   ,method :'post'
 			   ,success:function(result){
 				   console.log("  success result ===> " + result);
@@ -169,7 +169,11 @@ $(document).ready(function(){
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
 	getProgress();
-	
+	//웹뷰에서 사용할 멤버번호
+		if("<%=nullcheck%>" != null || "<%=nullcheck%>".length > 0 ){
+			mem_no = '<%=don_mem_no%>';
+			document.cookie = "don_mem_no" + '=' + mem_no;
+		}
 	});
 	
 	

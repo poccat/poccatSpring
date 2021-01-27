@@ -108,11 +108,10 @@ public class FirstBController {
 		return "forward:/test.jsp";
 	}
 	@RequestMapping("/posting_write.foc")
-	public String posting_write(Model mod, @RequestParam Map<String,Object> pMap) {
+	public @ResponseBody int posting_write(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("posting_write 호출 성공"+pMap);
 		result = fbLogic.posting_write(pMap);
-		//return "redirect:/sns/mainPage.jsp?result="+result;//result에 따라 보여줄값이있을때?
-		return "sns/mainPage";//result에 따라 보여줄값이있을때?
+		return result; //result에 따라 보여줄값이있을때?
 	}
 	
 	@RequestMapping("/posting_modi.foc")
