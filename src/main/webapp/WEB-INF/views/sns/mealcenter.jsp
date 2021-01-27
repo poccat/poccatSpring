@@ -16,6 +16,9 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 	}
  }
 
+ StringBuilder mpath = new StringBuilder(request.getContextPath());
+ mpath.append("/");
+
  String mealCMT = target.get("MEAL_CMT").toString();
  String mealDate = target.get("MEAL_DATE").toString();
  String mealFood = target.get("MEAL_FOOD").toString();
@@ -24,15 +27,19 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
  int mealNo = Integer.parseInt(String.valueOf(target.get("MEAL_NO")));
  
 %>
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
 
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <title>급식소 정보</title>
 <style>
+    *{
+	font-family: 'Noto Sans KR', sans-serif;
+	}
 	.panel{
 		margin: 30px;
 	}
@@ -47,10 +54,34 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 		width: 100%;
 		padding-bottom: 20%;
 	}
-	.btn{
-		margin-top: 25%;
+	.btngroup{
+		margin-top: 10%;
 		float: right;
 	}
+    .dropdown-menu {
+	  left: 50%;
+	  right: auto;
+	  text-align: center;
+	  transform: translate(-50%, 0);
+	}
+	.form-control {
+    display: inline-block;
+    width: fit-content;
+    }
+    
+    .editlabel{
+        font-weight: 100;
+    }
+    
+    .currvals{
+    	font-size: 20px;
+    	font-weight: 700;
+    }
+    
+    .table > tbody > tr > td{
+    	vertical-align: middle;
+    }
+    
 	// 모바일
 	@media all and (max-width: 768px) {
    td {
@@ -63,14 +94,34 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 	function donationRclose(){
 		window.self.close();
 	}
+	
+	function mc_update(){
+		var meal_food	= $("#list_food").val();
+		var meal_water  = $("#list_water").val();
+		var meal_no    = "<%=mealNo%>";
+		
+		console.log('meal_food='+meal_food+'  &meal_water= '+meal_water+' &meal_no= '+meal_no);
+		
+		$.ajax({
+			url:'<%=mpath.toString()%>cat/mealcenter_update.foc?meal_food='+meal_food+'&meal_water='+meal_water+'&meal_no='+meal_no
+		   ,method :'post'
+		   ,success:function(result){
+			   console.log("급식소 수정결과 ===> " + result); 
+			   $("#txt_water").text(meal_water);
+			   $("#txt_food").text(meal_food);
+			   alert("수정 성공!");
+		   }
+		   ,error:function(e){
+			   		   alert("실패" + e.toString());
+		   }
+			}); // end of ajax
+	}
+	
 </script>
 </head>
 <body>
 <script>
-window.addEventListener('DOMContentLoaded', function(){
-		
-	console.log("<%=mealCMT%>");
-	
+$(document).ready(function () {
 	});
 </script>
 <div class="panel panel-default">
@@ -80,32 +131,59 @@ window.addEventListener('DOMContentLoaded', function(){
 		                    <img id="post_photo"  src="<%=path.toString() %><%=mealPhoto%>" alt="">
 		   		</div>
 		 </div>
-		<table class="table table-bordered">
-		<colgroup>
-		<col style="width:30%;">
-		<col style="width:70%;">
-		</colgroup>
-			<tr>
-				<td> 급식소 코멘트 </td>
-				<td> <%=mealCMT%></td>
-			</tr>
-			<tr>
-				<td> 마지막 업데이트 일자 </td>
-				<td> <%=mealDate%></td>
-			</tr>
-			<tr>
-			<tr>
-				<td> 음식 상태 </td>
-				<td > <%=mealFood%></td>
-			</tr>
-			<tr>
-			<tr>
-				<td> 물 상태 </td>
-				<td> <%=mealWater%></td>
-			</tr>
-		</table>
-		
+					<table class="table table-bordered">
+					<colgroup>
+					<col style="width:30%;">
+					<col style="width:70%;">
+					</colgroup>
+						<tr>
+							<td> 급식소 코멘트 </td>
+							<td> <%=mealCMT%></td>
+						</tr>
+						<tr>
+							<td> 마지막 업데이트 일자 </td>
+							<td> <%=mealDate%></td>
+						</tr>
+						<tr>
+						<tr>
+							<td> 음식 상태 </td>
+							<td >
+			            	<!--============ td 시작 ============== -->
+					    		<div class="form-group">
+					    		<div class="currvals"   id="txt_food" > <%=mealFood%> </div>
+									  <label class="editlabel" for="sel1">수정하기: </label>
+											  <select class="form-control" id="list_food">
+													    <option>없음</option>
+													    <option>부족</option>
+													    <option>양호</option>
+											  </select>
+								</div>
+							<!--============== td 끝 ============== -->
+							</td>
+						</tr>
+						<tr>
+						<tr>
+							<td> 물 상태 </td>
+							<td> 
+							<!--============ td 시작 ============== -->
+								<div class="form-group">
+								<div class="currvals" id="txt_water" > <%=mealWater%> </div>
+									  <label class="editlabel" for="sel1">수정하기: </label>
+											  <select class="form-control" id="list_water">
+													    <option>없음</option>
+													    <option>부족</option>
+													    <option>양호</option>
+											  </select>
+								</div>
+							<!--============== td 끝 ============== -->
+							</td>
+						</tr>
+					</table>
+		 
+		<div class = "btngroup">
 		<button type="button" class="btn btn-success" onClick="donationRclose()"> 닫기 </button>
+		<button type="button" class="btn btn-success" onClick="mc_update()"> 수정하기 </button>
+		</div>
 </div>
 
 </body>

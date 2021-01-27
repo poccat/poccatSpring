@@ -169,7 +169,11 @@ $(document).ready(function(){
 	var detailTitle = document.getElementById("detailTitle");
 	detailTitle.readOnly = true;
 	getProgress();
-	
+	//웹뷰에서 사용할 멤버번호
+		if("<%=nullcheck%>" != null || "<%=nullcheck%>".length > 0 ){
+			mem_no = '<%=don_mem_no%>';
+			document.cookie = "don_mem_no" + '=' + mem_no;
+		}
 	});
 	
 	

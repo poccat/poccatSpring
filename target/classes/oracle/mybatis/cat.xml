@@ -111,4 +111,13 @@ FROM CAT
  
  </select>
 
+<update id="mc_update" parameterType="map">
+		UPDATE ANYMERCY.MEALCENTER
+		SET    
+		       MEAL_DATE     	= to_char(sysdate,'yyyy/mm/dd'),
+		       MEAL_FOOD      	= #{meal_food	},
+		       MEAL_WATER   	= #{meal_water}
+		WHERE  MEAL_NO       	= #{meal_no}
+</update>
+
 </mapper>

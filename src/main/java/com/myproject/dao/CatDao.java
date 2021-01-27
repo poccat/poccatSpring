@@ -94,7 +94,7 @@ public class CatDao {
 
 	public int mealcenter_update(Map<String, Object> pMap) {
 		logger.info("mealcenter_update 호출성공");
-		return sqlSessionTemplate.update(" ", pMap);
+		return sqlSessionTemplate.update("mc_update", pMap);
 	}
 
 	public int mealcenter_del(Map<String, Object> pMap) {
