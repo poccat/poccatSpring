@@ -209,6 +209,32 @@ function go_profile(){
 	
 }
 
+//고양이가 후원을 받고있는지 확인 후 부트스트랩 alert show
+function getDonation(cat_no){
+	console.log("getDonation(cat_no) ===> " + cat_no);
+	 $.ajax({
+			url:'<%=path%>cat/is_cat_donated.foc?cat_no='+cat_no
+		   ,method :'post'
+		   ,dataType : "json"
+		   ,success:function(data){
+			   console.log("data.DON_NOTI_NO ===> " +data[0].DON_NOTI_NO);
+			   if(data[0]!=null){
+			//"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
+				$('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
+						+' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
+						+data[0].DON_NOTI_NO+'" class="alert-link"> 후원하러 가기 </a>'
+						+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+				$("#donationAlert").show();
+			   }
+			   
+			}
+		   ,error:function(e){
+			   alert(e.responseText);
+		   }
+			}); // end of ajax  
+	
+}
+
 function postingModal(f_id, photo_id){
 
 	var photo = $('#'+photo_id.id).val();//포스팅 상세 모달의 메인 포토 주소가져오고 img태그안에 셋팅
@@ -235,6 +261,10 @@ function postingModal(f_id, photo_id){
 			   $("#post_mem_id").attr("href","javascript:chatModal("+data[0].MEM_NO+");");
 			   <%-- $("#post_mem_id").attr('href',"<%=path%>cat/cat_search.foc?cat_no="+data[0].CAT_NO);//고양이 이름 --%>
 			   console.log(data[0].CAT_NO);
+			   
+			   var cat_no = data[0].CAT_NO;
+			   getDonation(cat_no);
+			   
 			   $(".country").text(data[0].CAT_LOCAL);//고양이 지역
 			   $("#like_count").text(data[0].LIKE_COUNT);//게시물좋아요수
 			   if("<%=mem_no%>"!=""){

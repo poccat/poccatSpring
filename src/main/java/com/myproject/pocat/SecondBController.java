@@ -141,14 +141,14 @@ public class SecondBController {
 		com_b_type = (String) pMap.get("com_b_type");
 		result = sbLogic.common_board_del(pMap);
 		return "redirect:/common_board_list.foc?com_b_type="+com_b_type;
-	}
-	
+	} 
+	  
 	@RequestMapping("/donation_noti_list.foc")
 	public String donation_noti_list(Model mod, @RequestParam Map<String,Object> pMap) {
 		logger.info("donation_noti_list 호출 성공"+pMap);
 		sbList = sbLogic.donation_noti_list(pMap);
 		mod.addAttribute("rList", sbList);
-		return "sns/donationBoard";
+		return "sns/donationBoard"; 
 	}
 	
 	@RequestMapping("/donation_noti_detail.foc") 

@@ -40,7 +40,10 @@
                     </div>
 
                     <div class="detail--right_box">
-
+ <!-- =========================== 후원 알림 ========================== -->
+ 					<div id = "donationAlert" class="alert alert-danger alert-dismissible" style="display:none;">
+					</div>
+ <!-- =========================== 후원 알림 ========================== -->
                         <header class="top">
                             <div class="user_container">
                                 <div class="profile_img">
