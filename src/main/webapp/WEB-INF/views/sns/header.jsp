@@ -226,6 +226,9 @@ function getDonation(cat_no){
 						+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
 				$("#donationAlert").show();
 			   }
+			   if (data[0]==null){
+				   $("#donationAlert").hide();
+			   }
 			   
 			}
 		   ,error:function(e){
