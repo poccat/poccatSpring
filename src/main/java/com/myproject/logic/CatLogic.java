@@ -78,7 +78,7 @@ public class CatLogic {
 	
 	public int mealcenter_update(Map<String,Object> pMap) {
 		logger.info("mealcenter_update 호출 성공");
-		return catDao.mealcenter_update(pMap);
+		return catDao.mealcenter_update(pMap);  
 	}
 	
 	public int mealcenter_del(Map<String,Object> pMap) {
