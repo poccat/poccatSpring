@@ -217,20 +217,20 @@ function getDonation(cat_no){
 		   ,method :'post'
 		   ,dataType : "json"
 		   ,success:function(data){
-			   console.log("data.DON_NOTI_NO ===> " +data[0].DON_NOTI_NO);
-			   if(data[0]!=null){
-			//"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
-				$('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
-						+' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
-						+data[0].DON_NOTI_NO+'" class="alert-link"> 후원하러 가기 </a>'
-						+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-				$("#donationAlert").show();
-			   }
-			   if (data[0]==null){
-				   $("#donationAlert").hide();
-			   }
-			   
-			}
+	            if(data.length!=0){
+	               $("#donationAlert").empty();
+	         //"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
+	            $('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
+	                  +' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
+	                  +data[0].DON_NOTI_NO+' class="alert-link"> 후원하러 가기 </a>'
+	                  +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	            $("#donationAlert").attr("style","display:'';");
+	            }
+	            else if (data.length==0){
+	               $("#donationAlert").attr("style","display:none;");
+	            }
+	            
+	         }
 		   ,error:function(e){
 			   alert(e.responseText);
 		   }
