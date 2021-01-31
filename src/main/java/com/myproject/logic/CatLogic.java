@@ -28,7 +28,7 @@ public class CatLogic {
 	}
 	public List<Map<String, Object>> cat_all() {
 		logger.info("cat_all 호출 성공");
-		return catDao.cat_all();
+		return catDao.cat_all();  
 	}
 	
 	public int cat_regist(Map<String,Object> pMap) {

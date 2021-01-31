@@ -145,7 +145,7 @@ function cmt_insert(){
 		   $("#cmt_area").empty();
 		   for(var i=0;i<data.length;i++){ 
 			   $("#cmt_area").append($('<div class="user_container-detail">')); 
-			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
+			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+data[i].MEM_PHOTO+'></div>'));
 			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><br><span>'+data[i].CMT_CNT+'</span>'));
 			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div><br><hr>'));
@@ -217,20 +217,20 @@ function getDonation(cat_no){
 		   ,method :'post'
 		   ,dataType : "json"
 		   ,success:function(data){
-			   console.log("data.DON_NOTI_NO ===> " +data[0].DON_NOTI_NO);
-			   if(data[0]!=null){
-			//"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
-				$('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
-						+' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
-						+data[0].DON_NOTI_NO+'" class="alert-link"> 후원하러 가기 </a>'
-						+'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
-				$("#donationAlert").show();
-			   }
-			   if (data[0]==null){
-				   $("#donationAlert").hide();
-			   }
-			   
-			}
+	            if(data.length!=0){
+	               $("#donationAlert").empty();
+	         //"http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no=40050" 후원디테일로 이동하는 링크걸기
+	            $('#donationAlert').html(' <strong> 도움이 필요한 고양이 입니다! </strong>'
+	                  +' <a href="http://192.168.0.51:9005/secondB/donation_noti_detail.foc?don_noti_no='
+	                  +data[0].DON_NOTI_NO+' class="alert-link"> 후원하러 가기 </a>'
+	                  +'<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>');
+	            $("#donationAlert").attr("style","display:'';");
+	            }
+	            else if (data.length==0){
+	               $("#donationAlert").attr("style","display:none;");
+	            }
+	            
+	         }
 		   ,error:function(e){
 			   alert(e.responseText);
 		   }
@@ -296,7 +296,7 @@ function postingModal(f_id, photo_id){
 			   $("#cmt_area").empty();
 			   for(var i=0;i<data.length;i++){ 
 				   $("#cmt_area").append($('<div class="user_container-detail">')); 
-				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
+				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 				   $("#cmt_area").append($('<div class="time cmt_time">'+data[i].CMT_DATE+'</div>'));

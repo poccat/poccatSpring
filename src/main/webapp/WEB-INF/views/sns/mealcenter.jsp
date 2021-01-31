@@ -55,7 +55,7 @@ Enumeration<String> en = request.getParameterNames();//getParameter로 받아오
 		padding-bottom: 20%;
 	}
 	.btngroup{
-		margin-top: 10%;
+		margin-bottom: 10%;
 		float: right;
 	}
     .dropdown-menu {
