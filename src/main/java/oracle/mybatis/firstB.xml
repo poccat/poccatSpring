@@ -56,12 +56,12 @@ VALUES (
    
 	<if test='gubun=="c"'>where cat_no = #{cat_no} </if>
 	<if test='gubun=="m"'>where mem_no = #{mem_no} </if>
-	
+	 
  </select>
  
  <select id="posting_cmt_list" parameterType="map" resultType="map">
    SELECT C.POST_NO, C.CMT_NO, C.CMT_CNT, C.CMT_DATE, C.CMT_MEM_NO, M.MEM_ID AS CMT_MEM_ID, M.MEM_PHOTO
-FROM CMT  C, (SELECT MEM_ID, NVL(MEM_PHOTO, '../pds/dft.jpg')MEM_PHOTO, MEM_NO FROM MEMBER) M
+FROM CMT  C, (SELECT MEM_ID, NVL(MEM_PHOTO, '/resources/common/pds/dft.jpg')MEM_PHOTO, MEM_NO FROM MEMBER) M
 WHERE C.POST_NO = #{post_no}
        AND C.CMT_MEM_NO = M.MEM_NO
        ORDER BY C.CMT_DATE asc

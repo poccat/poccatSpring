@@ -62,8 +62,8 @@ public class CatController{
 		mod.addAttribute("fbList",fbList);
 		mod.addAttribute("folList",followList);
 		mod.addAttribute("rList", catList);
-		logger.info(catList);
-		return "sns/profile";// "sns/profile";
+		logger.info(catList); 
+		return "sns/profile";// "sns/profile";  
 	}
 	@RequestMapping("/cat_regist.foc")
 	public String cat_regist(Model mod, @RequestParam Map<String,Object> pMap) {

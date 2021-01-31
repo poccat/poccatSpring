@@ -68,7 +68,7 @@
    SELECT 
    mem.MEM_ADDRESS, mem.MEM_EMAIL,
    mem.MEM_ID, mem.MEM_UID, mem.MEM_NAME, mem.MEM_NICK, 
-   mem.MEM_NO, mem.MEM_PHONE, NVL(mem_photo,'/resources/common/pds/dft.jpg')as mem_photo, 
+   mem.MEM_NO, mem.MEM_PHONE, NVL(mem_photo,'resources/common/pds/dft.jpg')as mem_photo, 
    mem.MEM_PW, mem.MEM_TYPE, mem.SUP_END, 
    mem.SUP_START, mem.SUP_STATUS, FM.frd_cnt
 	FROM MEMBER mem
@@ -82,7 +82,7 @@
  
   <select id="friend_member_list" parameterType="map" resultType="map">
     SELECT 
-   m.mem_no,m.mem_uid, m.mem_id, NVL(m.mem_photo,'/resources/common/pds/dft.jpg')as mem_photo  
+   m.mem_no,m.mem_uid, m.mem_id, NVL(m.mem_photo,'resources/common/pds/dft.jpg')as mem_photo  
 FROM FRIEND_MEMBER fm , MEMBER m 
 WHERE fm.my_no = #{mem_no}
 AND fm.mem_no=m.mem_no

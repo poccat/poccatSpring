@@ -145,7 +145,7 @@ function cmt_insert(){
 		   $("#cmt_area").empty();
 		   for(var i=0;i<data.length;i++){ 
 			   $("#cmt_area").append($('<div class="user_container-detail">')); 
-			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
+			   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+data[i].MEM_PHOTO+'></div>'));
 			   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 			   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal("'+data[i].MEM_NO+'")">'+data[i].CMT_MEM_ID+'</span><br><span>'+data[i].CMT_CNT+'</span>'));
 			   $("#cmt_area").append($('<div class="time">'+data[i].CMT_DATE+'</div><br><hr>'));
@@ -296,7 +296,7 @@ function postingModal(f_id, photo_id){
 			   $("#cmt_area").empty();
 			   for(var i=0;i<data.length;i++){ 
 				   $("#cmt_area").append($('<div class="user_container-detail">')); 
-				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+'<%=path%>resources/common/pds/'+data[i].MEM_PHOTO+'></div>'));
+				   $("#cmt_area").append($('<div style="float:left;" class="user"><img src='+data[i].MEM_PHOTO+'></div>'));
 				   $("#cmt_area").append($('<div style="float:left;" class="comment">'));
 				   $("#cmt_area").append($('<span class="user_id" onclick="javascript:chatModal('+data[i].CMT_MEM_NO+');">'+data[i].CMT_MEM_ID+'</span><span>'+data[i].CMT_CNT+'</span>'));
 				   $("#cmt_area").append($('<div class="time cmt_time">'+data[i].CMT_DATE+'</div>'));
